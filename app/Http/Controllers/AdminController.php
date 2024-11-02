@@ -29,33 +29,23 @@ class AdminController extends Controller
             $currentYear = Carbon::now()->year;
 
             $entriesDaily = OpenCloseBalance::whereDate('created_at', $today)->get();
-            $entriesMonth = OpenCloseBalance::whereMonth('created_at', $currentMonth)->get();
             
             $totalOpenCloseBalanceDaily = 0;
-            $totalOpenCloseBalanceMonthly = 0;
-
+            $totalOpenCloseBalance = 0;
+            $totalOpenCloseBalanceDaily = 0;
             if ($entriesDaily->count() === 1) {
                 $entry = $entriesDaily->first();
-                $totalOpenCloseBalanceDaily = $entry->open_balance + $entry->close_balance;
+                $totalOpenCloseBalanceDaily = $entry->open_balance;
             } else {
                 foreach ($entriesDaily as $entry) {
                     if ($totalOpenCloseBalanceDaily === 0) {
+                        $totalOpenCloseBalanceDaily = $entry->open_balance;
+                    } else {
                         $totalOpenCloseBalanceDaily += $entry->open_balance;
                     }
-                    $totalOpenCloseBalanceDaily += $entry->close_balance;
                 }
             }
-            if ($entriesMonth->count() === 1) {
-                $entry = $entriesMonth->first();
-                $totalOpenCloseBalanceMonthly = $entry->open_balance + $entry->close_balance;
-            } else {
-                foreach ($entriesMonth as $entry) {
-                    if ($totalOpenCloseBalanceMonthly === 0) {
-                        $totalOpenCloseBalanceMonthly += $entry->open_balance;
-                    }
-                    $totalOpenCloseBalanceMonthly += $entry->close_balance;
-                }
-            }
+            
             $totalPaidAmountDaily = VenderPayment::whereDate('created_at', $today)
                 ->sum('paid_amount');
 
@@ -89,7 +79,7 @@ class AdminController extends Controller
                 ->count('id');
 
             $totalBalanceDaily =  $totalDepositDaily -  $totalWithdrawalDaily -  $totalExpenseDaily ;
-            
+            $totalOpenCloseBalance = $totalBalanceDaily + $totalOpenCloseBalanceDaily;
             $totalDepositMonthly = Cash::where('cash_type', 'deposit')
                 ->whereMonth('created_at', $currentMonth)
                 ->whereYear('created_at', $currentYear)
@@ -142,16 +132,16 @@ class AdminController extends Controller
             return view('/admin.dashboard',compact('totalUsers','totalExchanges',
                 'totalBalanceMonthly','totalDepositMonthly','totalWithdrawalMonthly',
                 'totalExpenseMonthly','totalMasterSettlingMonthly',
-                'totalOpenCloseBalanceMonthly','totalPaidAmountMonthly',
+                'totalPaidAmountMonthly',
                 
                 'totalBonusMonthly','totalOldCustomersMonthly','totalOwnerProfitMonthly',
                 'totalCustomersMonthly','totalBalanceDaily','totalDepositDaily',
                 'totalWithdrawalDaily','totalExpenseDaily','totalBonusDaily','totalOldCustomersDaily',
-                'totalOwnerProfitDaily','totalCustomersDaily','totalBankBalance','totalOpenCloseBalanceDaily',
+                'totalOwnerProfitDaily','totalCustomersDaily','totalBankBalance','totalOpenCloseBalance',
                 'totalPaidAmountDaily',
             ));
         }   
-    }    
+    }
 
     /**
      * Show the form for creating a new resource.

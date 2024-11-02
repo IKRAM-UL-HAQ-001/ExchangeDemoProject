@@ -53,7 +53,7 @@
             ['Customers', $totalOldCustomersDaily, 'person_outline'],
             ['Today Profit', $totalOwnerProfitDaily, 'attach_money'],
             ['Total New Customer', $totalCustomersDaily, 'person_add'],
-            ['Total Open Close Balance', $totalOpenCloseBalanceDaily, 'monetization_on'],
+            ['Total Open Close Balance', $totalOpenCloseBalance, 'monetization_on'],
             ['Total Paid Vendor Amount', $totalPaidAmountDaily, 'shopping_cart'],
         ] as $index => $card)
             <div class="col-xl-3 col-sm-6 mb-4">
@@ -127,7 +127,6 @@
             ['Monthly Profit', $totalOwnerProfitMonthly, 'attach_money'],
             ['Total New Customer', $totalCustomersMonthly, 'person_add'],
             ['Total Settling Points', $totalMasterSettlingMonthly, 'account_balance'],
-            ['Total Open Close Balance', $totalOpenCloseBalanceMonthly, 'monetization_on'],
             ['Total Paid Vendor Amount', $totalPaidAmountMonthly, 'shopping_cart'],
         ] as $index => $card)
             <div class="col-xl-3 col-sm-6 mb-4">
