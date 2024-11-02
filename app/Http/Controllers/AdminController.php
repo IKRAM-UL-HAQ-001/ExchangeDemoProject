@@ -29,22 +29,29 @@ class AdminController extends Controller
             $currentYear = Carbon::now()->year;
 
             $entriesDaily = OpenCloseBalance::whereDate('created_at', $today)->get();
-            
-            $totalOpenCloseBalanceDaily = 0;
-            $totalOpenCloseBalance = 0;
-            $totalOpenCloseBalanceDaily = 0;
-            if ($entriesDaily->count() === 1) {
-                $entry = $entriesDaily->first();
-                $totalOpenCloseBalanceDaily = $entry->open_balance;
-            } else {
-                foreach ($entriesDaily as $entry) {
-                    if ($totalOpenCloseBalanceDaily === 0) {
-                        $totalOpenCloseBalanceDaily = $entry->open_balance;
-                    } else {
-                        $totalOpenCloseBalanceDaily += $entry->open_balance;
-                    }
-                }
-            }
+            $totalOpenCloseBalanceDaily = $entriesDaily->sum('open_balance');
+            // $totalOpenCloseBalanceDaily = 0;
+            // $totalOpenCloseBalance = 0;
+            // $totalOpenCloseBalanceDaily = 0;
+            // if ($entriesDaily->count() === 1) {
+            //     $entry = $entriesDaily->first();
+            //     $totalOpenCloseBalanceDaily = $entry->open_balance;
+            // } else {
+            //     foreach ($entriesDaily as $entry) {
+            //         if ($totalOpenCloseBalanceDaily === 0) {
+            //             $totalOpenCloseBalanceDaily = $entry->open_balance;
+            //         } else {
+            //             $totalOpenCloseBalanceDaily += $entry->open_balance;
+            //         }
+            //     }
+            // }
+
+            // $totalOpenCloseBalanceDaily = 0;
+
+            // foreach ($entriesDaily as $entry) {
+            //     $totalOpenCloseBalanceDaily += $entry->open_balance;
+            // }
+            // dd( $totalOpenCloseBalanceDaily);
             
             $totalPaidAmountDaily = VenderPayment::whereDate('created_at', $today)
                 ->sum('paid_amount');
