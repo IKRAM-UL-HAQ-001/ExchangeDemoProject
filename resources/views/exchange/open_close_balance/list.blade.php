@@ -19,35 +19,14 @@
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Opening Balance</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Closing Balance</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Total Balance</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Remarks</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @php
-                                $balance = 0;
-                            @endphp
                                 @foreach($openingClosingBalanceRecords as $openingClosingBalance)
                                     <tr>
-                                        @if($loop->first)
-                                            <td>{{ $openingClosingBalance->open_balance }}</td>
-                                            <td>{{ $openingClosingBalance->close_balance }}</td>
-                                            @php
-                                                $balance =  $openingClosingBalance->open_balance + $openingClosingBalance->close_balance; 
-                                            @endphp
-                                             <td>{{$balance}}</td>
-                                             <td>{{ $openingClosingBalance->remarks }}</td>
-                                        @else
-                                            <td>{{ $openingClosingBalance->open_balance }}</td>
-                                            <td>{{ $openingClosingBalance->close_balance }}</td>
-                                            @php
-                                                $balance =  $balance + $openingClosingBalance->close_balance; 
-                                            @endphp
-                                            <td>{{$balance}}</td>
-                                            <td>{{ $openingClosingBalance->remarks }}</td>
-                                        @endif
-                                       
+                                        <td>{{ $openingClosingBalance->open_balance }}</td>
+                                        <td>{{ $openingClosingBalance->remarks }}</td>                                       
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -80,10 +59,6 @@
                         <div class="col-md-12 mb-3">
                             <label for="open_balance" class="form-label">Opening Balance<span class="text-danger">*</span></label>
                             <input type="text" class="form-control border" id="open_balance" name="open_balance" placeholder="Enter Opening Balance" required>
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <label for="close_balance" class="form-label">Closing Balance<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control border" id="close_balance" name="close_balance" placeholder="Enter Closing Balance" required>
                         </div>
                         <div class="col-md-12 mb-3">
                             <label for="remarks" class="form-label">Remarks<span class="text-danger">*</span></label>

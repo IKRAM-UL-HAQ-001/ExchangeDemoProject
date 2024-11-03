@@ -74,15 +74,13 @@ class OpenCloseBalanceController extends Controller
             $exchangeId = $user->exchange_id;  
             $userId = $user->id;
             $validatedData = $request->validate([
-                'open_balance' => 'required|numeric|min:0',
-                'close_balance' => 'required|numeric|min:0',
+                'open_balance' => 'required',
                 'remarks' => 'nullable|string|max:255',
             ]);
 
             try {
                 OpenCloseBalance::create([
                     'open_balance' => $validatedData['open_balance'],
-                    'close_balance' => $validatedData['close_balance'],
                     'remarks' => $validatedData['remarks'],
                     'exchange_id' => $exchangeId,
                     'user_id' => $userId,

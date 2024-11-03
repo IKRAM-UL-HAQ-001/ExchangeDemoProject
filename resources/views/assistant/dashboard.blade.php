@@ -132,7 +132,6 @@
             ['Total Profit', $totalOwnerProfitMonthly],
             ['Total New Customer', $totalCustomerMonthly],
             ['Total Settling Points', $totalMasterSettlingMonthly],
-            ['Total Open Close Balance', $totalOpenCloseBalanceMonthly],
         ] as $index => $card)
             @php
                 $iconMapping = [
@@ -146,7 +145,6 @@
                     'Total Profit' => 'money',
                     'Total New Customer' => 'group_add',
                     'Total Settling Points' => 'point_of_sale',
-                    'Total Open Close Balance' => 'account_balance',
                 ];
 
                 $icon = $iconMapping[$card[0]] ?? 'info'; // Default icon if not found

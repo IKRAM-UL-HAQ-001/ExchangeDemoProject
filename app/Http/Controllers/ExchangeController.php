@@ -37,44 +37,10 @@ class ExchangeController extends Controller
             $userCount = Cash::where('exchange_id', $exchangeId)->distinct('user_id')->count('user_id');
             
 
-            $entriesDaily = OpenCloseBalance::where('exchange_id', $exchangeId)
+            $totalOpenCloseBalance = OpenCloseBalance::where('exchange_id', $exchangeId)
             ->whereDate('created_at', $today)
-            ->get();
-
-            $entriesMonth = OpenCloseBalance::where('exchange_id', $exchangeId)
-            ->whereMonth('created_at', $currentMonth)
-            ->get();
-        
-            $totalOpenCloseBalanceDaily = 0;
-            $totalOpenCloseBalanceMonthly=0;
-            
-            if ($entriesDaily->count() === 1) {
-                $entry = $entriesDaily->first();
-                $totalOpenCloseBalanceDaily = $entry->open_balance + $entry->close_balance;
-            } else {
-                // If there are multiple entriesDaily, sum the closing balances
-                foreach ($entriesDaily as $entry) {
-                    // If it's the first entry, add its opening balance
-                    if ($totalOpenCloseBalanceDaily === 0) {
-                        $totalOpenCloseBalanceDaily += $entry->open_balance;
-                    }
-                    // Always add the closing balance
-                    $totalOpenCloseBalanceDaily += $entry->close_balance;
-                }
-            }
-
-            if ($entriesMonth->count() === 1) {
-                $entry = $entriesMonth->first();
-                $totalOpenCloseBalanceMonthly = $entry->open_balance + $entry->close_balance;
-            } else {
-                foreach ($entriesMonth as $entry) {
-                    if ($totalOpenCloseBalanceMonthly === 0) {
-                        $totalOpenCloseBalanceMonthly += $entry->open_balance;
-                    }
-                    $totalOpenCloseBalanceMonthly += $entry->close_balance;
-                }
-            }
-
+            ->sum('open_balance');
+            // dd($totalOpenCloseBalance);
             $customerCountDaily = Cash::where('exchange_id', $exchangeId)
                 ->whereDate('created_at', $today)
                 ->distinct('reference_number')
@@ -109,6 +75,7 @@ class ExchangeController extends Controller
                 ->count('id');
 
             $totalBalanceDaily = $totalDepositDaily - $totalWithdrawalDaily - $totalExpenseDaily;
+            $totalOpenCloseBalanceDaily = $totalOpenCloseBalance + $totalBalanceDaily;
 
             $customerCountMonthly = Cash::where('exchange_id', $exchangeId)
                 ->whereMonth('created_at', $currentMonth)
@@ -172,7 +139,7 @@ class ExchangeController extends Controller
                 
                 'totalBalanceMonthly','totalDepositMonthly','totalWithdrawalMonthly','totalExpenseMonthly',
                 'totalMasterSettlingMonthly','totalBonusMonthly','customerCountMonthly','totalNewCustomerMonthly',
-                'totalOwnerProfitMonthly','totalOpenCloseBalanceMonthly',
+                'totalOwnerProfitMonthly',
             ));
         }
     }
