@@ -1,62 +1,85 @@
 <?php
-
 namespace App\Exports;
 
-use Auth;
-use Carbon\Carbon;
 use App\Models\Cash;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\FromQuery;
-use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\WithStyles;
-use Maatwebsite\Excel\Concerns\WithColumnWidths;
-use Illuminate\Support\Facades\DB;
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
-use PhpOffice\PhpSpreadsheet\Style\Color;
-use PhpOffice\PhpSpreadsheet\Style\Font;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithMapping;
 
-class DepositListExport implements FromQuery,  WithHeadings, WithStyles, WithColumnWidths
+class DepositListExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
 {
-    use Exportable;
+    protected $exchangeId;
+    protected $startDate;
+    protected $endDate;
 
-    protected $exchnageId;
-
-    public function __construct($exchnageId)
+    public function __construct($exchangeId, $startDate = null, $endDate = null)
     {
-        $this->exchnageId = $exchnageId;
+        $this->exchangeId = (int)$exchangeId; // Ensure it's an integer
+        $this->startDate = $startDate;
+        $this->endDate = $endDate;
     }
+
+    /**
+     * Query the data to be exported.
+     */
     public function query()
     {
-        $currentMonth = Carbon::now()->month;
-        $query = Cash::selectRaw('
-            cashes.id, 
-            exchanges.name as name,
-            users.name as user_name,
-            cashes.reference_number,
-            cashes.customer_name,
-            cashes.cash_type,
-            cashes.cash_amount,
-            cashes.bonus_amount,
-            cashes.payment_type,
-            cashes.remarks,
-            DATE_FORMAT(CONVERT_TZ(cashes.created_at, "+00:00", "+05:30"), "%Y-%m-%d %H:%i:%s") as created_at,
-            DATE_FORMAT(CONVERT_TZ(cashes.updated_at, "+00:00", "+05:30"), "%Y-%m-%d %H:%i:%s") as updated_at
-        ')
-        ->join('exchanges', 'cashes.exchange_id', '=', 'exchanges.id') 
-        ->join('users', 'cashes.user_id', '=', 'users.id') 
-        ->whereMonth('cashes.created_at', $currentMonth) 
-        ->where('cashes.cash_type', 'deposit');
-       
-        if (Auth::user()->role == "exchange") {
-            return $query->where('cashes.exchange_id', $this->exchnageId); // No ->get() here, return the query builder
-        } elseif (Auth::user()->role == "admin") {
-            return $query;
-        }elseif(Auth::user()->role == "assistant"){
-            return $query;
+        // Building the query
+        $query = Cash::query()
+            ->select('cashes.*', 'exchanges.name AS exchange_name', 'users.name AS user_name')
+            ->join('exchanges', 'cashes.exchange_id', '=', 'exchanges.id')
+            ->join('users', 'cashes.user_id', '=', 'users.id')
+            ->where('cashes.cash_type', 'deposit');
+
+        // Restrict by exchange ID for exchange users
+        if (Auth::user()->role === 'exchange') {
+            $query->where('cashes.exchange_id', $this->exchangeId);
         }
+
+        // Apply the date range filter if provided
+        if ($this->startDate) {
+            $query->whereDate('cashes.created_at', '>=', $this->startDate);
+        }
+        if ($this->endDate) {
+            $query->whereDate('cashes.created_at', '<=', $this->endDate);
+        }
+
+        return $query;
     }
 
-    public function headings(): array{
+    /**
+     * Map each record to the desired format.
+     */
+    public function map($record): array
+    {
+        // Calculate the total balance dynamically if needed
+        static $totalBalance = 0;
+        $totalBalance += $record->cash_amount;
+
+        return [
+            $record->id,
+            $record->exchange_name,
+            $record->user_name,
+            $record->reference_number,
+            $record->customer_name,
+            $record->cash_type,
+            $record->cash_amount,
+            $totalBalance,
+            $record->bonus_amount,
+            $record->payment_type,
+            $record->remarks,
+            $record->created_at->format('Y-m-d H:i:s'),
+            $record->updated_at->format('Y-m-d H:i:s'),
+        ];
+    }
+
+    /**
+     * Define the headings for the export.
+     */
+    public function headings(): array
+    {
         return [
             'ID',
             'Exchange Name',
@@ -65,34 +88,12 @@ class DepositListExport implements FromQuery,  WithHeadings, WithStyles, WithCol
             'Customer Name',
             'Cash Type',
             'Cash Amount',
+            'Total Balance',
             'Bonus Amount',
             'Payment Type',
             'Remarks',
             'Created At',
             'Updated At',
-        ];
-    }
-    public function styles(Worksheet $sheet)
-    {
-        $sheet->getStyle('A1:L1')->getFont()->setBold(true); // Bold the header row
-        $sheet->getStyle('A1:L1')->getFont()->setSize(12); // Optional: set font size
-    }
-
-    public function columnWidths(): array
-    {
-        return [
-            'A' => 10, 
-            'B' => 20, 
-            'C' => 15, 
-            'D' => 20, 
-            'E' => 20, 
-            'F' => 20, 
-            'G' => 20, 
-            'H' => 20,
-            'I' => 15,
-            'J' => 20,
-            'K' => 30,
-            'L' => 30,
         ];
     }
 }

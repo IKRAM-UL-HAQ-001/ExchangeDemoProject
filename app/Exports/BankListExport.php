@@ -16,7 +16,14 @@ class BankListExport implements FromQuery, WithHeadings, WithStyles, WithColumnW
 
     public function query()
     {
-        return Bank::query(); // Adjust based on how you want to filter or retrieve banks
+        $query = Bank::query(); // Adjust based on how you want to filter or retrieve banks
+        
+        // Check if the query returns any results
+        if ($query->count() === 0) {
+            return collect(); // Return an empty collection if no records found
+        }
+        
+        return $query; // Return the query if there are records
     }
 
     public function headings(): array
@@ -38,10 +45,10 @@ class BankListExport implements FromQuery, WithHeadings, WithStyles, WithColumnW
     public function columnWidths(): array
     {
         return [
-            'A' => 10,
-            'B' => 30,
-            'C' => 30,
-            'D' => 30,
+            'A' => 10,  // ID
+            'B' => 30,  // Bank Name
+            'C' => 30,  // Created At
+            'D' => 30,  // Updated At
         ];
     }
 }

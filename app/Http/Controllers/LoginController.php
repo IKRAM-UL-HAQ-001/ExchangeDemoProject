@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Exchange;
 use App\Models\BankUser;
 use Illuminate\Http\Request;
+use Hash;
 use Auth;
 class LoginController extends Controller
 {
@@ -15,9 +16,14 @@ class LoginController extends Controller
      */
     public function index()
     {
-        $exchangeRecords =  Exchange::all();
-        return view("auth.login",compact('exchangeRecords'));
+        $exchangeRecords = Exchange::all();
+
+        // Create the view response
+        return view("auth.login", compact('exchangeRecords'));
+            // ->header('X-Frame-Options', 'DENY');
+            // ->header('Content-Security-Policy', "frame-ancestors 'self'");
     }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -29,8 +35,14 @@ class LoginController extends Controller
             'role' => 'required',
             'exchange' => 'nullable|required_if:role,exchange',
         ]);
-    
+        $userStatus = User::where('name',$request->name)->first();
+        if($userStatus->status != 'active'){
+            return redirect()->back()->withErrors(['error' => 'You are not authorized by Admin']);
+        }
+        else{
+
         if (Auth::attempt($request->only('name', 'password'))) {
+            
             $request->session()->regenerate();
     
             $user = Auth::user();
@@ -51,10 +63,15 @@ class LoginController extends Controller
                     ]);
             }
         }
-        return back()->withErrors([
-            'name' => 'The provided credentials do not match our records.',
-        ])->withInput($request->only('name'));
+        return response()->view('auth.login')
+            ->header('X-Frame-Options', 'DENY') // Prevents framing
+            ->header('Content-Security-Policy', "frame-ancestors 'self'") // Allows framing only from the same origin
+            ->withErrors([
+                'name' => 'The provided credentials do not match our records.',
+            ])->withInput($request->only('name'));
+        }
     }
+    
     
 
     /**
@@ -84,36 +101,72 @@ class LoginController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Auth $auth)
+    public function update(Request $request)
     {
-        //
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        } else {
+            $request->validate([
+                'currentPassword' => 'required',
+                'newPassword' => 'required|min:8',
+            ]);
+            
+            $user = Auth::user();
+            
+            if ($user->role == "admin") {
+                if (!Hash::check($request->currentPassword, $user->password)) {
+                    return response()->json(['message' => 'Current password is incorrect.'], 422);
+                } else {
+                    $user->password = Hash::make($request->newPassword);
+                    $user->save();
+                    
+                    // Return response with security headers
+                    return response()->json(['message' => 'Password updated successfully.'])
+                        ->header('X-Frame-Options', 'DENY') // Prevents framing
+                        ->header('Content-Security-Policy', "frame-ancestors 'self'"); // Allows framing only from the same origin
+                }
+            }
+        }
+        return response()->json(['message' => 'You are not eligible to perform this action.'], 422)
+            ->header('X-Frame-Options', 'DENY') // Prevents framing
+            ->header('Content-Security-Policy', "frame-ancestors 'self'");
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
+    
     public function destroy(Auth $auth)
     {
         //
     }
 
-    public function logout(Request $request){
+    public function logout(Request $request)
+    {
         if (!auth()->check()) {
             return redirect()->route('auth.login');
-        }
-        elseif (auth()->check()) {
+        } elseif (auth()->check()) {
             Auth::logout();
-            return redirect()->route('auth.login');
+            return redirect()->route('auth.login')
+                ->withHeaders([
+                    'X-Frame-Options' => 'DENY', // Prevents framing
+                    'Content-Security-Policy' => "frame-ancestors 'self'", // Allows framing only from the same origin
+                ]);
         }
     }
 
     public function logoutAll(Request $request)
     {
-        // $users = User::all();
-        $users = User::with('tokens')->get();
-        foreach ($users as $user) {
-            $user->tokens()->delete();
-        }
-        return redirect()->route("auth.login")->with('status', 'All users have been logged out.');
+        $admin = Auth::user();
+        Auth::logout();
+        $this->invalidateAllSessions();
+        
+        return redirect()->route('auth.login')->with('status', 'All users have been logged out.')
+            ->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                // 'Content-Security-Policy' => "frame-ancestors 'self'", // Allows framing only from the same origin
+            ]);
     }
+
+    protected function invalidateAllSessions()
+    {
+        \DB::table('sessions')->truncate();
+    }
+
 }

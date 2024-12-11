@@ -5,8 +5,8 @@
         <div class="col-12">
             <div class="card my-4">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
-                        <p style="color: white;"><strong>Opening Closing Balance Table</strong></p>
+                    <div class="bg-gradient-warning shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+                        <p style="color: black;"><strong>Opening Closing Balance Table (Weekly Bases)</strong></p>
                         <div>
                             <a href="{{ route('export.openCloseBalance') }}" class="btn btn-dark">Export Opening Closing Balance List</a>
                         </div>
@@ -17,23 +17,21 @@
                         <table id="openingClosingBalanceTable" class="table align-items-center mb-0 table-striped table-hover px-2">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Opening Balance </th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Closing Balance</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Total Balance</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Remarks</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Opening Balance</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Remarks</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Date and Time</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($openingClosingBalanceRecords as $openingClosingBalance)
                                     <tr>
-                                        <td>{{ $openingClosingBalance->open_balance}}</td>
-                                        <td>{{ $openingClosingBalance->close_balance}}</td>
-                                        <td>{{ $openingClosingBalance->total_balance}}</td>
-                                        <td>{{ $openingClosingBalance->remarks}}</td>
+                                        <td>{{ $openingClosingBalance->open_balance }}</td>
+                                        <td>{{ $openingClosingBalance->remarks }}</td>
+                                        <td>{{ $openingClosingBalance->created_at}}</td>
                                         <td class="text-center">
                                             <button class="btn btn-danger btn-sm" onclick="deleteOpeningClosingBalance(this, {{ $openingClosingBalance->id }})">Delete</button>
-                                        </td>
+                                        </td>                                       
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -49,21 +47,21 @@
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script>
 $(document).ready(function() {
-        const userTable = $('#openingClosingBalanceTable').DataTable({
-            pagingType: "full_numbers",
-            language: {
-                paginate: {
-                    first: '«',
-                    last: '»',
-                    next: '›',
-                    previous: '‹'
-                }
-            },
-            lengthMenu: [5, 10, 25, 50],
-            pageLength: 10
-        });
+    const userTable = $('#openingClosingBalanceTable').DataTable({
+        pagingType: "full_numbers",
+        language: {
+            paginate: {
+                first: '«',
+                last: '»',
+                next: '›',
+                previous: '‹'
+            }
+        },
+        lengthMenu: [5, 10, 25, 50],
+        pageLength: 10,
+        order: [[2, 'desc']]
+    });
 });
-
 
 function deleteOpeningClosingBalance(button, id) {
     const row = $(button).parents('tr');
@@ -94,5 +92,4 @@ function deleteOpeningClosingBalance(button, id) {
     });
 }
 </script>
-
 @endsection

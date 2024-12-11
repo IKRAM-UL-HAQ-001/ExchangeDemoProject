@@ -9,136 +9,74 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Cash;
 use Illuminate\Http\Request;
 use Auth;
+use Carbon\Carbon;
 
 class DepositWithdrawalController extends Controller
 {
-    public function withdrawalExportExcel(Request $request)
-    {
-        if (!auth()->check()) {
-            return redirect()->route('auth.login');
-        }
-        else{
-            if(Auth::user()->role == "admin" || Auth::user()->role == "assistant"){
-                $exchangeId = null;
-            }
-            else{
-                $exchangeId = Auth::user()->exchange_id;
-            }
-            return Excel::download(new WithdrawalListExport($exchangeId), 'withdrawalRecord.xlsx');
-        }
-    }
     
-    public function depositExportExcel(Request $request)
-    {
-        if (!auth()->check()) {
-            return redirect()->route('auth.login');
-        }
-        else{
-            if(Auth::user()->role == "admin" || Auth::user()->role == "assistant"){
-                $exchangeId = null;
-            }
-            else{
-                $exchangeId = Auth::user()->exchange_id;
-            }
-            return Excel::download(new DepositListExport($exchangeId), 'depositRecord.xlsx');
-        }
-    }
-
     public function index()
     {
         if (!auth()->check()) {
             return redirect()->route('auth.login');
         }
-        else{
-            $depositWithdrawalRecords = Cash::with(['exchange', 'user'])
+
+        $startOfWeek = Carbon::now()->startOfWeek();
+        $endOfWeek = Carbon::now()->endOfWeek();
+
+        $depositWithdrawalRecords = Cash::with(['exchange', 'user'])
+            ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
+            ->orderBy('created_at', 'desc')
             ->get();
-            return view('admin.deposit_withdrawal.list',compact('depositWithdrawalRecords'));
-        }
+
+        return view('admin.deposit_withdrawal.list', compact('depositWithdrawalRecords'))
+            ->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            ]);
     }
-    
+
     public function assistantIndex()
     {
         if (!auth()->check()) {
             return redirect()->route('auth.login');
         }
-        else{
-            $depositWithdrawalRecords = Cash::with(['exchange', 'user'])
+
+        $startOfWeek = Carbon::now()->startOfWeek();
+        $endOfWeek = Carbon::now()->endOfWeek();
+
+        $depositWithdrawalRecords = Cash::with(['exchange', 'user'])
+            ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
             ->get();
-            return view('assistant.deposit_withdrawal.list',compact('depositWithdrawalRecords'));
-        }
+
+        return view('assistant.deposit_withdrawal.list', compact('depositWithdrawalRecords'))
+            ->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(DepositWithdrawal $depositWithdrawal)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(DepositWithdrawal $depositWithdrawal)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, DepositWithdrawal $depositWithdrawal)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Request $request)
     {
         if (!auth()->check()) {
             return redirect()->route('auth.login');
         }
-        else{
-            $depositWithdarwal = Cash::find($request->id);
-            if ($depositWithdarwal) {
-                $depositWithdarwal->delete();
-                return response()->json(['success' => true, 'message' => 'Deposit/Withdarwal deleted successfully!']);
-            }
-            return response()->json(['success' => false, 'message' => 'Deposit/Withdarwal not found.'], 404);
-        }
-    }
-    public function exchangeIndex()
-    {
-        if (!auth()->check()) {
-            return redirect()->route('auth.login');
+
+        $depositWithdarwal = Cash::find($request->id);
+        if ($depositWithdarwal) {
+            $depositWithdarwal->delete();
+            return response()->json(['success' => true, 'message' => 'Deposit/Withdrawal deleted successfully!'])
+                ->withHeaders([
+                    'X-Frame-Options' => 'DENY', // Prevents framing
+                    'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                ]);
         }
 
-        $exchangeId = auth()->user()->exchange_id;
-        $userId = auth()->user()->id;
-        $depositWithdrawalRecords = Cash::with(['exchange', 'user'])
-            ->where('exchange_id', $exchangeId) 
-            ->where('user_id', $userId) 
-            ->whereIn('cash_type', ['deposit', 'withdrawal']) 
-            ->get();
-        return view('exchange.deposit_withdrawal.list', compact('depositWithdrawalRecords'));
+        return response()->json(['success' => false, 'message' => 'Deposit/Withdrawal not found.'], 404)
+            ->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            ]);
     }
 
 }

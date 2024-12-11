@@ -15,33 +15,34 @@ class BankEntryController extends Controller
     {
         if (!auth()->check()) {
             return redirect()->route('auth.login');
-        }
-        else{
+        } else {
             $exchangeId = Auth::user()->exchange_id;
-            $bankEntryRecords= BankEntry::where('exchange_id', $exchangeId)
-            ->get();
-            $bankRecords= Bank::all();
-            return view('exchange.bank.list',compact('bankEntryRecords','bankRecords'));
+            $bankEntryRecords = BankEntry::where('exchange_id', $exchangeId)->get();
+            $bankRecords = Bank::all();
+            
+            return view('exchange.bank.list', compact('bankEntryRecords', 'bankRecords'))
+                ->withHeaders([
+                    'X-Frame-Options' => 'DENY', // Prevents framing
+                    // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                ]);
         }    
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         if (!auth()->check()) {
             return redirect()->route('auth.login');
-        }
-        else{
+        } else {
             $bankRecords = Bank::all();
-            return view("exchange.bank.list",compact('bankRecords'));
+            
+            return view("exchange.bank.list", compact('bankRecords'))
+                ->withHeaders([
+                    'X-Frame-Options' => 'DENY', // Prevents framing
+                    'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                ]);
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         if (!auth()->check()) {
@@ -70,53 +71,33 @@ class BankEntryController extends Controller
                     'user_id' => $user->id,
                 ]);
 
-                return response()->json(['message' => 'Bank Entry Data saved successfully!', 'data' => $bankEntry], 201);
+                return response()->json(['message' => 'Bank Entry Data saved successfully!', 'data' => $bankEntry], 201)
+                    ->withHeaders([
+                        'X-Frame-Options' => 'DENY', // Prevents framing
+                        'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                    ]);
             }
         } catch (\Exception $e) {
-            return response()->json(['message' => 'An error occurred while saving Bank Entry Data: ' . $e->getMessage()], 500);
+            return response()->json(['message' => 'An error occurred while saving Bank Entry Data: ' . $e->getMessage()], 500)
+                ->withHeaders([
+                    'X-Frame-Options' => 'DENY', // Prevents framing
+                    'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                ]);
         }
     }
-    
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(BankEntry $bankEntry)
+    public function getBankBalance(Request $request) 
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(BankEntry $bankEntry)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, BankEntry $bankEntry)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(BankEntry $bankEntry)
-    {
-        //
-    }
-    
-    public function getBankBalance(Request $request) {
         $request->validate(['bank_name' => 'required|string']);
-    
+
         $sumBalance = BankEntry::where('bank_name', $request->bank_name)
             ->selectRaw('SUM(CASE WHEN cash_type = "add" THEN cash_amount WHEN cash_type = "minus" THEN -cash_amount END) as balance')
             ->value('balance');
-    
-        return response()->json(['balance' => $sumBalance ?? 0]);
+
+        return response()->json(['balance' => $sumBalance ?? 0])
+            ->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            ]);
     }
 }

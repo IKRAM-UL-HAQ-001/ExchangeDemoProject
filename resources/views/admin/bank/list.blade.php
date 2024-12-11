@@ -5,8 +5,8 @@
         <div class="col-12">
             <div class="card my-4">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
-                        <p style="color: white;"><strong>Bank Table</strong></p>
+                    <div class="bg-gradient-warning shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+                        <p style="color: black;"><strong>Bank Table</strong></p>
                         <div>
                             <a href="{{ route('export.bank') }}" class="btn btn-dark">Export Bank List</a>
                             <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addBankModal">Add New Bank</button>
@@ -18,14 +18,16 @@
                         <table id="bankTable" class="table align-items-center mb-0 table-striped table-hover px-2">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Bank Name</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Bank Name</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Date and Time</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder  ">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($bankRecords as $bank)
                                     <tr>
                                         <td>{{ $bank->name }}</td>
+                                        <td>{{ $bank->created_at}}</td>
                                         <td class="text-center">
                                             <button class="btn btn-danger btn-sm" onclick="deleteBank(this, {{ $bank->id }})">Delete</button>
                                         </td>
@@ -74,20 +76,22 @@
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script>
 $(document).ready(function() {
-        const userTable = $('#bankTable').DataTable({
-            pagingType: "full_numbers",
-            language: {
-                paginate: {
-                    first: '«',
-                    last: '»',
-                    next: '›',
-                    previous: '‹'
-                }
-            },
-            lengthMenu: [5, 10, 25, 50],
-            pageLength: 10
-        });
+    const userTable = $('#bankTable').DataTable({
+        pagingType: "full_numbers",
+        language: {
+            paginate: {
+                first: '«',
+                last: '»',
+                next: '›',
+                previous: '‹'
+            }
+        },
+        lengthMenu: [5, 10, 25, 50],
+        pageLength: 10,
+        order: [[1, 'desc']]
+    });
 });
+
 
 function addBank() {
     const name = document.getElementById('name').value;

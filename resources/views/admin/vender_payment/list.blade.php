@@ -5,8 +5,8 @@
         <div class="col-12">
             <div class="card my-4">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
-                        <p style="color: white;"><strong>Vender Payment Table</strong></p>
+                    <div class="bg-gradient-warning shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+                        <p style="color: black;"><strong>Vender Payment Table</strong></p>
                         <div>
                             <a href="{{ route('export.venderPayment') }}" class="btn btn-dark">Export Vender Payment List</a>
                             <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addVenderPaymentModal">Add New Vender Payment</button>
@@ -14,15 +14,16 @@
                     </div>
                 </div>
                 <div class="card-body px-0 pb-2 px-3">
-                    <div class="table-responsive p-0">
+                    <div class="table-responsive p-0" style="overflow-y: hidden;">
                         <table id="venderPaymentTable" class="table align-items-center mb-0 table-striped table-hover px-2">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Paid Amount</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Remaining Amount</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Payment Type</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Remarks</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Paid Amount</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Remaining Amount</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Payment Type</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Remarks</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Date and Time</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder  ">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -32,6 +33,7 @@
                                         <td>{{ $venderPayment->remaining_amount}}</td>
                                         <td>{{ $venderPayment->payment_type}}</td>
                                         <td>{{ $venderPayment->remarks}}</td>
+                                        <td>{{ $venderPayment->created_at}}</td>
                                         <td class="text-center">
                                             <button class="btn btn-danger btn-sm" onclick="deleteVenderPayment(this, {{ $venderPayment->id }})">Delete</button>
                                         </td>
@@ -67,12 +69,17 @@
                             <label for="payment_type" class="form-label">Payment Type</label>
                             <select class="form-select px-3" id="payment_type" required >
                                 <option value="" disabled selected>Select an Payment Type</option>
-                                <option value="rent" >Rent</option>
-                                <option value="salary" >salary</option>
-                                <option value="pati_cash" >Pati Cash</option>
-                                <option value="bank_payment" >Bank Payment</option>
-                                <option value="master_payment" >Master Payment</option>
-                                <option value="general_expense" >General Expense</option>
+                                <option value="rent"> Rent</option>
+                                <option value="salary"> salary</option>
+                                <option value="pati_cash"> Pati Cash</option>
+                                <option value="bank_payment"> Bank Payment</option>
+                                <option value="master_payment"> Master Payment</option>
+                                <option value="general_expense"> General Expense</option>
+                                <option value="amazon_payment"> Amazon Payment</option>
+                                <option value="betbazar_payment"> Betbazar Payment</option>
+                                <option value="cricketstar_payment"> Cricketstar Payment</option>
+                                <option value="fastbet_payment"> Fastbet Payment</option>
+                                <option value="jadugar_payment"> Jadugar Payment</option>
                             </select>
                         </div>
                         <div class="mb-3">
@@ -105,7 +112,8 @@ $(document).ready(function() {
                 }
             },
             lengthMenu: [5, 10, 25, 50],
-            pageLength: 10
+            pageLength: 10,
+            order: [[4, 'desc']]
         });
 });
 

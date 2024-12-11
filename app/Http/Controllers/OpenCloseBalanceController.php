@@ -15,60 +15,67 @@ class OpenCloseBalanceController extends Controller
     public function openCloseBalanceExportExcel(Request $request)
     {
         if (!auth()->check()) {
-            return redirect()->route('auth.login');
-        }
-        else{
-            if(Auth::user()->role == "admin" || Auth::user()->role == "assistant"){
+            return redirect()->route('auth.login')->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            ]);
+        } else {
+            if (Auth::user()->role == "admin" || Auth::user()->role == "assistant") {
                 $exchangeId = null;
-            }
-            else{
+            } else {
                 $exchangeId = Auth::user()->exchange_id;
             }
             return Excel::download(new OpenCloseBalanceListExport($exchangeId), 'openingClosingBalanceRecord.xlsx');
         }
     }
-
+    
     public function index()
     {
         $startOfWeek = Carbon::now()->startOfWeek();
         $openingClosingBalanceRecords = OpenCloseBalance::where('created_at', '>=', $startOfWeek)
-        ->get();
-        return view ('admin.open_close_balance.list', compact('openingClosingBalanceRecords'));
+        ->orderBy('created_at', 'desc')->get();
+        return response()
+            ->view('admin.open_close_balance.list', compact('openingClosingBalanceRecords'));
     }
-
+    
     public function exchangeIndex()
     {
         $startOfWeek = Carbon::now()->startOfWeek();
         $exchangeId = Auth::user()->exchange_id;
         $openingClosingBalanceRecords = OpenCloseBalance::where('exchange_id', $exchangeId)
-        ->where('created_at', '>=', $startOfWeek)
-        ->get();
-        return view('exchange.open_close_balance.list',compact("openingClosingBalanceRecords"));
+            ->where('created_at', '>=', $startOfWeek)
+            ->orderBy('created_at', 'desc')
+            ->get();
+    
+        return response()
+            ->view('exchange.open_close_balance.list', compact("openingClosingBalanceRecords"))
+            ->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            ]);
     }
-
+    
     public function assistantIndex()
     {
         $startOfWeek = Carbon::now()->startOfWeek();
-        $openingClosingBalanceRecords = OpenCloseBalance::where('created_at', '>=', $startOfWeek)
-        ->get();
-        return view('assistant.open_close_balance.list',compact("openingClosingBalanceRecords"));
+        $openingClosingBalanceRecords = OpenCloseBalance::where('created_at', '>=', $startOfWeek)->get();
+    
+        return response()
+            ->view('assistant.open_close_balance.list', compact("openingClosingBalanceRecords"))
+            ->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            ]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
+    
     public function store(Request $request)
     {
         if (!auth()->check()) {
-            return response()->json(['message' => 'Unauthorized'], 401);
+            return response()->json(['message' => 'Unauthorized'], 401)
+                ->withHeaders([
+                    'X-Frame-Options' => 'DENY', // Prevents framing
+                    'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                ]);
         } else {
             $user = Auth::user();
             $exchangeId = $user->exchange_id;  
@@ -77,7 +84,7 @@ class OpenCloseBalanceController extends Controller
                 'open_balance' => 'required',
                 'remarks' => 'nullable|string|max:255',
             ]);
-
+    
             try {
                 OpenCloseBalance::create([
                     'open_balance' => $validatedData['open_balance'],
@@ -85,53 +92,44 @@ class OpenCloseBalanceController extends Controller
                     'exchange_id' => $exchangeId,
                     'user_id' => $userId,
                 ]);
-
-                return response()->json(['success' => true, 'message' => 'Opening Closing Balance saved successfully!']);
+    
+                return response()->json(['success' => true, 'message' => 'Opening Closing Balance saved successfully!'])
+                    ->withHeaders([
+                        'X-Frame-Options' => 'DENY', // Prevents framing
+                        'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                    ]);
             } catch (\Exception $e) {
-                return response()->json(['success' => false, 'message' => 'An error occurred: ' . $e->getMessage()], 500);
+                return response()->json(['success' => false, 'message' => 'An error occurred: ' . $e->getMessage()], 500)
+                    ->withHeaders([
+                        'X-Frame-Options' => 'DENY', // Prevents framing
+                        'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                    ]);
             }
         }
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(OpenCloseBalance $openCloseBalance)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(OpenCloseBalance $openCloseBalance)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, OpenCloseBalance $openCloseBalance)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
+    
     public function destroy(Request $request)
     {
         if (!auth()->check()) {
-            return redirect()->route('auth.login');
-        }
-        else{
+            return redirect()->route('auth.login')->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            ]);
+        } else {
             $openCloseBalance = OpenCloseBalance::find($request->id);
             if ($openCloseBalance) {
                 $openCloseBalance->delete();
-                return response()->json(['success' => true, 'message' => 'opening closing balance deleted successfully!']);
+                return response()->json(['success' => true, 'message' => 'Opening closing balance deleted successfully!'])
+                    ->withHeaders([
+                        'X-Frame-Options' => 'DENY', // Prevents framing
+                        'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                    ]);
             }
-            return response()->json(['success' => false, 'message' => 'opening closing balance not found.'], 404);
+            return response()->json(['success' => false, 'message' => 'Opening closing balance not found.'], 404)
+                ->withHeaders([
+                    'X-Frame-Options' => 'DENY', // Prevents framing
+                    'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                ]);
         }
-    }
+    }    
 }

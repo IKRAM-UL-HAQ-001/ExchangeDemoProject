@@ -9,32 +9,22 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         if (!auth()->check()) {
             return redirect()->route('auth.login');
         }
         else{
-            $userRecords = User::with('exchange')->where('role', '!=', 'admin')->get();
+            $userRecords = User::with('exchange')
+            ->where('role', '!=', 'admin')
+            ->orderBy('created_at', 'desc')
+            ->get();
             $exchangeRecords = Exchange::all();
             return view("admin.user.list", compact('userRecords', 'exchangeRecords'));
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         if (!auth()->check()) {
@@ -59,27 +49,17 @@ class UserController extends Controller
             ], 201);
         }
     }
+    public function userStatus(Request $request)
+    {
+        // dd($request->userId);
+        $user = User::find($request->userId);
+
+        $user->status = $request->status;
+        $user->save();
+
+        return redirect()->back();
+    }
     
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Exchange $exchange)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Exchange $exchange)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request)
     {
         if (!auth()->check()) {
@@ -89,7 +69,7 @@ class UserController extends Controller
             $user = User::findOrFail($request->id);    
             $request->validate([
                 'name' => 'required|string|max:255',
-                'exchange' => 'required|exists:exchanges,id',
+                'exchange' => 'nullable|exists:exchanges,id',
                 'password' => 'nullable|string|min:8', // Password is optional
             ]);
             $user->name = $request->name;
@@ -102,10 +82,6 @@ class UserController extends Controller
         } 
     }
     
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Request $request)
     {
         if (!auth()->check()) {

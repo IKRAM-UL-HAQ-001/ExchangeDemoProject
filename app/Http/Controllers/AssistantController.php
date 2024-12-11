@@ -14,6 +14,7 @@ use App\Models\Exchange;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Auth;
+use DB;
 class AssistantController extends Controller
 {
     /**
@@ -28,12 +29,10 @@ class AssistantController extends Controller
             $today = Carbon::today();
             $currentMonth = Carbon::now()->month;
             $currentYear = Carbon::now()->year;
-
-
+            
             $totalOpenCloseBalance = OpenCloseBalance::whereDate('created_at', $today)
             ->sum('open_balance');
-
-
+            
             $totalDepositDaily = Cash::where('cash_type', 'deposit')
                 ->whereDate('created_at', $today)
                 ->sum('cash_amount');
@@ -60,7 +59,9 @@ class AssistantController extends Controller
                 ->count('id');
 
             $totalBalanceDaily =  $totalDepositDaily -  $totalWithdrawalDaily -  $totalExpenseDaily ;
-            $totalOpenCloseBalance = $totalBalanceDaily + $totalOpenCloseBalance;            
+            
+            $totalOpenCloseBalanceDaily = $totalOpenCloseBalance + $totalBalanceDaily;
+
             $totalDepositMonthly = Cash::where('cash_type', 'deposit')
                 ->whereMonth('created_at', $currentMonth)
                 ->whereYear('created_at', $currentYear)
@@ -110,51 +111,18 @@ class AssistantController extends Controller
             $totalBalanceMonthly = $totalDepositMonthly - $totalWithdrawalMonthly - $totalExpenseMonthly;
             $totalUsers = User::count();
             $totalExchanges = Exchange::count();
-            return view('/assistant.dashboard',compact('totalUsers','totalExchanges',
-                'totalBalanceMonthly','totalDepositMonthly','totalWithdrawalMonthly',
-                'totalExpenseMonthly','totalMasterSettlingMonthly',
-                'totalBonusMonthly','totalOldCustomersMonthly','totalOwnerProfitMonthly',
-                'totalCustomerMonthly','totalBalanceDaily','totalDepositDaily',
-                'totalWithdrawalDaily','totalExpenseDaily','totalBonusDaily','totalOldCustomersDaily',
-                'totalOwnerProfitDaily','totalCustomerDaily','totalBankBalance','totalOpenCloseBalanceDaily',
-
-            ));
+            return response()
+            ->view('assistant.dashboard', compact(
+                'totalUsers', 'totalExchanges', 'totalBalanceMonthly', 'totalDepositMonthly', 
+                'totalWithdrawalMonthly', 'totalExpenseMonthly', 'totalMasterSettlingMonthly', 
+                 'totalBonusMonthly', 'totalOldCustomersMonthly', 
+                'totalOwnerProfitMonthly', 'totalCustomerMonthly', 'totalBalanceDaily', 
+                'totalDepositDaily', 'totalWithdrawalDaily', 'totalExpenseDaily', 'totalBonusDaily', 
+                'totalOldCustomersDaily', 'totalOwnerProfitDaily', 'totalCustomerDaily', 
+                'totalBankBalance', 'totalOpenCloseBalanceDaily'
+            ))
+            // ->header('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;")
+            ->header('X-Frame-Options', 'DENY');        
         }   
-    }
-
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Assistant $assistant)
-    {
-        //
-    }
-
-    public function edit(Assistant $assistant)
-    {
-        //
-    }
-
-    public function update(Request $request, Assistant $assistant)
-    {
-        //
-    }
-
-    public function destroy(Assistant $assistant)
-    {
-        //
     }
 }

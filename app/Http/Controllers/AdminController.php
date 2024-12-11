@@ -28,10 +28,10 @@ class AdminController extends Controller
             $today = Carbon::today();
             $currentMonth = Carbon::now()->month;
             $currentYear = Carbon::now()->year;
-
+            
             $totalOpenCloseBalance = OpenCloseBalance::whereDate('created_at', $today)
             ->sum('open_balance');
-
+            
             $totalPaidAmountDaily = VenderPayment::whereDate('created_at', $today)
                 ->sum('paid_amount');
 
@@ -65,8 +65,8 @@ class AdminController extends Controller
                 ->count('id');
 
             $totalBalanceDaily =  $totalDepositDaily -  $totalWithdrawalDaily -  $totalExpenseDaily ;
-
-            $totalOpenCloseBalance = $totalBalanceDaily + $totalOpenCloseBalance;
+            
+            $totalOpenCloseBalanceDaily = $totalOpenCloseBalance + $totalBalanceDaily;
 
             $totalDepositMonthly = Cash::where('cash_type', 'deposit')
                 ->whereMonth('created_at', $currentMonth)
@@ -117,65 +117,20 @@ class AdminController extends Controller
             $totalBalanceMonthly = $totalDepositMonthly - $totalWithdrawalMonthly - $totalExpenseMonthly;
             $totalUsers = User::count();
             $totalExchanges = Exchange::count();
-            return view('/admin.dashboard',compact('totalUsers','totalExchanges',
-                'totalBalanceMonthly','totalDepositMonthly','totalWithdrawalMonthly',
-                'totalExpenseMonthly','totalMasterSettlingMonthly',
-                'totalPaidAmountMonthly',
-                
-                'totalBonusMonthly','totalOldCustomersMonthly','totalOwnerProfitMonthly',
-                'totalCustomersMonthly','totalBalanceDaily','totalDepositDaily',
-                'totalWithdrawalDaily','totalExpenseDaily','totalBonusDaily','totalOldCustomersDaily',
-                'totalOwnerProfitDaily','totalCustomersDaily','totalBankBalance','totalOpenCloseBalance',
-                'totalPaidAmountDaily',
-            ));
+            $viewData = compact(
+                'totalUsers', 'totalExchanges', 'totalBalanceMonthly', 'totalDepositMonthly', 
+                'totalWithdrawalMonthly', 'totalExpenseMonthly', 'totalMasterSettlingMonthly',
+                'totalPaidAmountMonthly', 'totalBonusMonthly',
+                'totalOldCustomersMonthly', 'totalOwnerProfitMonthly', 'totalCustomersMonthly',
+                'totalBalanceDaily', 'totalDepositDaily', 'totalWithdrawalDaily', 'totalExpenseDaily',
+                'totalBonusDaily', 'totalOldCustomersDaily', 'totalOwnerProfitDaily', 'totalCustomersDaily',
+                'totalBankBalance', 'totalOpenCloseBalanceDaily', 'totalPaidAmountDaily'
+            );
+            return response()
+            ->view('admin.dashboard', $viewData)
+            // ->header('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;")
+            ->header('X-Frame-Options', 'DENY');
         }   
-    }
+    }    
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Admin $admin)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Admin $admin)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Admin $admin)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Admin $admin)
-    {
-        //
-    }
 }

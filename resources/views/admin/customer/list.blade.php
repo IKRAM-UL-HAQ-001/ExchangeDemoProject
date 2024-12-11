@@ -5,8 +5,8 @@
         <div class="col-12">
             <div class="card my-4">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
-                        <p style="color: white;"><strong>Customer Table</strong></p>
+                    <div class="bg-gradient-warning shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+                        <p style="color: black;"><strong>Customer Table</strong></p>
                         <div>
                         <a href="{{ route('export.customer') }}" class="btn btn-dark">Customer Export Excel</a>
                         </div>
@@ -17,12 +17,13 @@
                         <table id="customerTable" class="table align-items-center mb-0 table-striped table-hover px-2">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">User</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Exchange</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cash Amount</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Remarks</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">User</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Exchange</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Name</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Cash Amount</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Remarks</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Date and Time</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder  ">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -33,6 +34,7 @@
                                     <td>{{ $customer->name }}</td>
                                     <td>{{ $customer->cash_amount }}</td>
                                     <td>{{ $customer->remarks }}</td>
+                                    <td>{{ $customer->created_at }}</td>
                                     <td class="text-center">
                                         <button class="btn btn-danger btn-sm" aria-label="Delete Bank Balance" onclick="deleteCustomer(this, {{ $customer->id }})">Delete</button>
                                     </td>
@@ -50,21 +52,23 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         const userTable = $('#customerTable').DataTable({
-            pagingType: "full_numbers"
-            , language: {
+            pagingType: "full_numbers", // Use full pagination controls
+            language: {
                 paginate: {
-                    first: '«'
-                    , last: '»'
-                    , next: '›'
-                    , previous: '‹'
+                    first: '«',  // First page symbol
+                    last: '»',   // Last page symbol
+                    next: '›',   // Next page symbol
+                    previous: '‹' // Previous page symbol
                 }
-            }
-            , lengthMenu: [5, 10, 25, 50]
-            , pageLength: 10
+            },
+            lengthMenu: [[5, 10, 25, 50], [5, 10, 25, 50]], // Page length options
+            pageLength: 10, // Default page length
+            order: [[5, 'desc']] // Sort by the 6th column in descending order (0-based index)
         });
     });
+
 
     function deleteCustomer(button, id) {
         const row = $(button).closest('tr');

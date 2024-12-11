@@ -5,8 +5,8 @@
         <div class="col-12">
             <div class="card my-4">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
-                        <p style="color: white;"><strong>Opening Closing Balance Table</strong></p>
+                    <div class="bg-gradient-warning shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+                        <p style="color: black;"><strong>Opening Closing Balance Table (Weekly Bases)</strong></p>
                         <div>
                             <a href="{{ route('export.openCloseBalance') }}" class="btn btn-dark">Export Opening Closing Balance List</a>
                         </div>
@@ -17,10 +17,10 @@
                         <table id="openingClosingBalanceTable" class="table align-items-center mb-0 table-striped table-hover px-2">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Opening Balance </th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Closing Balance</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Total Balance</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Remarks</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Opening Balance </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Closing Balance</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Total Balance</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Remarks</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -33,7 +33,7 @@
                                             <td>{{ $openingClosingBalance->open_balance }}</td>
                                             <td>{{ $openingClosingBalance->close_balance }}</td>
                                             @php
-                                                $balance =  $openingClosingBalance->open_balance + $openingClosingBalance->close_balance; 
+                                                $balance =  $openingClosingBalance->close_balance; 
                                             @endphp
                                              <td>{{$balance}}</td>
                                              <td>{{ $openingClosingBalance->remarks }}</td>

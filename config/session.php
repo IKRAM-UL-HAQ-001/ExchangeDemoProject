@@ -17,9 +17,8 @@ return [
     |            "memcached", "redis", "dynamodb", "array"
     |
     */
-
-    'driver' => env('SESSION_DRIVER', 'file'),
-
+    'driver' => env('SESSION_DRIVER', 'database'),
+    
     /*
     |--------------------------------------------------------------------------
     | Session Lifetime
@@ -168,7 +167,8 @@ return [
     |
     */
 
-    'secure' => env('SESSION_SECURE_COOKIE'),
+    'same_site' => 'strict',
+    'secure' => env('SESSION_SECURE_COOKIE', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -180,7 +180,6 @@ return [
     | the HTTP protocol. You are free to modify this option if needed.
     |
     */
-
     'http_only' => true,
 
     /*

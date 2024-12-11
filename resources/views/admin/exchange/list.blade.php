@@ -5,8 +5,8 @@
         <div class="col-12">
             <div class="card my-4">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
-                        <p style="color: white;"><strong>Exchange Table</strong></p>
+                    <div class="bg-gradient-warning shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+                        <p style="color: black;"><strong>Exchange Table</strong></p>
                         <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addExchangeModal">Add New Exchange</button>
                     </div>
                 </div>
@@ -15,9 +15,9 @@
                         <table id="exchangeTable" class="table align-items-center mb-0 table-striped table-hover px-2">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Exchange Name</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date and Time</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+                                    <th class="text-uppercase text-secondary font-weight-bolder">Exchange Name</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Date and Time</th>
+                                    <th class="text-center text-uppercase text-secondary font-weight-bolder">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -78,7 +78,8 @@ $(document).ready(function() {
                 }
             },
             lengthMenu: [1, 10, 25, 50],
-            pageLength: 10
+            pageLength: 10,
+            order: [[1, 'desc']]
         });
 });
 

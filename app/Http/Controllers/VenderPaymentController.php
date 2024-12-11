@@ -14,38 +14,35 @@ class VenderPaymentController extends Controller
     public function venderPaymentExportExcel(Request $request)
     {
         if (!auth()->check()) {
-            return redirect()->route('auth.login');
-        }
-        else{
+            return redirect()->route('auth.login')->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            ]);
+        } else {
             return Excel::download(new VenderPaymentListExport(), 'venderPaymentRecord.xlsx');
         }
     }
-
+    
     public function index()
     {
         $startOfYear = Carbon::now()->startOfYear(); 
         $endOfYear = Carbon::now()->endOfYear();
-        $venderPaymentRecords = VenderPayment::whereBetween('created_at', [$startOfYear, $endOfYear])->get();
-        return view('admin.vender_payment.list', compact('venderPaymentRecords'));
+        $venderPaymentRecords = VenderPayment::whereBetween('created_at', [$startOfYear, $endOfYear])
+        ->orderBy('created_at', 'desc')->get();
+        return response()->view('admin.vender_payment.list', compact('venderPaymentRecords'))->withHeaders([
+            'X-Frame-Options' => 'DENY', // Prevents framing
+            // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+        ]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
+    
     public function store(Request $request)
     {
         if (!auth()->check()) {
-            return response()->json(['message' => 'Unauthorized'], 401);
-        }
-        else{
+            return response()->json(['message' => 'Unauthorized'], 401)->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            ]);
+        } else {
             $validatedData = $request->validate([
                 'paid_amount' => 'required|numeric',
                 'remaining_amount' => 'required|numeric',
@@ -63,40 +60,39 @@ class VenderPaymentController extends Controller
                 ]);
     
                 // Return a JSON response
-                return response()->json(['message' => 'vender Payment added successfully!', 'data' => $venderPayment], 201);
+                return response()->json(['message' => 'Vender Payment added successfully!', 'data' => $venderPayment], 201)->withHeaders([
+                    'X-Frame-Options' => 'DENY', // Prevents framing
+                    'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                ]);
             } catch (\Exception $e) {
-                return response()->json(['message' => 'Error adding owner profit: ' . $e->getMessage()], 500);
+                return response()->json(['message' => 'Error adding vender payment: ' . $e->getMessage()], 500)->withHeaders([
+                    'X-Frame-Options' => 'DENY', // Prevents framing
+                    'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                ]);
             }
         }
     }
-
-    public function show(VenderPayment $venderPayment)
-    {
-        //
-    }
-
-    public function edit(VenderPayment $venderPayment)
-    {
-        //
-    }
-
-    public function update(Request $request, VenderPayment $venderPayment)
-    {
-        //
-    }
-
+    
     public function destroy(Request $request)
     {
         if (!auth()->check()) {
-            return redirect()->route('auth.login');
-        }
-        else{
+            return redirect()->route('auth.login')->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            ]);
+        } else {
             $venderPayment = VenderPayment::find($request->id);
             if ($venderPayment) {
                 $venderPayment->delete();
-                return response()->json(['success' => true, 'message' => 'vender payment deleted successfully!']);
+                return response()->json(['success' => true, 'message' => 'Vender payment deleted successfully!'])->withHeaders([
+                    'X-Frame-Options' => 'DENY', // Prevents framing
+                    'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                ]);
             }
-            return response()->json(['success' => false, 'message' => 'vender payment not found.'], 404);
+            return response()->json(['success' => false, 'message' => 'Vender payment not found.'], 404)->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            ]);
         }
-    }
+    }    
 }

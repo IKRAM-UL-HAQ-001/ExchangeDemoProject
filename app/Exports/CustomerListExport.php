@@ -10,26 +10,24 @@ use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
-use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
-use PhpOffice\PhpSpreadsheet\Style\Color;
-use PhpOffice\PhpSpreadsheet\Style\Font;
 
-class CustomerListExport  implements FromQuery,  WithHeadings, WithStyles, WithColumnWidths
+class CustomerListExport implements FromQuery, WithHeadings, WithStyles, WithColumnWidths
 {
     use Exportable;
 
-    protected $exchnageId;
+    protected $exchangeId;
 
-    public function __construct($exchnageId)
+    public function __construct($exchangeId)
     {
-        $this->exchnageId = $exchnageId;
+        $this->exchangeId = $exchangeId;
     }
+
     public function query()
     {
         $currentMonth = Carbon::now()->month;
         $currentYear = Carbon::now()->year;
-        
+
         $query = Customer::selectRaw('
             customers.id, 
             exchanges.name as exchange_name,
@@ -46,17 +44,24 @@ class CustomerListExport  implements FromQuery,  WithHeadings, WithStyles, WithC
         ->whereMonth('customers.created_at', $currentMonth)
         ->whereYear('customers.created_at', $currentYear)
         ->distinct();
-       
+
+        // Check if the result is empty before executing the query
+        if ($query->count() === 0) {
+            // Return an empty collection if no records found
+            return collect(); // This will generate an empty Excel file
+        }  
+
         if (Auth::user()->role == "exchange") {
-            return $query->where('customers.exchange_id', $this->exchnageId); // No ->get() here, return the query builder
-        } elseif (Auth::user()->role == "admin") {
-            return $query;
-        }elseif(Auth::user()->role == "assistant"){
-            return $query;
+            return $query->where('customers.exchange_id', $this->exchangeId);
+        } elseif (Auth::user()->role == "admin" || Auth::user()->role == "assistant") {
+            return $query; // Admin and assistant can see all
         }
+
+        return collect(); // Return an empty collection for unrecognized roles
     }
 
-    public function headings(): array{
+    public function headings(): array
+    {
         return [
             'ID',
             'Exchange Name',
@@ -69,6 +74,7 @@ class CustomerListExport  implements FromQuery,  WithHeadings, WithStyles, WithC
             'Updated At',
         ];
     }
+
     public function styles(Worksheet $sheet)
     {
         $sheet->getStyle('A1:I1')->getFont()->setBold(true); // Bold the header row
@@ -87,8 +93,6 @@ class CustomerListExport  implements FromQuery,  WithHeadings, WithStyles, WithC
             'G' => 20, 
             'H' => 30,
             'I' => 30,
-
         ];
     }
 }
-

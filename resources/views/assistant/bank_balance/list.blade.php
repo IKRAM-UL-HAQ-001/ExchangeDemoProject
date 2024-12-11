@@ -5,8 +5,8 @@
         <div class="col-12">
             <div class="card my-4">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
-                        <p style="color: white;"><strong>Bank Balance Table</strong></p>
+                    <div class="bg-gradient-warning shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+                        <p style="color: black;"><strong>Bank Balance Table (Weekly Bases)</strong></p>
                         <div>
                         <a href="{{ route('export.bankBalanceList') }}" class="btn btn-dark">Bank Balance Excel</a>
                         </div>
@@ -17,13 +17,13 @@
                         <table id="bankBalanceTable" class="table align-items-center mb-0 table-striped table-hover px-2">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">User</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Exchange</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Bank</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Account No.</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Amount</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Type</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Remarks</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">User</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Exchange</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Bank</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Account No.</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Amount</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Type</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Remarks</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -31,7 +31,7 @@
                                 <tr>
                                     <td>{{ $bankBalance->user->name }}</td>
                                     <td>{{ $bankBalance->exchange->name }}</td>
-                                    <td>{{ $bankBalance->name }}</td>
+                                    <td>{{ $bankBalance->bank_name }}</td>
                                     <td>{{ $bankBalance->account_number }}</td>
                                     <td>{{ $bankBalance->cash_amount }}</td>
                                     <td>{{ $bankBalance->cash_type }}</td>

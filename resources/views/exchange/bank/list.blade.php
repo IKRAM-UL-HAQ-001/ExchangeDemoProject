@@ -5,8 +5,8 @@
         <div class="col-12">
             <div class="card my-4">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
-                        <p style="color: white;"><strong>Bank Table</strong></p>
+                    <div class="bg-gradient-warning shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+                        <p style="color: black;"><strong>Bank Balance Table (Weekly Bases)</strong></p>
                         <div>
                             <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addBankModal">Bank Form</button>
                         </div>
@@ -17,12 +17,12 @@
                         <table id="bankTable" class="table align-items-center mb-0 table-striped table-hover px-2">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Bank Name</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Account Number</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cash Type</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cash Amount</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Remarks</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Bank Balance</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Bank Name</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Account Number</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Cash Type</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Cash Amount</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Remarks</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Bank Balance</th>
                                 </tr>
                             </thead>
                             @php

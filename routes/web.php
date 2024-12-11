@@ -19,6 +19,11 @@ use App\Http\Controllers\BankUserController;
 use App\Http\Controllers\BankEntryController;
 use App\Http\Controllers\VenderPaymentController;
 use App\Http\Controllers\OpenCloseBalanceController;
+use App\Http\Controllers\DepositController;
+use App\Http\Controllers\WithdrawalController;
+use App\Http\Controllers\DatabaseExportController;
+use App\Http\Middleware\XSSMiddleware;
+use App\Http\Middleware\sanitizeInput;
 
 Route::get('/', [LoginController::class, 'index'])->name('auth.login');
 Route::post('/auth/login/post', [LoginController::class, 'login'])->name('login.post');
@@ -26,8 +31,8 @@ Route::get('/auth/logout', [LoginController::class, 'logout'])->name('login.logo
 
 //admin export
 Route::get('/export-bank', [BankController::class, 'bankExportExcel'])->name('export.bank');
-Route::get('/export-deposit', [DepositWithdrawalController::class, 'depositExportExcel'])->name('export.deposit');
-Route::get('/export-withdrawal', [DepositWithdrawalController::class, 'withdrawalExportExcel'])->name('export.withdrawal');
+Route::post('/export-deposit', [DepositController::class, 'depositExportExcel'])->name('export.deposit');
+Route::post('/export-withdrawal', [WithdrawalController::class, 'withdrawalExportExcel'])->name('export.withdrawal');
 Route::get('/export-expense', [ExpenseController::class, 'expenseExportExcel'])->name('export.expense');
 Route::get('/export-masterSettlingWeekly', [MasterSettlingController::class, 'masterSettlingListWeeklyExportExcel'])->name('export.masterSettlingListWeekly');
 Route::get('/export-masterSettlingMonthly', [MasterSettlingController::class, 'masterSettlingListMonthlyExportExcel'])->name('export.masterSettlingListMonthly');
@@ -37,23 +42,36 @@ Route::get('/export-venderPayment', [VenderPaymentController::class, 'venderPaym
 Route::get('/export-openCloseBalance', [OpenCloseBalanceController::class, 'openCloseBalanceExportExcel'])->name('export.openCloseBalance');
 Route::get('/export-customer', [CustomerController::class, 'customerExportExcel'])->name('export.customer');
 
-Route::group(['middleware' => 'admin'], function () {
+Route::group(['middleware' => ['admin']], function () {
+
+    //download databsae
+    Route::get('/admin/download', [DatabaseExportController::class, 'downloadDatabase'])->name('admin.confirm.download');
+
 
     //admin dashboard
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
+
+    //update password
+    Route::post('/passwordUpdate', [LoginController::class, 'update'])->name('password.update');
     
     //logout all
-    Route::post('/post', [LoginController::class, 'logoutAll'])->name('logout.all');
+    Route::get('/post', [LoginController::class, 'logoutAll'])->name('logout.all');
     
+    //Report
+    Route::get('/admin/report', [ReportController::class, 'index'])->name('admin.report.list');
+    Route::post('/admin/report/post', [ReportController::class, 'report'])->name('admin.report.generate');
+
     // exchange user
     Route::get('/admin/user', [UserController::class, 'index'])->name('admin.user.list');
     Route::post('/admin/user/post', [UserController::class, 'store'])->name('admin.user.post');
     Route::post('/admin/user/update', [UserController::class, 'update'])->name('admin.user.update');
     Route::post('/admin/user/destroy', [UserController::class, 'destroy'])->name('admin.user.destroy');
+    Route::post('/admin/user/status', [UserController::class, 'userStatus'])->name('admin.user.status');
+
     
     // exchange
     Route::get('/admin/exchange', [ExchangeController::class, 'exchangeList'])->name('admin.exchange.list');
-    Route::post('/admin/exchange/post', [ExchangeController::class, 'store'])->name('admin.exchange.store');
+    Route::post('/admin/exchange/post', [ExchangeController::class, 'store'])->name('admin.exchange.store')->middleware('encrypt.request.data');
     Route::post('/admin/exchange/destroy', [ExchangeController::class, 'destroy'])->name('admin.exchange.destroy');
     
     //bank
@@ -91,9 +109,7 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/admin/ownerProfit', [OwnerProfitController::class, 'index'])->name('admin.owner_profit.list');
     Route::post('/admin/ownerProfit/destroy', [OwnerProfitController::class, 'destroy'])->name('admin.owner_profit.destroy');
 
-    //Report 
-    Route::get('/admin/report', [ReportController::class, 'index'])->name('admin.report.list');
-
+    
     //Vender Payment
     Route::get('/admin/venderPayment', [VenderPaymentController::class, 'index'])->name('admin.vender_payment.list');
     Route::post('/admin/venderPayment/post', [VenderPaymentController::class, 'store'])->name('admin.vender_payment.store');
@@ -105,7 +121,7 @@ Route::group(['middleware' => 'admin'], function () {
 
 });
 
-Route::group(['middleware' => 'assistant'], function () {
+Route::group(['middleware' => ['assistant']], function () {
     
     // assistant dashboard
     Route::get('/assistant', [AssistantController::class, 'index'])->name('assistant.dashboard');
@@ -128,7 +144,7 @@ Route::group(['middleware' => 'assistant'], function () {
 
 
 
-Route::group(['middleware' => 'exchange'], function () {
+Route::group(['middleware' => ['exchange']], function () {
 
     //Exchange Dashboard
     Route::get('/exchange', [ExchangeController::class, 'index'])->name('exchange.dashboard');
@@ -151,8 +167,11 @@ Route::group(['middleware' => 'exchange'], function () {
     Route::get('/exchange/ownerProfit', [OwnerProfitController::class, 'exchangeIndex'])->name('exchange.owner_profit.list');
     Route::post('/exchange/ownerProfit/post', [OwnerProfitController::class, 'store'])->name('exchange.owner_profit.store');
 
+    // withdrawal withdrawal
+    Route::get('/exchange/withdrawal', [WithdrawalController::class, 'index'])->name('exchange.withdrawal.list');
+
     // deposit withdrawal
-    Route::get('/exchange/deposit-withdrawal', [DepositWithdrawalController::class, 'exchangeIndex'])->name('exchange.deposit_withdrawal.list');
+    Route::get('/exchange/deposit', [DepositController::class, 'index'])->name('exchange.deposit.list');
         
     //expense
     Route::get('/exchange/expense', [ExpenseController::class, 'exchangeIndex'])->name('exchange.expense.list');
@@ -161,8 +180,9 @@ Route::group(['middleware' => 'exchange'], function () {
     Route::get('/exchange/masterSettling', [MasterSettlingController::class, 'exchangeIndex'])->name('exchange.master_settling.list');
     Route::post('/exchange/masterSettling/post', [MasterSettlingController::class, 'store'])->name('exchange.master_settling.store');
 
-    //report
+    //Report
     Route::get('/exchange/report', [ReportController::class, 'exchangeIndex'])->name('exchange.report.list');
+    Route::post('/exchange/report/post', [ReportController::class, 'exchangeReport'])->name('exchange.report.generate');
 
     //open close balance
     Route::get('/exchange/openCloseBalance', [OpenCloseBalanceController::class, 'exchangeIndex'])->name('exchange.open_close_balance.list');

@@ -5,8 +5,8 @@
         <div class="col-12">
             <div class="card my-4">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
-                        <p style="color: white;"><strong>Master Settling Table</strong></p>
+                    <div class="bg-gradient-warning shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+                        <p style="color: black;"><strong>Master Settling Table  (Yearly Bases)</strong></p>
                         <div>
                             <a href="{{ route('export.masterSettlingListWeekly') }}" class="btn btn-dark">Weekly Master Settling Excel</a>
                             <a href="{{ route('export.masterSettlingListMonthly') }}" class="btn btn-dark">Monthly Master Settling Excel</a>
@@ -14,18 +14,19 @@
                     </div>
                 </div>
                 <div class="card-body px-0 pb-2 px-3">
-                    <div class="table-responsive p-0">
+                    <div class="table-responsive p-0" style="overflow-y: hidden;">
                         <table id="masterSettlingTable" class="table align-items-center mb-0 table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">User</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Exchange</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">White Label</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Credit Reff</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Settling Point</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Price</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Total Amount</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">User</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Exchange</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">White Label</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Credit Reff</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Settling Point</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Price</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Total Amount</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Date and Time</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder  ">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -37,7 +38,8 @@
                                     <td>{{ $masterSettling->credit_reff }}</td>
                                     <td>{{ $masterSettling->settling_point }}</td>
                                     <td>{{ $masterSettling->price }}</td>
-                                    <td></td>
+                                    <td>{{ $masterSettling->settling_point * $masterSettling->price }}</td>
+                                    <td>{{ $masterSettling->created_at }}</td>
                                     <td class="text-center">
                                         <button class="btn btn-danger btn-sm" aria-label="Delete Master Settling" onclick="deleteMasterSettling(this, {{ $masterSettling->id }})">Delete</button>
                                         <button class="btn btn-warning btn-sm" aria-label="Edit Master Settling" onclick="openEditModal({{ json_encode($masterSettling) }})">Edit</button>
@@ -111,6 +113,7 @@
         },
         lengthMenu: [5, 10, 25, 50],
         pageLength: 10,
+        order: [[7, 'desc']]
     });
 });
 

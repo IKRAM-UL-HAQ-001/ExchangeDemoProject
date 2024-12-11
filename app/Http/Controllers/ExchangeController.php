@@ -11,36 +11,32 @@ use App\Models\OpenCloseBalance;
 use App\Models\MasterSettling;
 use App\Models\User;
 use Carbon\Carbon;
+USE DB;
 use Auth;
 use Illuminate\Http\Request;
 
 class ExchangeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         if (!auth()->check()) {
             return redirect()->route('auth.login');
-        }
-        else{
+        } else {
             $today = Carbon::today();
             $currentMonth = Carbon::now()->month;
             $currentYear = Carbon::now()->year;
             
-            $userId= Auth::User()->id;
+            $userId = Auth::User()->id;
             $user = User::find($userId);
             $exchangeId = $user->exchange_id;
             $exchange = Exchange::find($exchangeId);
             $exchange_name = $exchange ? $exchange->name : null;
             $userCount = Cash::where('exchange_id', $exchangeId)->distinct('user_id')->count('user_id');
             
-
             $totalOpenCloseBalance = OpenCloseBalance::where('exchange_id', $exchangeId)
             ->whereDate('created_at', $today)
             ->sum('open_balance');
-            // dd($totalOpenCloseBalance);
+            
             $customerCountDaily = Cash::where('exchange_id', $exchangeId)
                 ->whereDate('created_at', $today)
                 ->distinct('reference_number')
@@ -75,8 +71,9 @@ class ExchangeController extends Controller
                 ->count('id');
 
             $totalBalanceDaily = $totalDepositDaily - $totalWithdrawalDaily - $totalExpenseDaily;
+            
             $totalOpenCloseBalanceDaily = $totalOpenCloseBalance + $totalBalanceDaily;
-
+            
             $customerCountMonthly = Cash::where('exchange_id', $exchangeId)
                 ->whereMonth('created_at', $currentMonth)
                 ->whereYear('created_at', $currentYear)
@@ -117,11 +114,8 @@ class ExchangeController extends Controller
                 ->whereYear('created_at', $currentYear)
                 ->sum('cash_amount');
             
-            $totalAmountAdd = BankEntry::where('cash_type', 'add')
-                ->sum('cash_amount');
-
-            $totalAmountSubtract = BankEntry::where('cash_type', 'minus')
-                ->sum('cash_amount');
+            $totalAmountAdd = BankEntry::where('cash_type', 'add')->sum('cash_amount');
+            $totalAmountSubtract = BankEntry::where('cash_type', 'minus')->sum('cash_amount');
 
             $totalBankBalance = $totalAmountAdd - $totalAmountSubtract;
             $totalNewCustomerMonthly = Customer::where('exchange_id', $exchangeId)
@@ -131,91 +125,77 @@ class ExchangeController extends Controller
                 ->count('id');
 
             $totalBalanceMonthly = $totalDepositMonthly - $totalWithdrawalMonthly - $totalExpenseMonthly;
-
-            return view("exchange.dashboard",compact('totalBankBalance','exchange_name','userCount',
-                'totalBalanceDaily','totalDepositDaily','totalWithdrawalDaily','totalExpenseDaily',
-                'customerCountDaily','totalBonusDaily','totalNewCustomerDaily','totalOwnerProfitDaily',
-                'totalOpenCloseBalanceDaily',
-                
-                'totalBalanceMonthly','totalDepositMonthly','totalWithdrawalMonthly','totalExpenseMonthly',
-                'totalMasterSettlingMonthly','totalBonusMonthly','customerCountMonthly','totalNewCustomerMonthly',
-                'totalOwnerProfitMonthly',
-            ));
+            $nonce = base64_encode(random_bytes(16));
+            
+            return response()
+                ->view("exchange.dashboard", compact('totalBankBalance', 'exchange_name', 'userCount',
+                    'totalBalanceDaily', 'totalDepositDaily', 'totalWithdrawalDaily', 'totalExpenseDaily',
+                    'customerCountDaily', 'totalBonusDaily', 'totalNewCustomerDaily', 'totalOwnerProfitDaily',
+                    'totalOpenCloseBalanceDaily', 'nonce',
+                    
+                    'totalBalanceMonthly', 'totalDepositMonthly', 'totalWithdrawalMonthly', 'totalExpenseMonthly',
+                    'totalMasterSettlingMonthly', 'totalBonusMonthly', 'customerCountMonthly', 'totalNewCustomerMonthly',
+                    'totalOwnerProfitMonthly'))
+                ->withHeaders([
+                    'X-Frame-Options' => 'DENY', // Prevents framing
+                    // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                ]);
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function exchangeList()
     {
         if (!auth()->check()) {
             return redirect()->route('auth.login');
-        }
-        else{
+        } else {
             $exchangeRecords = Exchange::orderBy('created_at', 'desc')->get();
-            return view("admin.exchange.list",compact('exchangeRecords'));
+            return response()
+                ->view("admin.exchange.list", compact('exchangeRecords'))
+                ->withHeaders([
+                    'X-Frame-Options' => 'DENY', // Prevents framing
+                    // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                ]);
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         if (!auth()->check()) {
             return redirect()->route('auth.login');
-        }
-        else{
+        } else {
             $request->validate([
                 'name' => 'required|string|max:255',
             ]);
             Exchange::create([
                 'name' => $request->name
             ]);
-            return response()->json(['message' => 'Exchange added successfully!'], 201);
+            return response()->json(['message' => 'Exchange added successfully!'], 201)
+                ->withHeaders([
+                    'X-Frame-Options' => 'DENY', // Prevents framing
+                    'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                ]);
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Exchange $exchange)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Exchange $exchange)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Exchange $exchange)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Request $request)
     {
         if (!auth()->check()) {
             return redirect()->route('auth.login');
-        }
-        else{
+        } else {
             $exchange = Exchange::find($request->id);
             if ($exchange) {
                 $exchange->delete();
-                return response()->json(['success' => true, 'message' => 'Exchange deleted successfully!']);
+                return response()->json(['success' => true, 'message' => 'Exchange deleted successfully!'])
+                    ->withHeaders([
+                        'X-Frame-Options' => 'DENY', // Prevents framing
+                        'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                    ]);
             }
-            return response()->json(['success' => false, 'message' => 'Exchange not found.'], 404);
+            return response()->json(['success' => false, 'message' => 'Exchange not found.'], 404)
+                ->withHeaders([
+                    'X-Frame-Options' => 'DENY', // Prevents framing
+                    // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                ]);
         }
     }
 }

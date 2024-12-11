@@ -18,7 +18,8 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
     
-    'timezone' => env('APP_TIMEZONE', 'UTC'),
+    'timezone' => 'Asia/Kolkata',
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
@@ -70,8 +71,6 @@ return [
     | ahead and set this to a sensible default for you out of the box.
     |
     */
-
-    // 'timezone' => 'UTC',
 
     /*
     |--------------------------------------------------------------------------
@@ -185,5 +184,11 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
+
+    'debug_blacklist' => [
+        '_COOKIE' => array_keys($_COOKIE),
+        '_SERVER' => array_keys($_SERVER),
+        '_ENV' => array_keys($_ENV),
+    ],
 
 ];

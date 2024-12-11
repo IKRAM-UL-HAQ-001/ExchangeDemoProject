@@ -13,8 +13,7 @@ class BankController extends Controller
     {
         if (!auth()->check()) {
             return redirect()->route('auth.login');
-        }
-        else{
+        } else {
             return Excel::download(new BankListExport, 'BankList.xlsx');
         }
     }
@@ -23,10 +22,13 @@ class BankController extends Controller
     {
         if (!auth()->check()) {
             return redirect()->route('auth.login');
-        }
-        else{
-            $bankRecords = Bank::all();
-            return view("admin.bank.list",compact('bankRecords'));
+        } else {
+            $bankRecords = Bank::orderBy('created_at', 'desc')->get();
+            return view("admin.bank.list", compact('bankRecords'))
+                ->withHeaders([
+                    'X-Frame-Options' => 'DENY', // Prevents framing
+                    'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                ]);
         }
     }
 
@@ -34,8 +36,7 @@ class BankController extends Controller
     {
         if (!auth()->check()) {
             return redirect()->route('auth.login');
-        }
-        else{
+        } else {
             $request->validate([
                 'name' => 'required|string|max:255',
             ]);
@@ -43,37 +44,34 @@ class BankController extends Controller
             Bank::create([
                 'name' => $request->name
             ]);
-            return response()->json(['message' => 'Bank added successfully!'], 201);
+            return response()->json(['message' => 'Bank added successfully!'], 201)
+                ->withHeaders([
+                    'X-Frame-Options' => 'DENY', // Prevents framing
+                    'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                ]);
         }
-    }
-
-    public function show(Bank $bank)
-    {
-
-    }
-
-    public function edit(Bank $bank)
-    {
-        //
-    }
-
-    public function update(Request $request, Bank $bank)
-    {
-        //
     }
 
     public function destroy(Request $request)
     {
         if (!auth()->check()) {
             return redirect()->route('auth.login');
-        }
-        else{
+        } else {
             $bank = Bank::find($request->id);
             if ($bank) {
                 $bank->delete();
-                return response()->json(['success' => true, 'message' => 'Bank deleted successfully!']);
+                return response()->json(['success' => true, 'message' => 'Bank deleted successfully!'])
+                    ->withHeaders([
+                        'X-Frame-Options' => 'DENY', // Prevents framing
+                        'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                    ]);
             }
-            return response()->json(['success' => false, 'message' => 'Bank not found.'], 404);
+            return response()->json(['success' => false, 'message' => 'Bank not found.'], 404)
+                ->withHeaders([
+                    'X-Frame-Options' => 'DENY', // Prevents framing
+                    'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                ]);
         }
     }
+
 }
