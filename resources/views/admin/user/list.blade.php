@@ -5,7 +5,7 @@
         <div class="col-12">
             <div class="card my-4">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div class="bg-gradient-warning shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+                    <div class="bg-gradient-success shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                         <p style="color: black;"><strong>User Table</strong></p>
                         <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addUserModal">Add New User</button>
                     </div>
@@ -119,7 +119,7 @@ function addUser() {
     const exchange = $('#exchange').val();
 
     $.ajax({
-        url: '/admin/user/add',
+        url: '/admin/user/post',
         method: 'POST',
         data: {
             _token: '{{ csrf_token() }}',
@@ -131,7 +131,7 @@ function addUser() {
             if (response.success) {
                 alert('User added successfully');
                 $('#addUserModal').modal('hide');
-                location.reload();
+                window.location.reload();
             }
         },
         error: function(response) {

@@ -13,7 +13,7 @@
             @if(Auth::check())
                 @if(Auth::user()->role === "admin")
                     <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->routeIs('admin.dashboard') ? 'active bg-gradient-warning' : '' }}" href="{{route('admin.dashboard')}}">
+                        <a class="nav-link text-white {{ request()->routeIs('admin.dashboard') ? 'active bg-gradient-success' : '' }}" href="{{route('admin.dashboard')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">dashboard</i>
                             </div>
@@ -21,7 +21,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->is('admin/user') ? 'active bg-gradient-warning' : '' }}" href="{{route('admin.user.list')}}">
+                        <a class="nav-link text-white {{ request()->is('admin/user') ? 'active bg-gradient-success' : '' }}" href="{{route('admin.user.list')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">people</i>
                             </div>
@@ -29,7 +29,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->is('admin/exchange') ? 'active bg-gradient-warning' : '' }}" href="{{route('admin.exchange.list')}}">
+                        <a class="nav-link text-white {{ request()->is('admin/exchange') ? 'active bg-gradient-success' : '' }}" href="{{route('admin.exchange.list')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">swap_horiz</i>
                             </div>
@@ -37,7 +37,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->is('admin/vender_payment') ? 'active bg-gradient-warning' : '' }}" href="{{route('admin.vender_payment.list')}}">
+                        <a class="nav-link text-white {{ request()->is('admin/vender_payment') ? 'active bg-gradient-success' : '' }}" href="{{route('admin.vender_payment.list')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">swap_horiz</i>
                             </div>
@@ -45,7 +45,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->is('admin/openCloseBalance') ? 'active bg-gradient-warning' : '' }}" href="{{route('admin.open_close_balance.list')}}">
+                        <a class="nav-link text-white {{ request()->is('admin/openCloseBalance') ? 'active bg-gradient-success' : '' }}" href="{{route('admin.open_close_balance.list')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">swap_horiz</i>
                             </div>
@@ -53,7 +53,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->is('admin/bank*') ? 'active bg-gradient-warning' : '' }}" href="#bankSubMenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <a class="nav-link text-white {{ request()->is('admin/bank*') ? 'active bg-gradient-success' : '' }}" href="#bankSubMenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">account_balance</i>
                             </div>
@@ -62,7 +62,7 @@
                         <div class="collapse" id="bankSubMenu">
                             <ul class="nav flex-column ms-3">
                                 <li class="nav-item">
-                                    <a class="nav-link text-white {{ request()->is('admin/bank') ? 'active bg-gradient-warning' : '' }}" href="{{ route('admin.bank.list') }}">
+                                    <a class="nav-link text-white {{ request()->is('admin/bank') ? 'active bg-gradient-success' : '' }}" href="{{ route('admin.bank.list') }}">
                                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                             <i class="material-icons opacity-10">account_balance</i>
                                         </div>
@@ -70,7 +70,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-white {{ request()->is('admin/bankUser') ? 'active bg-gradient-warning' : '' }}" href="{{ route('admin.bank_user.list') }}">
+                                    <a class="nav-link text-white {{ request()->is('admin/bankUser') ? 'active bg-gradient-success' : '' }}" href="{{ route('admin.bank_user.list') }}">
                                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                             <i class="material-icons opacity-10">person</i>
                                         </div>
@@ -78,7 +78,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-white {{ request()->is('admin/bankBalance') ? 'active bg-gradient-warning' : '' }}" href="{{ route('admin.bank_balance.list') }}">
+                                    <a class="nav-link text-white {{ request()->is('admin/bankBalance') ? 'active bg-gradient-success' : '' }}" href="{{ route('admin.bank_balance.list') }}">
                                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                             <i class="material-icons opacity-10">account_balance_wallet</i>
                                         </div>
@@ -89,7 +89,7 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->is('admin/deposit-withdrawal') ? 'active bg-gradient-warning' : '' }}" href="{{route('admin.deposit_withdrawal.list')}}">
+                        <a class="nav-link text-white {{ request()->is('admin/deposit-withdrawal') ? 'active bg-gradient-success' : '' }}" href="{{route('admin.deposit_withdrawal.list')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">attach_money</i>
                             </div>
@@ -97,7 +97,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->is('admin/expense') ? 'active bg-gradient-warning' : '' }}" href="{{route('admin.expense.list')}}">
+                        <a class="nav-link text-white {{ request()->is('admin/expense') ? 'active bg-gradient-success' : '' }}" href="{{route('admin.expense.list')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">monetization_on</i>
                             </div>
@@ -105,7 +105,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->is('admin/masterSettling') ? 'active bg-gradient-warning' : '' }}" href="{{route('admin.master_settling.list')}}">
+                        <a class="nav-link text-white {{ request()->is('admin/masterSettling') ? 'active bg-gradient-success' : '' }}" href="{{route('admin.master_settling.list')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">settings</i>
                             </div>
@@ -114,7 +114,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->is('admin/customer') ? 'active bg-gradient-warning' : '' }}" href="{{route('admin.customer.list')}}">
+                        <a class="nav-link text-white {{ request()->is('admin/customer') ? 'active bg-gradient-success' : '' }}" href="{{route('admin.customer.list')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">person_add</i>
                             </div>
@@ -122,7 +122,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->is('admin/ownerProfit') ? 'active bg-gradient-warning' : '' }}" href="{{route('admin.owner_profit.list')}}">
+                        <a class="nav-link text-white {{ request()->is('admin/ownerProfit') ? 'active bg-gradient-success' : '' }}" href="{{route('admin.owner_profit.list')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">attach_money</i>
                             </div>
@@ -130,7 +130,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->is('admin/report') ? 'active bg-gradient-warning' : '' }}" href="{{route('admin.report.list')}}">
+                        <a class="nav-link text-white {{ request()->is('admin/report') ? 'active bg-gradient-success' : '' }}" href="{{route('admin.report.list')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">assessment</i>
                             </div>
@@ -140,7 +140,7 @@
                 @endif
                 @if(Auth::user()->role === "exchange")
                     <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->routeIs('exchange.dashboard') ? 'active bg-gradient-warning' : '' }}" href="{{route('exchange.dashboard')}}">
+                        <a class="nav-link text-white {{ request()->routeIs('exchange.dashboard') ? 'active bg-gradient-success' : '' }}" href="{{route('exchange.dashboard')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">dashboard</i>
                             </div>
@@ -148,7 +148,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->is('exchange/cash') ? 'active bg-gradient-warning' : '' }}" href="{{route('exchange.cash.list')}}">
+                        <a class="nav-link text-white {{ request()->is('exchange/cash') ? 'active bg-gradient-success' : '' }}" href="{{route('exchange.cash.list')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">monetization_on</i>
                             </div>
@@ -156,7 +156,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->is('exchange/openCloseBalance') ? 'active bg-gradient-warning' : '' }}" href="{{route('exchange.open_close_balance.list')}}">
+                        <a class="nav-link text-white {{ request()->is('exchange/openCloseBalance') ? 'active bg-gradient-success' : '' }}" href="{{route('exchange.open_close_balance.list')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">swap_horiz</i>
                             </div>
@@ -165,7 +165,7 @@
                     </li>
                     @if(Auth::user()->role == "exchange" && session('bankUser') && session('bankUser')->user_id == Auth::id())
                         <li class="nav-item">
-                            <a class="nav-link text-white {{ request()->is('exchange/bank') ? 'active bg-gradient-warning' : '' }}" href="{{route('exchange.bank.list')}}">
+                            <a class="nav-link text-white {{ request()->is('exchange/bank') ? 'active bg-gradient-success' : '' }}" href="{{route('exchange.bank.list')}}">
                                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                     <i class="material-icons opacity-10">account_balance</i>
                                 </div>
@@ -174,7 +174,7 @@
                         </li>
                     @endif
                     <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->is('exchange/customer') ? 'active bg-gradient-warning' : '' }}" href="{{route('exchange.customer.list')}}">
+                        <a class="nav-link text-white {{ request()->is('exchange/customer') ? 'active bg-gradient-success' : '' }}" href="{{route('exchange.customer.list')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">account_balance</i>
                             </div>
@@ -182,7 +182,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->is('exchange/owner_profit') ? 'active bg-gradient-warning' : '' }}" href="{{route('exchange.owner_profit.list')}}">
+                        <a class="nav-link text-white {{ request()->is('exchange/owner_profit') ? 'active bg-gradient-success' : '' }}" href="{{route('exchange.owner_profit.list')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">account_balance</i>
                             </div>
@@ -190,7 +190,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->is('exchange/deposit') ? 'active bg-gradient-warning' : '' }}" href="{{route('exchange.deposit.list')}}">
+                        <a class="nav-link text-white {{ request()->is('exchange/deposit') ? 'active bg-gradient-success' : '' }}" href="{{route('exchange.deposit.list')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">attach_money</i>
                             </div>
@@ -198,7 +198,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->is('exchange/withdrawal') ? 'active bg-gradient-warning' : '' }}" href="{{route('exchange.withdrawal.list')}}">
+                        <a class="nav-link text-white {{ request()->is('exchange/withdrawal') ? 'active bg-gradient-success' : '' }}" href="{{route('exchange.withdrawal.list')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">attach_money</i>
                             </div>
@@ -206,7 +206,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->is('exchange/expense') ? 'active bg-gradient-warning' : '' }}" href="{{route('exchange.expense.list')}}">
+                        <a class="nav-link text-white {{ request()->is('exchange/expense') ? 'active bg-gradient-success' : '' }}" href="{{route('exchange.expense.list')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">monetization_on</i>
                             </div>
@@ -214,7 +214,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->is('exchange/masterSettling') ? 'active bg-gradient-warning' : '' }}" href="{{route('exchange.master_settling.list')}}">
+                        <a class="nav-link text-white {{ request()->is('exchange/masterSettling') ? 'active bg-gradient-success' : '' }}" href="{{route('exchange.master_settling.list')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">monetization_on</i>
                             </div>
@@ -222,7 +222,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->is('exchange/report') ? 'active bg-gradient-warning' : '' }}" href="{{route('exchange.report.list')}}">
+                        <a class="nav-link text-white {{ request()->is('exchange/report') ? 'active bg-gradient-success' : '' }}" href="{{route('exchange.report.list')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">monetization_on</i>
                             </div>
@@ -232,7 +232,7 @@
                 @endif
                 @if(Auth::user()->role === "assistant")
                     <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->routeIs('assistant.dashboard') ? 'active bg-gradient-warning' : '' }}" href="{{route('assistant.dashboard')}}">
+                        <a class="nav-link text-white {{ request()->routeIs('assistant.dashboard') ? 'active bg-gradient-success' : '' }}" href="{{route('assistant.dashboard')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">dashboard</i>
                             </div>
@@ -240,7 +240,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->is('assistant/masterSettling') ? 'active bg-gradient-warning' : '' }}" href="{{route('assistant.master_settling.list')}}">
+                        <a class="nav-link text-white {{ request()->is('assistant/masterSettling') ? 'active bg-gradient-success' : '' }}" href="{{route('assistant.master_settling.list')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">settings</i>
                             </div>
@@ -248,7 +248,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->is('assistant/bankBalance') ? 'active bg-gradient-warning' : '' }}" href="{{route('assistant.bank_balance.list')}}">
+                        <a class="nav-link text-white {{ request()->is('assistant/bankBalance') ? 'active bg-gradient-success' : '' }}" href="{{route('assistant.bank_balance.list')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">account_balance_wallet</i>
                             </div>
@@ -256,7 +256,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->is('assistant/deposit-withdrawal') ? 'active bg-gradient-warning' : '' }}" href="{{route('assistant.deposit_withdrawal.list')}}">
+                        <a class="nav-link text-white {{ request()->is('assistant/deposit-withdrawal') ? 'active bg-gradient-success' : '' }}" href="{{route('assistant.deposit_withdrawal.list')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">attach_money</i>
                             </div>
@@ -264,7 +264,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->is('assistant/expense') ? 'active bg-gradient-warning' : '' }}" href="{{route('assistant.expense.list')}}">
+                        <a class="nav-link text-white {{ request()->is('assistant/expense') ? 'active bg-gradient-success' : '' }}" href="{{route('assistant.expense.list')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">attach_money</i>
                             </div>
@@ -272,7 +272,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->is('assistant/openCloseBalance') ? 'active bg-gradient-warning' : '' }}" href="{{route('assistant.open_close_balance.list')}}">
+                        <a class="nav-link text-white {{ request()->is('assistant/openCloseBalance') ? 'active bg-gradient-success' : '' }}" href="{{route('assistant.open_close_balance.list')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">swap_horiz</i>
                             </div>

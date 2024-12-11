@@ -5,7 +5,7 @@
     <div class="row mb-4">
         <div class="col-12">
             <div class="card-header p-0 position-relative mb-3">
-                <div class="bg-gradient-warning shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+                <div class="bg-gradient-success border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                     <h5 class="text-white mb-3"><strong>Daily Bases</strong></h5>
                 </div>
             </div>
@@ -17,7 +17,7 @@
             <div class="card">
                 <div class="test1 card-header p-3">
                     <div class="d-flex align-items-center">
-                        <div class="icon icon-lg icon-shape bg-gradient-warning shadow-dark text-center border-radius-xl position-relative">
+                        <div class="icon icon-lg icon-shape bg-gradient-success shadow-dark text-center border-radius-xl position-relative">
                             <i class="material-icons opacity-10">account_balance_wallet</i>
                         </div>
                         <div class="text-center flex-grow-1 ms-3">
@@ -31,16 +31,16 @@
         </div>
 
         @foreach ([ 
-            ['Today Margin', $totalBalanceDaily, 'bg-gradient-warning', 'attach_money'],
-            ['Today Deposit', $totalDepositDaily, 'bg-gradient-warning', 'arrow_upward'],
-            ['Today Withdrawal', $totalWithdrawalDaily, 'bg-gradient-warning', 'arrow_downward'],
-            ['Today Expense', $totalExpenseDaily, 'bg-gradient-warning', 'money_off'],
-            ['Today Bonus', $totalBonusDaily, 'bg-gradient-warning', 'star'],
-            ['Today Users', $userCount, 'bg-gradient-warning', 'people'],
-            ['Customers', $customerCountDaily, 'bg-gradient-warning', 'person'],
-            ['Today Profit', $totalOwnerProfitDaily, 'bg-gradient-warning', 'attach_money'],
-            ['Today New Customers', $totalNewCustomerDaily, 'bg-gradient-warning', 'group_add'],
-            ['Today Open Close Balance', $totalOpenCloseBalanceDaily, 'bg-gradient-warning', 'account_balance'],
+            ['Today Margin', $totalBalanceDaily, 'bg-gradient-success', 'attach_money'],
+            ['Today Deposit', $totalDepositDaily, 'bg-gradient-success', 'arrow_upward'],
+            ['Today Withdrawal', $totalWithdrawalDaily, 'bg-gradient-success', 'arrow_downward'],
+            ['Today Expense', $totalExpenseDaily, 'bg-gradient-success', 'money_off'],
+            ['Today Bonus', $totalBonusDaily, 'bg-gradient-success', 'star'],
+            ['Today Users', $userCount, 'bg-gradient-success', 'people'],
+            ['Customers', $customerCountDaily, 'bg-gradient-success', 'person'],
+            ['Today Profit', $totalOwnerProfitDaily, 'bg-gradient-success', 'attach_money'],
+            ['Today New Customers', $totalNewCustomerDaily, 'bg-gradient-success', 'group_add'],
+            ['Today Open Close Balance', $totalOpenCloseBalanceDaily, 'bg-gradient-success', 'account_balance'],
         ] as $card)
             <div class="col-xl-3 col-sm-6 mb-4">
                 <div class="card">
@@ -65,7 +65,7 @@
     <div class="row mb-4">
         <div class="col-12">
             <div class="card-header p-0 position-relative mb-3">
-                <div class="bg-gradient-warning shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+                <div class="bg-gradient-success shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                     <h5 class="text-white mb-3"><strong>Monthly Bases</strong></h5>
                 </div>
             </div>
@@ -77,7 +77,7 @@
             <div class="card">
                 <div class="test1 card-header p-3">
                     <div class="d-flex align-items-center">
-                        <div class="icon icon-lg icon-shape bg-gradient-warning shadow-dark text-center border-radius-xl position-relative">
+                        <div class="icon icon-lg icon-shape bg-gradient-success shadow-dark text-center border-radius-xl position-relative">
                             <i class="material-icons opacity-10">account_balance_wallet</i>
                         </div>
                         <div class="text-center flex-grow-1 ms-3">
@@ -91,15 +91,15 @@
         </div>
 
         @foreach ([ 
-            ['Total Deposit', $totalDepositMonthly, 'bg-gradient-warning', 'arrow_upward'],
-            ['Total Withdrawal', $totalWithdrawalMonthly, 'bg-gradient-warning', 'arrow_downward'],
-            ['Total Expense', $totalExpenseMonthly, 'bg-gradient-warning', 'money_off'],
-            ['Total Bonus', $totalBonusMonthly, 'bg-gradient-warning', 'star'],
-            ['Total Users', $userCount, 'bg-gradient-warning', 'people'],
-            ['Customers', $customerCountMonthly, 'bg-gradient-warning', 'person'],
-            ['Monthly Profit', $totalOwnerProfitMonthly, 'bg-gradient-warning', 'attach_money'],
-            ['Total New Customers', $totalNewCustomerMonthly, 'bg-gradient-warning', 'group_add'],
-            ['Total Settling Points', $totalMasterSettlingMonthly, 'bg-gradient-warning', 'point_of_sale'],
+            ['Total Deposit', $totalDepositMonthly, 'bg-gradient-success', 'arrow_upward'],
+            ['Total Withdrawal', $totalWithdrawalMonthly, 'bg-gradient-success', 'arrow_downward'],
+            ['Total Expense', $totalExpenseMonthly, 'bg-gradient-success', 'money_off'],
+            ['Total Bonus', $totalBonusMonthly, 'bg-gradient-success', 'star'],
+            ['Total Users', $userCount, 'bg-gradient-success', 'people'],
+            ['Customers', $customerCountMonthly, 'bg-gradient-success', 'person'],
+            ['Monthly Profit', $totalOwnerProfitMonthly, 'bg-gradient-success', 'attach_money'],
+            ['Total New Customers', $totalNewCustomerMonthly, 'bg-gradient-success', 'group_add'],
+            ['Total Settling Points', $totalMasterSettlingMonthly, 'bg-gradient-success', 'point_of_sale'],
         ] as $card)
             <div class="col-xl-3 col-sm-6 mb-4">
                 <div class="card">

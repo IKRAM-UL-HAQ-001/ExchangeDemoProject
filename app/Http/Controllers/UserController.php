@@ -40,6 +40,7 @@ class UserController extends Controller
                 'name' => $request->name,
                 'password' => Hash::make($request->password), 
                 'exchange_id' => $request->exchange,
+                'status' => 'inactive',
                 'role' => "exchange",
             ]);
             $exchangeName = Exchange::find($request->exchange)->name;
@@ -51,12 +52,9 @@ class UserController extends Controller
     }
     public function userStatus(Request $request)
     {
-        // dd($request->userId);
         $user = User::find($request->userId);
-
         $user->status = $request->status;
         $user->save();
-
         return redirect()->back();
     }
     
@@ -70,12 +68,12 @@ class UserController extends Controller
             $request->validate([
                 'name' => 'required|string|max:255',
                 'exchange' => 'nullable|exists:exchanges,id',
-                'password' => 'nullable|string|min:8', // Password is optional
+                'password' => 'nullable|string|min:8',
             ]);
             $user->name = $request->name;
             $user->exchange_id = $request->exchange;
             if ($request->filled('password')) {
-                $user->password = bcrypt($request->password); // Hash the new password
+                $user->password = bcrypt($request->password);
             }
             $user->save();    
             return response()->json(['message' => 'User updated successfully.', 'exchange_name' => $user->exchange->name]);

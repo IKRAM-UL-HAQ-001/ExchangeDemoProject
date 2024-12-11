@@ -1,4 +1,4 @@
-<div class="shadow-primary border-radius-lg m-4" style="backgroud-color:bue;background-image: linear-gradient(195deg, #42424a 0%, #191919 100%);">
+<div class=" border-radius-lg m-4" style="backgroud-color:bue;background-image: linear-gradient(195deg, #42424a 0%, #191919 100%);">
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true" style="">
         <div class="container-fluid d-flex justify-content-between " >
             <nav aria-label="breadcrumb">

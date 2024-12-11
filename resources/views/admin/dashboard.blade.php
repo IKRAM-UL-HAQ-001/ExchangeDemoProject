@@ -5,7 +5,7 @@
     <div class="row mb-4">
         <div class="col-12">
             <div class="card-header p-0 position-relative mb-3">
-                <div class="bg-gradient-warning shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+                <div class="bg-gradient-success shadow-success border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                     <p style="color: black;"><strong>Daily Bases</strong></p>
                 </div>
             </div>
@@ -15,7 +15,7 @@
     <div class="row mb-4">
         @php
             $dailyColorClasses = [
-                'bg-gradient-warning',
+                'bg-gradient-success',
             ];
         @endphp
 
@@ -23,7 +23,7 @@
             <div class="card">
                 <div class="test1 card-header p-3">
                     <div class="d-flex align-items-center">
-                        <div class="icon icon-lg icon-shape bg-gradient-warning shadow-dark text-center border-radius-xl position-relative">
+                        <div class="icon icon-lg icon-shape bg-gradient-success shadow-dark text-center border-radius-xl position-relative">
                             <i class="material-icons"style="color:white">account_balance_wallet</i>
                         </div>
                         <div class=" text-end ms-3 text-center flex-grow-1"> <!-- Center alignment -->
@@ -73,7 +73,7 @@
     <div class="row mb-4">
         <div class="col-12">
             <div class="card-header p-0 position-relative mb-3">
-                <div class="bg-gradient-warning shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+                <div class="bg-gradient-success shadow-success border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                     <p style="color: black;"><strong>Monthly Bases</strong></p>
                 </div>
             </div>
@@ -83,7 +83,7 @@
     <div class="row mb-4">
         @php
             $monthlyColorClasses = [
-                'bg-gradient-warning',
+                'bg-gradient-success',
             ];
         @endphp
 
@@ -91,7 +91,7 @@
             <div class="card">
                 <div class="test1 card-header p-3">
                     <div class="d-flex align-items-center">
-                        <div class=" icon icon-lg icon-shape bg-gradient-warning shadow-dark text-center border-radius-xl position-relative">
+                        <div class=" icon icon-lg icon-shape bg-gradient-success shadow-dark text-center border-radius-xl position-relative">
                             <i class="material-icons" style="color:white">account_balance_wallet</i> <!-- Monthly Profit -->
                         </div>
                         <div class=" text-end ms-3 text-center flex-grow-1"> <!-- Center alignment -->
