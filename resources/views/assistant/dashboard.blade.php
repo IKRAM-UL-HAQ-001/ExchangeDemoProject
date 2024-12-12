@@ -5,7 +5,7 @@
     <div class="row mb-4">
         <div class="col-12">
             <div class="card-header p-0 position-relative mb-3">
-                <div class="bg-gradient-warning shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+                <div class="bg-gradient-success  border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                     <h5 class="text-white mb-3"><strong>Daily Bases</strong></h5>
                 </div>
             </div>
@@ -17,7 +17,7 @@
             <div class="card">
                 <div class="test1 card-header p-3">
                     <div class="d-flex align-items-center">
-                        <div class="icon icon-lg icon-shape bg-gradient-warning shadow-dark text-center border-radius-xl position-relative">
+                        <div class="icon icon-lg icon-shape bg-gradient-success shadow-dark text-center border-radius-xl position-relative">
                             <i class="material-icons opacity-10">attach_money</i>
                         </div>
                         <div class="text-center flex-grow-1 ms-3">
@@ -32,7 +32,7 @@
 
         @php
             $colorClasses = [
-                'bg-gradient-warning',
+                'bg-gradient-success',
             ];
         @endphp
 
@@ -90,7 +90,7 @@
     <div class="row mb-4">
         <div class="col-12">
             <div class="card-header p-0 position-relative mb-3">
-                <div class="bg-gradient-warning shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+                <div class="bg-gradient-success shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                     <h5 class="text-white mb-3"><strong>Monthly Bases</strong></h5>
                 </div>
             </div>
@@ -102,7 +102,7 @@
             <div class="card">
                 <div class="test1 card-header p-3">
                     <div class="d-flex align-items-center">
-                        <div class="icon icon-lg icon-shape bg-gradient-warning shadow-dark text-center border-radius-xl position-relative">
+                        <div class="icon icon-lg icon-shape bg-gradient-success shadow-dark text-center border-radius-xl position-relative">
                             <i class="material-icons opacity-10">attach_money</i>
                         </div>
                         <div class="text-center flex-grow-1 ms-3">
