@@ -85,7 +85,7 @@
                         <input type="date" class="form-control border px-3" id="edate" name="end_date" required
                             value="{{ \Carbon\Carbon::today()->toDateString() }}">
                     </div>
-                    <button type="submit" class="btn btn-warning">
+                    <button type="submit" class="btn btn-success">
                         Generate File
                     </button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -116,7 +116,7 @@
                         <input type="date" class="form-control border px-3" id="edate" name="end_date" required
                             value="{{ \Carbon\Carbon::today()->toDateString() }}">
                     </div>
-                    <button type="submit" class="btn btn-warning"> Generate File </button>
+                    <button type="submit" class="btn btn-success"> Generate File </button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </form>
 

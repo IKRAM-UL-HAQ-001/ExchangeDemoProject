@@ -68,7 +68,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeModalButton">Close</button>
-                            <button type="button" class="btn btn-scuccess" id="submitOwnerProfit">Submit</button>
+                            <button type="button" class="btn btn-success" id="submitOwnerProfit">Submit</button>
                         </div>
                     </form>
                 </div>
