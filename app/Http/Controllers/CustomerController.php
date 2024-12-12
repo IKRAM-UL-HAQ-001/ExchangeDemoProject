@@ -34,11 +34,11 @@ class CustomerController extends Controller
         $customerRecords = Customer::whereBetween('created_at', [$startOfWeek, $endOfWeek])
         ->orderBy('created_at', 'desc')->get();
 
-        return view("admin.customer.list", compact('customerRecords'))
-            ->withHeaders([
-                'X-Frame-Options' => 'DENY', // Prevents framing
-                // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            ]);
+        return view("admin.customer.list", compact('customerRecords'));
+            // ->withHeaders([
+            //     'X-Frame-Options' => 'DENY', // Prevents framing
+            //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            // ]);
     }
 
 
@@ -46,11 +46,11 @@ class CustomerController extends Controller
     {
         // Check if the user is authenticated
         if (!auth()->check()) {
-            return response()->json(['message' => 'Unauthorized'], 401)
-                ->withHeaders([
-                    'X-Frame-Options' => 'DENY', // Prevents framing
-                    // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                ]);
+            return response()->json(['message' => 'Unauthorized'], 401);
+                // ->withHeaders([
+                //     'X-Frame-Options' => 'DENY', // Prevents framing
+                //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                // ]);
         }
 
         $user = Auth::user();
@@ -76,17 +76,17 @@ class CustomerController extends Controller
             ]);
 
             // Return a JSON response
-            return response()->json(['message' => 'Customer added successfully!'], 201)
-                ->withHeaders([
-                    'X-Frame-Options' => 'DENY', // Prevents framing
-                    // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                ]);
+            return response()->json(['message' => 'Customer added successfully!'], 201);
+                // ->withHeaders([
+                //     'X-Frame-Options' => 'DENY', // Prevents framing
+                //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                // ]);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Error adding customer: ' . $e->getMessage()], 500)
-                ->withHeaders([
-                    'X-Frame-Options' => 'DENY', // Prevents framing
-                    // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                ]);
+            return response()->json(['message' => 'Error adding customer: ' . $e->getMessage()], 500);
+                // ->withHeaders([
+                //     'X-Frame-Options' => 'DENY', // Prevents framing
+                //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                // ]);
         }
     }
 
@@ -125,11 +125,11 @@ class CustomerController extends Controller
             ->where('user_id', $user->id)
             ->get();
 
-        return view("exchange.customer.list", compact('customerRecords'))
-            ->withHeaders([
-                'X-Frame-Options' => 'DENY', // Prevents framing
-                // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            ]);
+        return view("exchange.customer.list", compact('customerRecords'));
+            // ->withHeaders([
+            //     'X-Frame-Options' => 'DENY', // Prevents framing
+            //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            // ]);
     }
 
 }

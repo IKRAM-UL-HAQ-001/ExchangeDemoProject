@@ -32,10 +32,11 @@ class WithdrawalController extends Controller
     public function index()
     {
         if (!auth()->check()) {
-            return redirect()->route('auth.login')->withHeaders([
-                'X-Frame-Options' => 'DENY', // Prevents framing
-                // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            ]);
+            return redirect()->route('auth.login');
+            // ->withHeaders([
+            //     'X-Frame-Options' => 'DENY', // Prevents framing
+            //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            // ]);
         }
         
         $startOfWeek = Carbon::now()->startOfWeek();
@@ -49,9 +50,10 @@ class WithdrawalController extends Controller
             ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
             ->get();
             
-        return response()->view('exchange.withdrawal.list', compact('withdrawalRecords'))->withHeaders([
-            'X-Frame-Options' => 'DENY', // Prevents framing
-            // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-        ]);
+        return response()->view('exchange.withdrawal.list', compact('withdrawalRecords'));
+        // ->withHeaders([
+        //     'X-Frame-Options' => 'DENY', // Prevents framing
+        //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+        // ]);
     }    
 }

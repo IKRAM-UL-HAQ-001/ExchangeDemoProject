@@ -28,11 +28,11 @@ class DepositWithdrawalController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('admin.deposit_withdrawal.list', compact('depositWithdrawalRecords'))
-            ->withHeaders([
-                'X-Frame-Options' => 'DENY', // Prevents framing
-                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            ]);
+        return view('admin.deposit_withdrawal.list', compact('depositWithdrawalRecords'));
+            // ->withHeaders([
+            //     'X-Frame-Options' => 'DENY', // Prevents framing
+            //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            // ]);
     }
 
     public function assistantIndex()
@@ -48,11 +48,11 @@ class DepositWithdrawalController extends Controller
             ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
             ->get();
 
-        return view('assistant.deposit_withdrawal.list', compact('depositWithdrawalRecords'))
-            ->withHeaders([
-                'X-Frame-Options' => 'DENY', // Prevents framing
-                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            ]);
+        return view('assistant.deposit_withdrawal.list', compact('depositWithdrawalRecords'));
+            // ->withHeaders([
+            //     'X-Frame-Options' => 'DENY', // Prevents framing
+            //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            // ]);
     }
 
 
@@ -65,18 +65,18 @@ class DepositWithdrawalController extends Controller
         $depositWithdarwal = Cash::find($request->id);
         if ($depositWithdarwal) {
             $depositWithdarwal->delete();
-            return response()->json(['success' => true, 'message' => 'Deposit/Withdrawal deleted successfully!'])
-                ->withHeaders([
-                    'X-Frame-Options' => 'DENY', // Prevents framing
-                    'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                ]);
+            return response()->json(['success' => true, 'message' => 'Deposit/Withdrawal deleted successfully!']);
+                // ->withHeaders([
+                //     'X-Frame-Options' => 'DENY', // Prevents framing
+                //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                // ]);
         }
 
-        return response()->json(['success' => false, 'message' => 'Deposit/Withdrawal not found.'], 404)
-            ->withHeaders([
-                'X-Frame-Options' => 'DENY', // Prevents framing
-                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            ]);
+        return response()->json(['success' => false, 'message' => 'Deposit/Withdrawal not found.'], 404);
+            // ->withHeaders([
+            //     'X-Frame-Options' => 'DENY', // Prevents framing
+            //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            // ]);
     }
 
 }

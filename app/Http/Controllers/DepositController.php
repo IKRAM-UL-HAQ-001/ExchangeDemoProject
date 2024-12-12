@@ -43,11 +43,11 @@ class DepositController extends Controller
             ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
             ->get();
 
-        return view('exchange.deposit.list', compact('depositRecords'))
-            ->withHeaders([
-                'X-Frame-Options' => 'DENY', // Prevents framing
-                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            ]);
+        return view('exchange.deposit.list', compact('depositRecords'));
+            // ->withHeaders([
+            //     'X-Frame-Options' => 'DENY', // Prevents framing
+            //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            // ]);
     }
 
 

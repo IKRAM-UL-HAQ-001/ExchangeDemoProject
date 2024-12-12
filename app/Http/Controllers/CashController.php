@@ -18,21 +18,21 @@ class CashController extends Controller
         $exchangeId = $user->exchange_id;
         $cashRecords = Cash::where('exchange_id', $exchangeId)->get();
 
-        return view('exchange.cash.list', compact('cashRecords'))
-            ->withHeaders([
-                'X-Frame-Options' => 'DENY', // Prevents framing
-                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            ]);
+        return view('exchange.cash.list', compact('cashRecords'));
+            // ->withHeaders([
+            //     'X-Frame-Options' => 'DENY', // Prevents framing
+            //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            // ]);
     }
 
     public function store(Request $request)
     {
         if (!auth()->check()) {
-            return response()->json(['success' => false, 'message' => 'User not authenticated.'], 401)
-                ->withHeaders([
-                    'X-Frame-Options' => 'DENY', // Prevents framing
-                    'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                ]);
+            return response()->json(['success' => false, 'message' => 'User not authenticated.'], 401);
+                // ->withHeaders([
+                //     'X-Frame-Options' => 'DENY', // Prevents framing
+                //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                // ]);
         }
         $validatedData = $request->validate([
             'reference_number' => 'nullable|string|max:255|unique:cashes,reference_number',
@@ -58,17 +58,17 @@ class CashController extends Controller
                 'exchange_id' => $user->exchange_id,
             ]);
 
-            return response()->json(['success' => true, 'message' => 'Transaction successfully added!'], 201)
-                ->withHeaders([
-                    'X-Frame-Options' => 'DENY', // Prevents framing
-                    'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                ]);
+            return response()->json(['success' => true, 'message' => 'Transaction successfully added!'], 201);
+                // ->withHeaders([
+                //     'X-Frame-Options' => 'DENY', // Prevents framing
+                //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                // ]);
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Something went wrong: ' . $e->getMessage()], 500)
-                ->withHeaders([
-                    'X-Frame-Options' => 'DENY', // Prevents framing
-                    'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                ]);
+            return response()->json(['success' => false, 'message' => 'Something went wrong: ' . $e->getMessage()], 500);
+                // ->withHeaders([
+                //     'X-Frame-Options' => 'DENY', // Prevents framing
+                //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                // ]);
         }
     }
 
@@ -81,17 +81,17 @@ class CashController extends Controller
         $cash = Cash::find($request->id);
         if ($cash) {
             $cash->delete();
-            return response()->json(['success' => true, 'message' => 'Cash deleted successfully!'])
-                ->withHeaders([
-                    'X-Frame-Options' => 'DENY', // Prevents framing
-                    'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                ]);
+            return response()->json(['success' => true, 'message' => 'Cash deleted successfully!']);
+                // ->withHeaders([
+                //     'X-Frame-Options' => 'DENY', // Prevents framing
+                //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                // ]);
         }
 
-        return response()->json(['success' => false, 'message' => 'Cash not found.'], 404)
-            ->withHeaders([
-                'X-Frame-Options' => 'DENY', // Prevents framing
-                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            ]);
+        return response()->json(['success' => false, 'message' => 'Cash not found.'], 404);
+            // ->withHeaders([
+            //     'X-Frame-Options' => 'DENY', // Prevents framing
+            //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            // ]);
     }
 }

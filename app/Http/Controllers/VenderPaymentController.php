@@ -14,10 +14,11 @@ class VenderPaymentController extends Controller
     public function venderPaymentExportExcel(Request $request)
     {
         if (!auth()->check()) {
-            return redirect()->route('auth.login')->withHeaders([
-                'X-Frame-Options' => 'DENY', // Prevents framing
-                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            ]);
+            return redirect()->route('auth.login');
+            // ->withHeaders([
+            //     'X-Frame-Options' => 'DENY', // Prevents framing
+            //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            // ]);
         } else {
             return Excel::download(new VenderPaymentListExport(), 'venderPaymentRecord.xlsx');
         }
@@ -29,19 +30,21 @@ class VenderPaymentController extends Controller
         $endOfYear = Carbon::now()->endOfYear();
         $venderPaymentRecords = VenderPayment::whereBetween('created_at', [$startOfYear, $endOfYear])
         ->orderBy('created_at', 'desc')->get();
-        return response()->view('admin.vender_payment.list', compact('venderPaymentRecords'))->withHeaders([
-            'X-Frame-Options' => 'DENY', // Prevents framing
-            // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-        ]);
+        return response()->view('admin.vender_payment.list', compact('venderPaymentRecords'));
+        // ->withHeaders([
+        //     'X-Frame-Options' => 'DENY', // Prevents framing
+        //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+        // ]);
     }
     
     public function store(Request $request)
     {
         if (!auth()->check()) {
-            return response()->json(['message' => 'Unauthorized'], 401)->withHeaders([
-                'X-Frame-Options' => 'DENY', // Prevents framing
-                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            ]);
+            return response()->json(['message' => 'Unauthorized'], 401);
+            // ->withHeaders([
+            //     'X-Frame-Options' => 'DENY', // Prevents framing
+            //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            // ]);
         } else {
             $validatedData = $request->validate([
                 'paid_amount' => 'required|numeric',
@@ -60,15 +63,17 @@ class VenderPaymentController extends Controller
                 ]);
     
                 // Return a JSON response
-                return response()->json(['message' => 'Vender Payment added successfully!', 'data' => $venderPayment], 201)->withHeaders([
-                    'X-Frame-Options' => 'DENY', // Prevents framing
-                    'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                ]);
+                return response()->json(['message' => 'Vender Payment added successfully!', 'data' => $venderPayment], 201);
+                // ->withHeaders([
+                //     'X-Frame-Options' => 'DENY', // Prevents framing
+                //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                // ]);
             } catch (\Exception $e) {
-                return response()->json(['message' => 'Error adding vender payment: ' . $e->getMessage()], 500)->withHeaders([
-                    'X-Frame-Options' => 'DENY', // Prevents framing
-                    'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                ]);
+                return response()->json(['message' => 'Error adding vender payment: ' . $e->getMessage()], 500);
+                // ->withHeaders([
+                //     'X-Frame-Options' => 'DENY', // Prevents framing
+                //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                // ]);
             }
         }
     }
@@ -76,23 +81,26 @@ class VenderPaymentController extends Controller
     public function destroy(Request $request)
     {
         if (!auth()->check()) {
-            return redirect()->route('auth.login')->withHeaders([
-                'X-Frame-Options' => 'DENY', // Prevents framing
-                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            ]);
+            return redirect()->route('auth.login');
+            // ->withHeaders([
+            //     'X-Frame-Options' => 'DENY', // Prevents framing
+            //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            // ]);
         } else {
             $venderPayment = VenderPayment::find($request->id);
             if ($venderPayment) {
                 $venderPayment->delete();
-                return response()->json(['success' => true, 'message' => 'Vender payment deleted successfully!'])->withHeaders([
-                    'X-Frame-Options' => 'DENY', // Prevents framing
-                    'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                ]);
+                return response()->json(['success' => true, 'message' => 'Vender payment deleted successfully!']);
+                // ->withHeaders([
+                //     'X-Frame-Options' => 'DENY', // Prevents framing
+                //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                // ]);
             }
-            return response()->json(['success' => false, 'message' => 'Vender payment not found.'], 404)->withHeaders([
-                'X-Frame-Options' => 'DENY', // Prevents framing
-                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            ]);
+            return response()->json(['success' => false, 'message' => 'Vender payment not found.'], 404);
+            // ->withHeaders([
+            //     'X-Frame-Options' => 'DENY', // Prevents framing
+            //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            // ]);
         }
     }    
 }

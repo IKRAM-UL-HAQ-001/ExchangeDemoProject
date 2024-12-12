@@ -13,31 +13,35 @@ class ReportController extends Controller
     public function exchangeIndex()
     {
         if (!auth()->check()) {
-            return redirect()->route('auth.login')->withHeaders([
-                'X-Frame-Options' => 'DENY', // Prevents framing
-                // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            ]);
+            return redirect()->route('auth.login');
+            // ->withHeaders([
+            //     'X-Frame-Options' => 'DENY', // Prevents framing
+            //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            // ]);
         } else {
-            return response()->view("exchange.report.list")->withHeaders([
-                'X-Frame-Options' => 'DENY', // Prevents framing
-                // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            ]);
+            return response()->view("exchange.report.list");
+            // ->withHeaders([
+            //     'X-Frame-Options' => 'DENY', // Prevents framing
+            //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            // ]);
         }
     }
 
     public function index()
     {
         if (!auth()->check()) {
-            return redirect()->route('auth.login')->withHeaders([
-                'X-Frame-Options' => 'DENY', // Prevents framing
-                // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            ]);
+            return redirect()->route('auth.login');
+            // ->withHeaders([
+            //     'X-Frame-Options' => 'DENY', // Prevents framing
+            //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            // ]);
         } else {
             $exchangeRecords = Exchange::all();
-            return response()->view('admin.report.list', compact('exchangeRecords'))->withHeaders([
-                'X-Frame-Options' => 'DENY', // Prevents framing
-                // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            ]);
+            return response()->view('admin.report.list', compact('exchangeRecords'));
+            // ->withHeaders([
+            //     'X-Frame-Options' => 'DENY', // Prevents framing
+            //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            // ]);
         }
     }
 
@@ -46,10 +50,11 @@ class ReportController extends Controller
         try {
             // Ensure the user is authenticated
             if (!auth()->check()) {
-                return response()->json(['error' => 'Unauthorized'], 401)->withHeaders([
-                    'X-Frame-Options' => 'DENY', // Prevents framing
-                    // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                ]);
+                return response()->json(['error' => 'Unauthorized'], 401);
+                // ->withHeaders([
+                //     'X-Frame-Options' => 'DENY', // Prevents framing
+                //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                // ]);
             }
 
             $validated = $request->validate([
@@ -106,13 +111,15 @@ class ReportController extends Controller
                     'end' => $validated['end_date'],
                 ],
             ];
-            return response()->json($response, 200)->withHeaders([
-                'X-Frame-Options' => 'DENY', // Prevents framing
-            ]);
+            return response()->json($response, 200);
+            // ->withHeaders([
+            //     'X-Frame-Options' => 'DENY', // Prevents framing
+            // ]);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to generate report. Please try again later.'], 500)->withHeaders([
-                'X-Frame-Options' => 'DENY', // Prevents framing
-            ]);
+            return response()->json(['error' => 'Failed to generate report. Please try again later.'], 500);
+            // ->withHeaders([
+            //     'X-Frame-Options' => 'DENY', // Prevents framing
+            // ]);
         }
     }
 
@@ -120,10 +127,11 @@ class ReportController extends Controller
     {
         try {
             if (!auth()->check()) {
-                return response()->json(['error' => 'Unauthorized'], 401)->withHeaders([
-                    'X-Frame-Options' => 'DENY', // Prevents framing
-                    // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                ]);
+                return response()->json(['error' => 'Unauthorized'], 401);
+                // ->withHeaders([
+                //     'X-Frame-Options' => 'DENY', // Prevents framing
+                //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                // ]);
             }
 
             $validated = $request->validate([
@@ -173,17 +181,19 @@ class ReportController extends Controller
                 ],
             ];
 
-            return response()->json($response, 200)->withHeaders([
-                'X-Frame-Options' => 'DENY', // Prevents framing
-                // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            ]);
+            return response()->json($response, 200);
+            // ->withHeaders([
+            //     'X-Frame-Options' => 'DENY', // Prevents framing
+            //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            // ]);
         } catch (\Exception $e) {
             
             // Return a generic error message
-            return response()->json(['error' => 'Failed to generate report. Please try again later.'], 500)->withHeaders([
-                'X-Frame-Options' => 'DENY', // Prevents framing
-                // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            ]);
+            return response()->json(['error' => 'Failed to generate report. Please try again later.'], 500);
+            // ->withHeaders([
+            //     'X-Frame-Options' => 'DENY', // Prevents framing
+            //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            // ]);
         }
     }  
 }

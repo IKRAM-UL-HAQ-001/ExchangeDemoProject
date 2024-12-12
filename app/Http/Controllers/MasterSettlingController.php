@@ -15,10 +15,11 @@ class MasterSettlingController extends Controller
     public function masterSettlingListMonthlyExportExcel(Request $request)
     {
         if (!auth()->check()) {
-            return redirect()->route('auth.login')->withHeaders([
-                'X-Frame-Options' => 'DENY', // Prevents framing
-                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            ]);
+            return redirect()->route('auth.login');
+            //->withHeaders([
+            //     'X-Frame-Options' => 'DENY', // Prevents framing
+            //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            // ]);
         } else {
             if (Auth::user()->role == "admin" || Auth::user()->role == "assistant") {
                 $exchangeId = null;
@@ -32,10 +33,11 @@ class MasterSettlingController extends Controller
     public function masterSettlingListWeeklyExportExcel(Request $request)
     {
         if (!auth()->check()) {
-            return redirect()->route('auth.login')->withHeaders([
-                'X-Frame-Options' => 'DENY', // Prevents framing
-                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            ]);
+            return redirect()->route('auth.login');
+            // ->withHeaders([
+            //     'X-Frame-Options' => 'DENY', // Prevents framing
+            //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            // ]);
         } else {
             if (Auth::user()->role == "admin" || Auth::user()->role == "assistant") {
                 $exchangeId = null;
@@ -49,11 +51,11 @@ class MasterSettlingController extends Controller
     public function index()
     {
         if (!auth()->check()) {
-            return redirect()->route('auth.login')
-            ->withHeaders([
-                'X-Frame-Options' => 'DENY',
-                // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            ]);
+            return redirect()->route('auth.login');
+            // ->withHeaders([
+            //     'X-Frame-Options' => 'DENY',
+            //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            // ]);
         } else {
             $startOfYear = Carbon::now()->startOfYear();
             $endOfYear = Carbon::now()->endOfYear();
@@ -63,21 +65,22 @@ class MasterSettlingController extends Controller
                 ->get();
     
             return response()
-                ->view("admin.master_settling.list", compact('masterSettlingRecords'))
-                ->withHeaders([
-                    'X-Frame-Options' => 'DENY', // Prevents framing
-                    // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                ]);
+                ->view("admin.master_settling.list", compact('masterSettlingRecords'));
+                // ->withHeaders([
+                //     'X-Frame-Options' => 'DENY', // Prevents framing
+                //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                // ]);
         }
     }
     
     public function indexAssistant()
     {
         if (!auth()->check()) {
-            return redirect()->route('auth.login')->withHeaders([
-                'X-Frame-Options' => 'DENY', // Prevents framing
-                // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            ]);
+            return redirect()->route('auth.login');
+            // ->withHeaders([
+            //     'X-Frame-Options' => 'DENY', // Prevents framing
+            //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            // ]);
         } else {
             $startOfYear = Carbon::now()->startOfYear();
             $endOfYear = Carbon::now()->endOfYear();
@@ -86,21 +89,22 @@ class MasterSettlingController extends Controller
                 ->get();
     
             return response()
-                ->view("assistant.master_settling.list", compact('masterSettlingRecords'))
-                ->withHeaders([
-                    'X-Frame-Options' => 'DENY', // Prevents framing
-                    // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                ]);
+                ->view("assistant.master_settling.list", compact('masterSettlingRecords'));
+                // ->withHeaders([
+                //     'X-Frame-Options' => 'DENY', // Prevents framing
+                //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                // ]);
         }
     }
     
     public function exchangeIndex()
     {
         if (!auth()->check()) {
-            return redirect()->route('auth.login')->withHeaders([
-                'X-Frame-Options' => 'DENY', // Prevents framing
-                // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            ]);
+            return redirect()->route('auth.login');
+            // ->withHeaders([
+            //     'X-Frame-Options' => 'DENY', // Prevents framing
+            //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            // ]);
         } else {
             $exchangeId = auth()->user()->exchange_id; 
             $userId = auth()->user()->id;
@@ -110,11 +114,11 @@ class MasterSettlingController extends Controller
                 ->get();
     
             return response()
-                ->view("exchange.master_settling.list", compact('masterSettlingRecords'))
-                ->withHeaders([
-                    'X-Frame-Options' => 'DENY', // Prevents framing
-                    // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                ]);
+                ->view("exchange.master_settling.list", compact('masterSettlingRecords'));
+                // ->withHeaders([
+                //     'X-Frame-Options' => 'DENY', // Prevents framing
+                //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                // ]);
         }
     }
     
@@ -122,11 +126,11 @@ class MasterSettlingController extends Controller
     {
         // Check if the user is authenticated
         if (!auth()->check()) {
-            return response()->json(['error' => 'You need to be logged in to perform this action.'], 401)
-                ->withHeaders([
-                    'X-Frame-Options' => 'DENY', // Prevents framing
-                    'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                ]);
+            return response()->json(['error' => 'You need to be logged in to perform this action.'], 401);
+                // ->withHeaders([
+                //     'X-Frame-Options' => 'DENY', // Prevents framing
+                //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                // ]);
         } else {
             $validatedData = $request->validate([
                 'white_label' => 'nullable|string|max:255',
@@ -145,17 +149,17 @@ class MasterSettlingController extends Controller
                     'exchange_id' => $exchangeId,
                     'user_id' => $userId,
                 ]);
-                return response()->json(['success' => true, 'message' => 'Master Settling saved successfully!'])
-                    ->withHeaders([
-                        'X-Frame-Options' => 'DENY', // Prevents framing
-                        'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                    ]);
+                return response()->json(['success' => true, 'message' => 'Master Settling saved successfully!']);
+                    // ->withHeaders([
+                    //     'X-Frame-Options' => 'DENY', // Prevents framing
+                    //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                    // ]);
             } catch (\Exception $e) {
-                return response()->json(['success' => false, 'message' => 'An error occurred: ' . $e->getMessage()], 500)
-                    ->withHeaders([
-                        'X-Frame-Options' => 'DENY', // Prevents framing
-                        'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                    ]);
+                return response()->json(['success' => false, 'message' => 'An error occurred: ' . $e->getMessage()], 500);
+                    // ->withHeaders([
+                    //     'X-Frame-Options' => 'DENY', // Prevents framing
+                    //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                    // ]);
             }
         }
     }
@@ -176,42 +180,43 @@ class MasterSettlingController extends Controller
             $masterSettling->settling_point = $request->settling_point;
             $masterSettling->price = $request->price;
             $masterSettling->save();
-            return response()->json(['success' => true, 'message' => 'Master Settling updated successfully!'])
-                ->withHeaders([
-                    'X-Frame-Options' => 'DENY', // Prevents framing
-                    'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                ]);
+            return response()->json(['success' => true, 'message' => 'Master Settling updated successfully!']);
+                // ->withHeaders([
+                //     'X-Frame-Options' => 'DENY', // Prevents framing
+                //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                // ]);
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => 'An error occurred: ' . $e->getMessage()], 500)
-                ->withHeaders([
-                    'X-Frame-Options' => 'DENY', // Prevents framing
-                    'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                ]);
+            return response()->json(['success' => false, 'message' => 'An error occurred: ' . $e->getMessage()], 500);
+                // ->withHeaders([
+                //     'X-Frame-Options' => 'DENY', // Prevents framing
+                //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                // ]);
         }
     }
     
     public function destroy(Request $request)
     {
         if (!auth()->check()) {
-            return redirect()->route('auth.login')->withHeaders([
-                'X-Frame-Options' => 'DENY', // Prevents framing
-                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            ]);
+            return redirect()->route('auth.login');
+            // ->withHeaders([
+            //     'X-Frame-Options' => 'DENY', // Prevents framing
+            //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            // ]);
         } else {
             $masterSettling = MasterSettling::find($request->id);
             if ($masterSettling) {
                 $masterSettling->delete();
-                return response()->json(['success' => true, 'message' => 'Master Settling deleted successfully!'])
-                    ->withHeaders([
-                        'X-Frame-Options' => 'DENY', // Prevents framing
-                        'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                    ]);
+                return response()->json(['success' => true, 'message' => 'Master Settling deleted successfully!']);
+                    // ->withHeaders([
+                    //     'X-Frame-Options' => 'DENY', // Prevents framing
+                    //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                    // ]);
             }
-            return response()->json(['success' => false, 'message' => 'Master Settling not found.'], 404)
-                ->withHeaders([
-                    'X-Frame-Options' => 'DENY', // Prevents framing
-                    'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                ]);
+            return response()->json(['success' => false, 'message' => 'Master Settling not found.'], 404);
+                // ->withHeaders([
+                //     'X-Frame-Options' => 'DENY', // Prevents framing
+                //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                // ]);
         }
     }    
 }

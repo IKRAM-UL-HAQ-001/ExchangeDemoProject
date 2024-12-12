@@ -185,13 +185,13 @@ class ExchangeController extends Controller
             $exchange = Exchange::find($request->id);
             if ($exchange) {
                 $exchange->delete();
-                return response()->json(['success' => true, 'message' => 'Exchange deleted successfully!'])
-                    ->withHeaders([
-                        'X-Frame-Options' => 'DENY', // Prevents framing
-                        'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                    ]);
+                return response()->json(['success' => true, 'message' => 'Exchange deleted successfully!']);
+                    // ->withHeaders([
+                    //     'X-Frame-Options' => 'DENY', // Prevents framing
+                    //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                    // ]);
             }
-            return response()->json(['success' => false, 'message' => 'Exchange not found.'], 404)
+            return response()->json(['success' => false, 'message' => 'Exchange not found.'], 404);
                 // ->withHeaders([
                 //     'X-Frame-Options' => 'DENY', // Prevents framing
                 //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"

@@ -63,12 +63,12 @@ class LoginController extends Controller
                     ]);
             }
         }
-        return response()->view('auth.login')
-            ->header('X-Frame-Options', 'DENY') // Prevents framing
-            ->header('Content-Security-Policy', "frame-ancestors 'self'") // Allows framing only from the same origin
-            ->withErrors([
-                'name' => 'The provided credentials do not match our records.',
-            ])->withInput($request->only('name'));
+        return response()->view('auth.login');
+            // ->header('X-Frame-Options', 'DENY') // Prevents framing
+            // ->header('Content-Security-Policy', "frame-ancestors 'self'") // Allows framing only from the same origin
+            // ->withErrors([
+            //     'name' => 'The provided credentials do not match our records.',
+            // ])->withInput($request->only('name'));
         }
     }
     
@@ -121,15 +121,15 @@ class LoginController extends Controller
                     $user->save();
                     
                     // Return response with security headers
-                    return response()->json(['message' => 'Password updated successfully.'])
-                        ->header('X-Frame-Options', 'DENY') // Prevents framing
-                        ->header('Content-Security-Policy', "frame-ancestors 'self'"); // Allows framing only from the same origin
+                    return response()->json(['message' => 'Password updated successfully.']);
+                        // ->header('X-Frame-Options', 'DENY') // Prevents framing
+                        // ->header('Content-Security-Policy', "frame-ancestors 'self'"); // Allows framing only from the same origin
                 }
             }
         }
-        return response()->json(['message' => 'You are not eligible to perform this action.'], 422)
-            ->header('X-Frame-Options', 'DENY') // Prevents framing
-            ->header('Content-Security-Policy', "frame-ancestors 'self'");
+        return response()->json(['message' => 'You are not eligible to perform this action.'], 422);
+            // ->header('X-Frame-Options', 'DENY') // Prevents framing
+            // ->header('Content-Security-Policy', "frame-ancestors 'self'");
     }
     
     public function destroy(Auth $auth)
@@ -143,11 +143,11 @@ class LoginController extends Controller
             return redirect()->route('auth.login');
         } elseif (auth()->check()) {
             Auth::logout();
-            return redirect()->route('auth.login')
-                ->withHeaders([
-                    'X-Frame-Options' => 'DENY', // Prevents framing
-                    'Content-Security-Policy' => "frame-ancestors 'self'", // Allows framing only from the same origin
-                ]);
+            return redirect()->route('auth.login');
+                // ->withHeaders([
+                //     'X-Frame-Options' => 'DENY', // Prevents framing
+                //     'Content-Security-Policy' => "frame-ancestors 'self'", // Allows framing only from the same origin
+                // ]);
         }
     }
 
@@ -157,11 +157,11 @@ class LoginController extends Controller
         Auth::logout();
         $this->invalidateAllSessions();
         
-        return redirect()->route('auth.login')->with('status', 'All users have been logged out.')
-            ->withHeaders([
-                'X-Frame-Options' => 'DENY', // Prevents framing
-                // 'Content-Security-Policy' => "frame-ancestors 'self'", // Allows framing only from the same origin
-            ]);
+        return redirect()->route('auth.login')->with('status', 'All users have been logged out.');
+            // ->withHeaders([
+            //     'X-Frame-Options' => 'DENY', // Prevents framing
+            //     // 'Content-Security-Policy' => "frame-ancestors 'self'", // Allows framing only from the same origin
+            // ]);
     }
 
     protected function invalidateAllSessions()
