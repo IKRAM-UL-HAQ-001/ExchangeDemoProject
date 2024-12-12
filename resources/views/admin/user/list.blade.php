@@ -119,7 +119,7 @@ function addUser() {
     const exchange = $('#exchange').val();
 
     $.ajax({
-        url: '/admin/user/post',
+        url: '{{route(admin.user.post)}}',
         method: 'POST',
         data: {
             _token: '{{ csrf_token() }}',
@@ -131,7 +131,7 @@ function addUser() {
             if (response.success) {
                 alert('User added successfully');
                 $('#addUserModal').modal('hide');
-                window.location.reload();
+                location.reload(); // Correct way to reload the page
             }
         },
         error: function(response) {
@@ -147,7 +147,7 @@ function deleteUser(button) {
         const userId = row.data('user-id');
 
         $.ajax({
-            url: '/admin/user/delete',
+            url: '{{route(admin.user.destroy)}}',
             method: 'POST',
             data: {
                 _token: '{{ csrf_token() }}',
