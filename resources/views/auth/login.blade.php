@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
     <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
     <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
-    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
     <meta name="google-site-verification" content="dyeHS1jvPA6amUut6GVo-n5SoCdgjTEw4LZzb3-u774" />
@@ -95,7 +94,7 @@
             exchangeDropdown.style.display = (userRole === 'exchange') ? 'block' : 'none';
         }
     </script>
-<script>
+{{-- <script>
     // Disable right-click menu to prevent context menu inspection
     document.addEventListener('contextmenu', event => event.preventDefault());
 
@@ -117,18 +116,18 @@
     });
 
     // Detect if DevTools is open by observing console.log changes
-    (function() {
-        const element = new Image();
-        Object.defineProperty(element, 'id', {
-            get() {
-                // Optionally reload or redirect to another page if DevTools is detected
-                alert("Developer tools are open! Please close them to continue.");
-                document.location.reload(); // Reload the page
-            }
-        });
-        console.log(element);
-    })();
-</script>
+    // (function() {
+    //     const element = new Image();
+    //     Object.defineProperty(element, 'id', {
+    //         get() {
+    //             // Optionally reload or redirect to another page if DevTools is detected
+    //             alert("Developer tools are open! Please close them to continue.");
+    //             document.location.reload(); // Reload the page
+    //         }
+    //     });
+    //     console.log(element);
+    // })();
+</script> --}}
 
 </body>
 </html>
