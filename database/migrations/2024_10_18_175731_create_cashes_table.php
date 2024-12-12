@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('reference_number')->nullable()->unique();
             $table->string('customer_name')->nullable();
+            $table->string('customer_Phone')->nullable();
             $table->integer('cash_amount');
             $table->string('cash_type');
             $table->integer('bonus_amount')->nullable();
