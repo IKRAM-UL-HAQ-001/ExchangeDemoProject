@@ -151,7 +151,7 @@ function deleteUser(button) {
             method: 'POST',
             data: {
                 _token: '{{ csrf_token() }}',
-                userId: userId
+                id: userId
             },
             success: function(response) {
                 if (response.success) {
