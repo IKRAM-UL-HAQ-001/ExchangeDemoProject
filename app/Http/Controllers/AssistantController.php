@@ -120,9 +120,9 @@ class AssistantController extends Controller
                 'totalDepositDaily', 'totalWithdrawalDaily', 'totalExpenseDaily', 'totalBonusDaily', 
                 'totalOldCustomersDaily', 'totalOwnerProfitDaily', 'totalCustomerDaily', 
                 'totalBankBalance', 'totalOpenCloseBalanceDaily'
-            ))
+            ));
             // ->header('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;")
-            ->header('X-Frame-Options', 'DENY');        
+            // ->header('X-Frame-Options', 'DENY');        
         }   
     }
 }

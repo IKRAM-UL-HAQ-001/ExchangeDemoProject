@@ -38,9 +38,9 @@ class BankBalanceController extends Controller
                 ->get();
             
             return response()
-                ->view("admin.bank_balance.list", compact('bankBalanceRecords'))
+                ->view("admin.bank_balance.list", compact('bankBalanceRecords'));
                 // ->header('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;")
-                ->header('X-Frame-Options', 'DENY'); // Prevent framing of the page
+                // ->header('X-Frame-Options', 'DENY'); // Prevent framing of the page
         }
     }
 
@@ -56,9 +56,9 @@ class BankBalanceController extends Controller
                 ->get();
             
             return response()
-                ->view("assistant.bank_balance.list", compact('bankBalanceRecords'))
+                ->view("assistant.bank_balance.list", compact('bankBalanceRecords'));
                 // ->header('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;")
-                ->header('X-Frame-Options', 'DENY'); // Prevent framing of the page
+                // ->header('X-Frame-Options', 'DENY'); // Prevent framing of the page
         }
     }
 
@@ -115,17 +115,17 @@ class BankBalanceController extends Controller
             $bankBalance = BankEntry::find($request->id);
             if ($bankBalance) {
                 $bankBalance->delete();
-                return response()->json(['success' => true, 'message' => 'Bank Balance deleted successfully!'])
-                ->withHeaders([
-                    'X-Frame-Options' => 'DENY', // Prevents framing
-                    'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                ]);
+                return response()->json(['success' => true, 'message' => 'Bank Balance deleted successfully!']);
+                // ->withHeaders([
+                //     'X-Frame-Options' => 'DENY', // Prevents framing
+                //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                // ]);
             }
-            return response()->json(['success' => false, 'message' => 'Bank Balance not found.'], 404)
-            ->withHeaders([
-                'X-Frame-Options' => 'DENY', // Prevents framing
-                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            ]);
+            return response()->json(['success' => false, 'message' => 'Bank Balance not found.'], 404);
+            // ->withHeaders([
+            //     'X-Frame-Options' => 'DENY', // Prevents framing
+            //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            // ]);
         }
     }
 }

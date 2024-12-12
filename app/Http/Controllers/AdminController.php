@@ -127,10 +127,9 @@ class AdminController extends Controller
                 'totalBankBalance', 'totalOpenCloseBalanceDaily', 'totalPaidAmountDaily'
             );
             return response()
-            ->view('admin.dashboard', $viewData)
+            ->view('admin.dashboard', $viewData);
             // ->header('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;")
-            ->header('X-Frame-Options', 'DENY');
+            // ->header('X-Frame-Options', 'DENY');
         }   
-    }    
-
+    }
 }

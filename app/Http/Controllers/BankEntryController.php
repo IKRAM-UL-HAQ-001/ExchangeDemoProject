@@ -20,11 +20,11 @@ class BankEntryController extends Controller
             $bankEntryRecords = BankEntry::where('exchange_id', $exchangeId)->get();
             $bankRecords = Bank::all();
             
-            return view('exchange.bank.list', compact('bankEntryRecords', 'bankRecords'))
-                ->withHeaders([
-                    'X-Frame-Options' => 'DENY', // Prevents framing
-                    // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                ]);
+            return view('exchange.bank.list', compact('bankEntryRecords', 'bankRecords'));
+                // ->withHeaders([
+                //     'X-Frame-Options' => 'DENY', // Prevents framing
+                //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                // ]);
         }    
     }
 
@@ -35,11 +35,11 @@ class BankEntryController extends Controller
         } else {
             $bankRecords = Bank::all();
             
-            return view("exchange.bank.list", compact('bankRecords'))
-                ->withHeaders([
-                    'X-Frame-Options' => 'DENY', // Prevents framing
-                    'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                ]);
+            return view("exchange.bank.list", compact('bankRecords'));
+                // ->withHeaders([
+                //     'X-Frame-Options' => 'DENY', // Prevents framing
+                //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                // ]);
         }
     }
 
@@ -71,18 +71,18 @@ class BankEntryController extends Controller
                     'user_id' => $user->id,
                 ]);
 
-                return response()->json(['message' => 'Bank Entry Data saved successfully!', 'data' => $bankEntry], 201)
-                    ->withHeaders([
-                        'X-Frame-Options' => 'DENY', // Prevents framing
-                        'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                    ]);
+                return response()->json(['message' => 'Bank Entry Data saved successfully!', 'data' => $bankEntry], 201);
+                    // ->withHeaders([
+                    //     'X-Frame-Options' => 'DENY', // Prevents framing
+                    //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                    // ]);
             }
         } catch (\Exception $e) {
-            return response()->json(['message' => 'An error occurred while saving Bank Entry Data: ' . $e->getMessage()], 500)
-                ->withHeaders([
-                    'X-Frame-Options' => 'DENY', // Prevents framing
-                    'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                ]);
+            return response()->json(['message' => 'An error occurred while saving Bank Entry Data: ' . $e->getMessage()], 500);
+                // ->withHeaders([
+                //     'X-Frame-Options' => 'DENY', // Prevents framing
+                //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                // ]);
         }
     }
 
@@ -94,10 +94,10 @@ class BankEntryController extends Controller
             ->selectRaw('SUM(CASE WHEN cash_type = "add" THEN cash_amount WHEN cash_type = "minus" THEN -cash_amount END) as balance')
             ->value('balance');
 
-        return response()->json(['balance' => $sumBalance ?? 0])
-            ->withHeaders([
-                'X-Frame-Options' => 'DENY', // Prevents framing
-                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            ]);
+        return response()->json(['balance' => $sumBalance ?? 0]);
+            // ->withHeaders([
+            //     'X-Frame-Options' => 'DENY', // Prevents framing
+            //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            // ]);
     }
 }
