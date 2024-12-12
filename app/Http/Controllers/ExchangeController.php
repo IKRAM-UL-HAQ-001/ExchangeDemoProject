@@ -135,11 +135,7 @@ class ExchangeController extends Controller
                     
                     'totalBalanceMonthly', 'totalDepositMonthly', 'totalWithdrawalMonthly', 'totalExpenseMonthly',
                     'totalMasterSettlingMonthly', 'totalBonusMonthly', 'customerCountMonthly', 'totalNewCustomerMonthly',
-                    'totalOwnerProfitMonthly'))
-                ->withHeaders([
-                    'X-Frame-Options' => 'DENY', // Prevents framing
-                    // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                ]);
+                    'totalOwnerProfitMonthly'));
         }
     }
 
@@ -151,10 +147,6 @@ class ExchangeController extends Controller
             $exchangeRecords = Exchange::orderBy('created_at', 'desc')->get();
             return response()
                 ->view("admin.exchange.list", compact('exchangeRecords'));
-                // ->withHeaders([
-                //     'X-Frame-Options' => 'DENY', // Prevents framing
-                //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                // ]);
         }
     }
 
@@ -170,10 +162,6 @@ class ExchangeController extends Controller
                 'name' => $request->name
             ]);
             return response()->json(['message' => 'Exchange added successfully!'], 201);
-                // ->withHeaders([
-                //     'X-Frame-Options' => 'DENY', // Prevents framing
-                //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                // ]);
         }
     }
 
@@ -186,16 +174,8 @@ class ExchangeController extends Controller
             if ($exchange) {
                 $exchange->delete();
                 return response()->json(['success' => true, 'message' => 'Exchange deleted successfully!']);
-                    // ->withHeaders([
-                    //     'X-Frame-Options' => 'DENY', // Prevents framing
-                    //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                    // ]);
             }
             return response()->json(['success' => false, 'message' => 'Exchange not found.'], 404);
-                // ->withHeaders([
-                //     'X-Frame-Options' => 'DENY', // Prevents framing
-                //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                // ]);
         }
     }
 }

@@ -16,10 +16,6 @@ class OpenCloseBalanceController extends Controller
     {
         if (!auth()->check()) {
             return redirect()->route('auth.login');
-            // ->withHeaders([
-            //     'X-Frame-Options' => 'DENY', // Prevents framing
-            //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            // ]);
         } else {
             if (Auth::user()->role == "admin" || Auth::user()->role == "assistant") {
                 $exchangeId = null;
@@ -50,10 +46,6 @@ class OpenCloseBalanceController extends Controller
     
         return response()
             ->view('exchange.open_close_balance.list', compact("openingClosingBalanceRecords"));
-            // ->withHeaders([
-            //     'X-Frame-Options' => 'DENY', // Prevents framing
-            //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            // ]);
     }
     
     public function assistantIndex()
@@ -63,20 +55,12 @@ class OpenCloseBalanceController extends Controller
     
         return response()
             ->view('assistant.open_close_balance.list', compact("openingClosingBalanceRecords"));
-            // ->withHeaders([
-            //     'X-Frame-Options' => 'DENY', // Prevents framing
-            //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            // ]);
     }
     
     public function store(Request $request)
     {
         if (!auth()->check()) {
             return response()->json(['message' => 'Unauthorized'], 401);
-                // ->withHeaders([
-                //     'X-Frame-Options' => 'DENY', // Prevents framing
-                //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                // ]);
         } else {
             $user = Auth::user();
             $exchangeId = $user->exchange_id;  
@@ -95,16 +79,8 @@ class OpenCloseBalanceController extends Controller
                 ]);
     
                 return response()->json(['success' => true, 'message' => 'Opening Closing Balance saved successfully!']);
-                    // ->withHeaders([
-                    //     'X-Frame-Options' => 'DENY', // Prevents framing
-                    //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                    // ]);
             } catch (\Exception $e) {
                 return response()->json(['success' => false, 'message' => 'An error occurred: ' . $e->getMessage()], 500);
-                    // ->withHeaders([
-                    //     'X-Frame-Options' => 'DENY', // Prevents framing
-                    //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                    // ]);
             }
         }
     }
@@ -113,25 +89,13 @@ class OpenCloseBalanceController extends Controller
     {
         if (!auth()->check()) {
             return redirect()->route('auth.login');
-            // ->withHeaders([
-            //     'X-Frame-Options' => 'DENY', // Prevents framing
-            //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            // ]);
         } else {
             $openCloseBalance = OpenCloseBalance::find($request->id);
             if ($openCloseBalance) {
                 $openCloseBalance->delete();
                 return response()->json(['success' => true, 'message' => 'Opening closing balance deleted successfully!']);
-                    // ->withHeaders([
-                    //     'X-Frame-Options' => 'DENY', // Prevents framing
-                    //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                    // ]);
             }
             return response()->json(['success' => false, 'message' => 'Opening closing balance not found.'], 404);
-                // ->withHeaders([
-                //     'X-Frame-Options' => 'DENY', // Prevents framing
-                //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                // ]);
         }
     }    
 }

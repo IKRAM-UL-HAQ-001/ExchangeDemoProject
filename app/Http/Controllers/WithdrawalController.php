@@ -33,10 +33,6 @@ class WithdrawalController extends Controller
     {
         if (!auth()->check()) {
             return redirect()->route('auth.login');
-            // ->withHeaders([
-            //     'X-Frame-Options' => 'DENY', // Prevents framing
-            //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            // ]);
         }
         
         $startOfWeek = Carbon::now()->startOfWeek();
@@ -51,9 +47,5 @@ class WithdrawalController extends Controller
             ->get();
             
         return response()->view('exchange.withdrawal.list', compact('withdrawalRecords'));
-        // ->withHeaders([
-        //     'X-Frame-Options' => 'DENY', // Prevents framing
-        //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-        // ]);
     }    
 }

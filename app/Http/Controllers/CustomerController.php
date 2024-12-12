@@ -35,10 +35,6 @@ class CustomerController extends Controller
         ->orderBy('created_at', 'desc')->get();
 
         return view("admin.customer.list", compact('customerRecords'));
-            // ->withHeaders([
-            //     'X-Frame-Options' => 'DENY', // Prevents framing
-            //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            // ]);
     }
 
 
@@ -47,10 +43,6 @@ class CustomerController extends Controller
         // Check if the user is authenticated
         if (!auth()->check()) {
             return response()->json(['message' => 'Unauthorized'], 401);
-                // ->withHeaders([
-                //     'X-Frame-Options' => 'DENY', // Prevents framing
-                //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                // ]);
         }
 
         $user = Auth::user();
@@ -74,19 +66,9 @@ class CustomerController extends Controller
                 'exchange_id' => $exchangeId,
                 'user_id' => $userId,
             ]);
-
-            // Return a JSON response
             return response()->json(['message' => 'Customer added successfully!'], 201);
-                // ->withHeaders([
-                //     'X-Frame-Options' => 'DENY', // Prevents framing
-                //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                // ]);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Error adding customer: ' . $e->getMessage()], 500);
-                // ->withHeaders([
-                //     'X-Frame-Options' => 'DENY', // Prevents framing
-                //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                // ]);
         }
     }
 
@@ -101,17 +83,9 @@ class CustomerController extends Controller
         if ($customer) {
             $customer->delete();
             return response()->json(['success' => true, 'message' => 'Customer deleted successfully!']);
-                // ->withHeaders([
-                //     'X-Frame-Options' => 'DENY', // Prevents framing
-                //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                // ]);
         }
     
         return response()->json(['success' => false, 'message' => 'Customer not found.'], 404);
-            // ->withHeaders([
-            //     'X-Frame-Options' => 'DENY', // Prevents framing
-            //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            // ]);
     }
     
     public function exchangeIndex()
@@ -126,10 +100,6 @@ class CustomerController extends Controller
             ->get();
 
         return view("exchange.customer.list", compact('customerRecords'));
-            // ->withHeaders([
-            //     'X-Frame-Options' => 'DENY', // Prevents framing
-            //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            // ]);
     }
 
 }

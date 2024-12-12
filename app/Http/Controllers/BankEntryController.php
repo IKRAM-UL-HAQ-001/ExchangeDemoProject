@@ -8,9 +8,7 @@ use Illuminate\Http\Request;
 use Auth;
 class BankEntryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         if (!auth()->check()) {
@@ -21,10 +19,6 @@ class BankEntryController extends Controller
             $bankRecords = Bank::all();
             
             return view('exchange.bank.list', compact('bankEntryRecords', 'bankRecords'));
-                // ->withHeaders([
-                //     'X-Frame-Options' => 'DENY', // Prevents framing
-                //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                // ]);
         }    
     }
 
@@ -36,10 +30,6 @@ class BankEntryController extends Controller
             $bankRecords = Bank::all();
             
             return view("exchange.bank.list", compact('bankRecords'));
-                // ->withHeaders([
-                //     'X-Frame-Options' => 'DENY', // Prevents framing
-                //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                // ]);
         }
     }
 
@@ -70,19 +60,10 @@ class BankEntryController extends Controller
                     'exchange_id' => $user->exchange_id,
                     'user_id' => $user->id,
                 ]);
-
                 return response()->json(['message' => 'Bank Entry Data saved successfully!', 'data' => $bankEntry], 201);
-                    // ->withHeaders([
-                    //     'X-Frame-Options' => 'DENY', // Prevents framing
-                    //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                    // ]);
             }
         } catch (\Exception $e) {
             return response()->json(['message' => 'An error occurred while saving Bank Entry Data: ' . $e->getMessage()], 500);
-                // ->withHeaders([
-                //     'X-Frame-Options' => 'DENY', // Prevents framing
-                //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                // ]);
         }
     }
 
@@ -93,11 +74,6 @@ class BankEntryController extends Controller
         $sumBalance = BankEntry::where('bank_name', $request->bank_name)
             ->selectRaw('SUM(CASE WHEN cash_type = "add" THEN cash_amount WHEN cash_type = "minus" THEN -cash_amount END) as balance')
             ->value('balance');
-
         return response()->json(['balance' => $sumBalance ?? 0]);
-            // ->withHeaders([
-            //     'X-Frame-Options' => 'DENY', // Prevents framing
-            //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            // ]);
     }
 }

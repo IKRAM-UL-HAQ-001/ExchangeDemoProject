@@ -25,10 +25,6 @@ class BankController extends Controller
         } else {
             $bankRecords = Bank::orderBy('created_at', 'desc')->get();
             return view("admin.bank.list", compact('bankRecords'));
-                // ->withHeaders([
-                //     'X-Frame-Options' => 'DENY', // Prevents framing
-                //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                // ]);
         }
     }
 
@@ -45,10 +41,6 @@ class BankController extends Controller
                 'name' => $request->name
             ]);
             return response()->json(['message' => 'Bank added successfully!'], 201);
-                // ->withHeaders([
-                //     'X-Frame-Options' => 'DENY', // Prevents framing
-                //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                // ]);
         }
     }
 
@@ -61,16 +53,8 @@ class BankController extends Controller
             if ($bank) {
                 $bank->delete();
                 return response()->json(['success' => true, 'message' => 'Bank deleted successfully!']);
-                    // ->withHeaders([
-                    //     'X-Frame-Options' => 'DENY', // Prevents framing
-                    //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                    // ]);
             }
             return response()->json(['success' => false, 'message' => 'Bank not found.'], 404);
-                // ->withHeaders([
-                //     'X-Frame-Options' => 'DENY', // Prevents framing
-                //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                // ]);
         }
     }
 

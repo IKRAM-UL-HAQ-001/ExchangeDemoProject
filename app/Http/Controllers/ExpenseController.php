@@ -40,10 +40,6 @@ class ExpenseController extends Controller
     
             return response()
                 ->view('admin.expense.list', compact('expenseRecords'));
-                // ->withHeaders([
-                //     'X-Frame-Options' => 'DENY', // Prevents framing
-                //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                // ]);
         }
     }
     
@@ -60,10 +56,6 @@ class ExpenseController extends Controller
     
             return response()
                 ->view('assistant.expense.list', compact('expenseRecords'));
-                // ->withHeaders([
-                //     'X-Frame-Options' => 'DENY', // Prevents framing
-                //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                // ]);
         }
     }
     
@@ -76,16 +68,8 @@ class ExpenseController extends Controller
             if ($expense) {
                 $expense->delete();
                 return response()->json(['success' => true, 'message' => 'Expense deleted successfully!']);
-                    // ->withHeaders([
-                    //     'X-Frame-Options' => 'DENY', // Prevents framing
-                    //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                    // ]);
             }
             return response()->json(['success' => false, 'message' => 'Expense not found.'], 404);
-                // ->withHeaders([
-                //     'X-Frame-Options' => 'DENY', // Prevents framing
-                //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                // ]);
         }
     }
     
@@ -105,10 +89,6 @@ class ExpenseController extends Controller
     
             return response()
                 ->view('exchange.expense.list', compact('expenseRecords'));
-                // ->withHeaders([
-                //     'X-Frame-Options' => 'DENY', // Prevents framing
-                //     // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                // ]);
         }
     }    
 }

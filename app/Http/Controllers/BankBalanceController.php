@@ -39,8 +39,6 @@ class BankBalanceController extends Controller
             
             return response()
                 ->view("admin.bank_balance.list", compact('bankBalanceRecords'));
-                // ->header('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;")
-                // ->header('X-Frame-Options', 'DENY'); // Prevent framing of the page
         }
     }
 
@@ -57,8 +55,6 @@ class BankBalanceController extends Controller
             
             return response()
                 ->view("assistant.bank_balance.list", compact('bankBalanceRecords'));
-                // ->header('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;")
-                // ->header('X-Frame-Options', 'DENY'); // Prevent framing of the page
         }
     }
 
@@ -103,9 +99,6 @@ class BankBalanceController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Request $request)
     {
         if (!auth()->check()) {
@@ -116,16 +109,8 @@ class BankBalanceController extends Controller
             if ($bankBalance) {
                 $bankBalance->delete();
                 return response()->json(['success' => true, 'message' => 'Bank Balance deleted successfully!']);
-                // ->withHeaders([
-                //     'X-Frame-Options' => 'DENY', // Prevents framing
-                //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                // ]);
             }
             return response()->json(['success' => false, 'message' => 'Bank Balance not found.'], 404);
-            // ->withHeaders([
-            //     'X-Frame-Options' => 'DENY', // Prevents framing
-            //     'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            // ]);
         }
     }
 }
