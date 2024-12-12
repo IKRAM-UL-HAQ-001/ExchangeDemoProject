@@ -86,7 +86,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-warning" onclick="addUser()">Save User</button>
+                    <button type="button" class="btn btn-success" onclick="addUser()">Save User</button>
                 </div>
             </div>
         </div>
