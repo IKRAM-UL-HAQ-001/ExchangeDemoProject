@@ -94,40 +94,5 @@
             exchangeDropdown.style.display = (userRole === 'exchange') ? 'block' : 'none';
         }
     </script>
-{{-- <script>
-    // Disable right-click menu to prevent context menu inspection
-    document.addEventListener('contextmenu', event => event.preventDefault());
-
-    // Disable key combinations commonly used for developer tools and source access
-    document.addEventListener('keydown', function(event) {
-        if (
-            event.key === 'F12' || // F12 to open DevTools
-            (event.ctrlKey && event.shiftKey && event.key === 'I') || // Ctrl+Shift+I
-            (event.ctrlKey && event.shiftKey && event.key === 'J') || // Ctrl+Shift+J
-            (event.ctrlKey && event.shiftKey && event.key === 'C') || // Ctrl+Shift+C
-            (event.ctrlKey && event.shiftKey && event.key === 'Z') || // Ctrl+Shift+Z
-            (event.ctrlKey && event.key === 'U') || // Ctrl+U (View Source)
-            (event.ctrlKey && event.key === 'S') || // Ctrl+S (Save Page)
-            (event.metaKey && event.altKey && event.key === 'I') || // Cmd+Alt+I (Mac DevTools)
-            (event.key === 'F11') // F11 (Fullscreen which could be used for inspection)
-        ) {
-            event.preventDefault();
-        }
-    });
-
-    // Detect if DevTools is open by observing console.log changes
-    // (function() {
-    //     const element = new Image();
-    //     Object.defineProperty(element, 'id', {
-    //         get() {
-    //             // Optionally reload or redirect to another page if DevTools is detected
-    //             alert("Developer tools are open! Please close them to continue.");
-    //             document.location.reload(); // Reload the page
-    //         }
-    //     });
-    //     console.log(element);
-    // })();
-</script> --}}
-
 </body>
 </html>

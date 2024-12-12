@@ -11,6 +11,7 @@
     </title>
     
     <!-- Customized Meta Description -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description" content="testing this">
     <meta name="google-site-verification" content="dyeHS1jvPA6amUut6GVo-n5SoCdgjTEw4LZzb3-u774" />
     <!-- Fonts and Icons -->
