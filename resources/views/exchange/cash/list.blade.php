@@ -189,6 +189,7 @@
         // Hide all optional fields by default
         $('#reference_number').hide();
         $('#customer_name').hide();
+        $('#customer_phone').hide();
         $('#bonus-amount-field').hide();
         $('#payment-type-field').hide();
         $('#remarks').hide();
@@ -198,6 +199,7 @@
         if (cashType === 'deposit') {
             $('#reference_number').show();
             $('#customer_name').show();
+            $('#customer_phone').show();
             $('#bonus-amount-field').show();
             $('#payment-type-field').show();
         } else if (cashType === 'withdrawal') {
