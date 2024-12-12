@@ -97,6 +97,14 @@
                                 @enderror
                             </div>
 
+                            <div class="form-group" id="customer_phone" style="display: none;">
+                                <label class="form-label" for="customer_phone">Customer Phone Number<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control border" name="customer_phone" placeholder="Enter Customer Phone Number">
+                                @error('customer_phone')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
                             <div class="form-group" id="cash_amount">
                                 <label for="cash_amount" class="form-label">Amount<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control border" name="cash_amount" placeholder="Enter Cash Amount" required>
@@ -144,7 +152,7 @@
                         <div class="form-group row mb-3 col-lg-12 mt-2 ">
                             <div class="col-lg-12 ml-auto pt-3 d-flex flex-row gap-3 justify-content-end">
                                 <button type="button" class=" btn btn-dark" data-bs-dismiss="modal" aria-label="Close" id="closeModalButton">Close</button>
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" class="btn btn-success">Submit</button>
                             </div>
                         </div>
                     </form>
