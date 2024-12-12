@@ -119,7 +119,7 @@ function addUser() {
     const exchange = $('#exchange').val();
 
     $.ajax({
-        url: '{{route(admin.user.post)}}',
+        url: '{{route("admin.user.post")}}',
         method: 'POST',
         data: {
             _token: '{{ csrf_token() }}',
@@ -147,7 +147,7 @@ function deleteUser(button) {
         const userId = row.data('user-id');
 
         $.ajax({
-            url: '{{route(admin.user.destroy)}}',
+            url: '{{route("admin.user.destroy")}}',
             method: 'POST',
             data: {
                 _token: '{{ csrf_token() }}',
