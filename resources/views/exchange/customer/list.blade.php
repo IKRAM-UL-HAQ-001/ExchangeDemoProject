@@ -85,7 +85,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeModalButton">Close</button>
-                            <button type="button" class="btn btn-primary" id="submitCustomerEntry">Submit</button>
+                            <button type="button" class="btn btn-success" id="submitCustomerEntry">Submit</button>
                         </div>
                     </form>
                 </div>

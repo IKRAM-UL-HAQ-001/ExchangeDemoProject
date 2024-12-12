@@ -137,7 +137,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeModalButton">Close</button>
-                                <button type="submit" class="btn btn-primary" id="submitBankEntry">Submit</button>
+                                <button type="submit" class="btn btn-success" id="submitBankEntry">Submit</button>
                             </div>
                         </form>
                     </div>
