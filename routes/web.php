@@ -42,7 +42,7 @@ Route::get('/export-venderPayment', [VenderPaymentController::class, 'venderPaym
 Route::get('/export-openCloseBalance', [OpenCloseBalanceController::class, 'openCloseBalanceExportExcel'])->name('export.openCloseBalance');
 Route::get('/export-customer', [CustomerController::class, 'customerExportExcel'])->name('export.customer');
 
-Route::group(['middleware' => ['admin']], function () {
+// Route::group(['middleware' => ['admin']], function () {
 
     //download databsae
     Route::get('/admin/download', [DatabaseExportController::class, 'downloadDatabase'])->name('admin.confirm.download');
@@ -119,9 +119,9 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('/admin/openCloseBalance', [OpenCloseBalanceController::class, 'index'])->name('admin.open_close_balance.list');
     Route::post('/admin/openCloseBalance/destroy', [OpenCloseBalanceController::class, 'destroy'])->name('admin.open_close_balance.destroy');
 
-});
+// });
 
-Route::group(['middleware' => ['assistant']], function () {
+// Route::group(['middleware' => ['assistant']], function () {
     
     // assistant dashboard
     Route::get('/assistant', [AssistantController::class, 'index'])->name('assistant.dashboard');
@@ -140,11 +140,11 @@ Route::group(['middleware' => ['assistant']], function () {
 
     //open close Balance
     Route::get('/assistant/openCloseBalance', [OpenCloseBalanceController::class, 'assistantIndex'])->name('assistant.open_close_balance.list');
-});
+// });
 
 
 
-Route::group(['middleware' => ['exchange']], function () {
+// Route::group(['middleware' => ['exchange']], function () {
 
     //Exchange Dashboard
     Route::get('/exchange', [ExchangeController::class, 'index'])->name('exchange.dashboard');
@@ -187,4 +187,4 @@ Route::group(['middleware' => ['exchange']], function () {
     //open close balance
     Route::get('/exchange/openCloseBalance', [OpenCloseBalanceController::class, 'exchangeIndex'])->name('exchange.open_close_balance.list');
     Route::post('/exchange/openCloseBalance/post', [OpenCloseBalanceController::class, 'store'])->name('exchange.open_close_balance.store');
-});
+// });
