@@ -1,3 +1,14 @@
+<style>
+    @media (max-width: 468px) { /* Target screens smaller than 768px */
+        .btn {
+            font-size: 12px; /* Reduce font size */
+            padding: 5px 10px; /* Adjust padding */
+        }
+        .btn-danger {
+            margin:0  6px; /* Reduce spacing */
+        }
+    }
+</style>
 <div class=" border-radius-lg m-4" style="backgroud-color:bue;background-image: linear-gradient(195deg, #42424a 0%, #191919 100%);">
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true" style="">
         <div class="container-fluid d-flex justify-content-between " >
@@ -27,15 +38,17 @@
                 </ol>
             </nav>
             <ul class="navbar-nav align-items-center"> <!-- Removed justify-content-end -->
-                <li class="nav-item dropdown pe-2 d-flex align-items-center">
+                <li class="nav-item dropdown pe-2 d-flex align-items-center justify-content-center flex-wra">
                     @if(Auth::check())
                         @if(Auth::user()->role === "admin")
-                            <a href="javascript:void(0);" class="d-inline btn btn-danger mt-3" style="margin-right: 16px;" onclick="confirmLogout()">
-                                Logout ALL
+<div class="nav-item dropdown pe-2 d-flex align-items-center justify-content-center flex-wrap">
+                            <a href="javascript:void(0);" class="d-inline btn btn-danger mt-3" style="margin-right: 12px;" onclick="confirmLogout()">
+                                Logout All
                             </a>
-                            <a href="{{ route('admin.confirm.download')}}" class="d-inline btn btn-danger mt-3" style="margin-right: 16px;" onclick="confirmDownload()">
-                                Download DATABASE
+                            <a href="{{ route('admin.confirm.download')}}" class="d-inline btn btn-danger mt-3" style="margin-right: 12px;" onclick="confirmDownload()">
+                                DATABASE
                             </a>
+</div>
                         @endif
                     @endif
                     <a href="javascript:void(0);" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
