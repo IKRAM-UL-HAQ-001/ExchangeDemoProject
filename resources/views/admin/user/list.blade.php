@@ -86,7 +86,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-success" onclick="addUser()">Save User</button>
+                    <button type="submit" class="btn btn-success" onclick="addUser()">Save User</button>
                 </div>
             </div>
         </div>
@@ -129,7 +129,7 @@ function addUser() {
         },
         success: function(response) {
             if (response.success) {
-                alert('User added successfully');
+//                alert('User added successfully');
                 $('#addUserModal').modal('hide');
                 location.reload(); // Correct way to reload the page
             }
@@ -155,7 +155,7 @@ function deleteUser(button) {
             },
             success: function(response) {
                 if (response.success) {
-                    alert('User deleted successfully');
+                    //alert('User deleted successfully');
                     row.remove();
                 }
             },

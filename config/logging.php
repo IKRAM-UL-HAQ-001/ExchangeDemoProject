@@ -126,29 +126,6 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
-    'debug_hide' => [
-            '_ENV' => [
-                'APP_KEY',
-                'DB_PASSWORD',
-                'REDIS_PASSWORD',
-                'MAIL_PASSWORD',
-                'PUSHER_APP_KEY',
-                // Add other sensitive variables here
-            ],
-        '_SERVER' => [
-            'APP_KEY',
-            'DB_PASSWORD',
-            'REDIS_PASSWORD',
-            'MAIL_PASSWORD',
-            'PUSHER_APP_KEY',
-        ],
-        '_POST' => [
-            'password',
-            'password_confirmation',
-            // Hide sensitive fields submitted via POST requests
-        ],
-    ],
-
     ],
 
 ];

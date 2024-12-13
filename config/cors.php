@@ -21,13 +21,9 @@ return [
 
     'allowed_origins' => ['*'],
 
-    'allowed_origins' => ['https://frankexch.com/'],
-
-    'allowed_headers' => ['Content-Type', 'X-Requested-With'],
-
     'allowed_origins_patterns' => [],
 
-    // 'allowed_headers' => ['*'],
+    'allowed_headers' => ['*'],
 
     'exposed_headers' => [],
 
