@@ -43,7 +43,6 @@ class UserController extends Controller
                 'status' => 'inactive',
                 'role' => "exchange",
             ]);
-dd('ok');
             $exchangeName = Exchange::find($request->exchange)->name;
             return response()->json([
                 'message' => 'User added successfully!',
