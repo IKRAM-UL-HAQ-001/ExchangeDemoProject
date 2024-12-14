@@ -16,6 +16,7 @@ class BankEntryController extends Controller
             return redirect()->route('auth.login');
         } else {
             $exchangeId = Auth::user()->exchange_id;
+            $userId = Auth::user()->id;
             $bankEntryRecords = BankEntry::where('exchange_id', $exchangeId)
             ->where('user_id', $userId)->get();
             $bankRecords = Bank::all();
