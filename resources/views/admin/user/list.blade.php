@@ -70,6 +70,14 @@
                             <input type="text" class="form-control border px-3" id="name" placeholder="Enter User Name" required>
                         </div>
                         <div class="mb-3">
+                            <label for="type" class="form-label">User Type</label>
+                            <select class="form-select px-3" id="type" required>
+                                <option disabled selected> Select an exchange </option>
+                                <option value="deposit"> Deposit </option>
+                                <option value="withdrawal"> Withdrawal </option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
                             <input type="password" class="form-control border px-3" id="password" placeholder="Enter Password" required>
                         </div>
@@ -146,6 +154,7 @@ function addUser() {
         data: {
             _token: '{{ csrf_token() }}',
             name: name,
+            type: type,
             password: password,
             exchange: exchange
         },
@@ -202,32 +211,6 @@ $('#confirmDeleteButton').on('click', function() {
         });
     }
 });
-
-
-function eleteUser(button) {
-    if (confirm('Are you sure you want to delete this user?')) {
-        const row = $(button).closest('tr');
-        const userId = row.data('user-id');
-
-        $.ajax({
-            url: '{{route("admin.user.destroy")}}',
-            method: 'POST',
-            data: {
-                _token: '{{ csrf_token() }}',
-                id: userId
-            },
-            success: function(response) {
-                if (response.success) {
-                    //alert('User deleted successfully');
-                    row.remove();
-                }
-            },
-            error: function(response) {
-                alert('Error deleting user!');
-            }
-        });
-    }
-}
 
 function toggleStatus(checkbox) {
     const userId = $(checkbox).closest('form').find('input[name="userId"]').val();

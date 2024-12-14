@@ -17,7 +17,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = ['name', 'password', 'exchange_id', 'role'];
+    protected $fillable = ['name', 'type', 'password', 'exchange_id', 'role'];
 
     public function exchange()
     {

@@ -33,11 +33,13 @@ class UserController extends Controller
         else{
             $request->validate([
                 'name' => 'required|string|max:255',
+                'type' => 'required|string|max:255',
                 'password' => 'required|string|min:8',
                 'exchange' => 'required|exists:exchanges,id',
             ]);
             User::create([
                 'name' => $request->name,
+                'type' => $request->type,
                 'password' => Hash::make($request->password), 
                 'exchange_id' => $request->exchange,
                 'status' => 'inactive',
@@ -67,10 +69,12 @@ class UserController extends Controller
             $user = User::findOrFail($request->id);    
             $request->validate([
                 'name' => 'required|string|max:255',
+                'type' => 'required|string|max:255',
                 'exchange' => 'nullable|exists:exchanges,id',
                 'password' => 'nullable|string|min:8',
             ]);
             $user->name = $request->name;
+            $user->type = $request->type;
             $user->exchange_id = $request->exchange;
             if ($request->filled('password')) {
                 $user->password = bcrypt($request->password);
