@@ -202,7 +202,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-white {{ request()->is('exchange/bank/freez') ? 'active bg-gradient-success' : '' }}" href="{{ route('exchange.bank.freezbank') }}">
+                                    <a class="nav-link text-white {{ request()->routeIs('exchange.bank.freezbank') ? 'active bg-gradient-success' : '' }}" href="{{ route('exchange.bank.freezbank') }}">
                                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                             <i class="material-icons opacity-10">account_balance</i>
                                         </div>
