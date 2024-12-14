@@ -75,11 +75,6 @@
                                 <option value="bank_payment"> Bank Payment</option>
                                 <option value="master_payment"> Master Payment</option>
                                 <option value="general_expense"> General Expense</option>
-                                <option value="amazon_payment"> Amazon Payment</option>
-                                <option value="betbazar_payment"> Betbazar Payment</option>
-                                <option value="cricketstar_payment"> Cricketstar Payment</option>
-                                <option value="fastbet_payment"> Fastbet Payment</option>
-                                <option value="jadugar_payment"> Jadugar Payment</option>
                             </select>
                         </div>
                         <div class="mb-3">
