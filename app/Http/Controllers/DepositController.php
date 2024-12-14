@@ -43,6 +43,7 @@ class DepositController extends Controller
             ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
             ->get();
 
+
         return view('exchange.deposit.list', compact('depositRecords'));
     }
 

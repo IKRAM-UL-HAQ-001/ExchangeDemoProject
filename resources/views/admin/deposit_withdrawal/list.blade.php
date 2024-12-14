@@ -29,7 +29,6 @@
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Type</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Bonus</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Payment</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Remarks</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Balance</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Date and Time
                                         </th>
@@ -60,7 +59,6 @@
                                                 <td>{{ $depositWithdrawal->cash_type }}</td>
                                                 <td>{{ $depositWithdrawal->bonus_amount }}</td>
                                                 <td>{{ $depositWithdrawal->payment_type }}</td>
-                                                <td>{{ $depositWithdrawal->remarks }}</td>
                                                 <td>{{ number_format($balance, 2) }}</td>
                                                 <td>{{ $depositWithdrawal->created_at }}</td>
                                                 <td class="text-center">

@@ -18,8 +18,8 @@
                         <table id="expenseTable" class="table align-items-center mb-0 table-striped table-hover px-2">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Amount</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Type</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder">User</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Exchange</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Balance</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Created At</th>
                                 </tr>
@@ -124,7 +124,6 @@
     });
     const cashForm = $('#cashForm');
     cashForm.on('submit', function(e) {
-            e.preventDefault(); // Prevent default form submission
 
             $.ajax({
                 url: cashForm.attr('action'),
@@ -155,6 +154,7 @@
                     }, 2000);
                 }
             });
+            return false;
         });
 
         $('#closeModalButton').on('click', function() {

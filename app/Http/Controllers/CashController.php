@@ -27,6 +27,8 @@ class CashController extends Controller
         if (!auth()->check()) {
             return response()->json(['success' => false, 'message' => 'User not authenticated.'], 401);
         }
+
+        // dd($request->customer_phone);
         $validatedData = $request->validate([
             'reference_number' => 'nullable|string|max:255|unique:cashes,reference_number',
             'customer_name' => 'nullable|string|max:255|required_if:cash_type,deposit',
@@ -43,17 +45,17 @@ class CashController extends Controller
                 'reference_number' => $validatedData['reference_number'] ?? null,
                 'customer_name' => $validatedData['customer_name'] ?? null,
                 'cash_amount' => $validatedData['cash_amount'] ?? null,
-                'customer_phone' => $validatedData['customer_phone'] ?? null,
-                'cash_type' => $validatedData['cash_type'],
+                'customer_phone' => $validatedData['customer_phone']?? null,
+                'cash_type' => $validatedData['cash_type']?? null,
                 'bonus_amount' => $validatedData['bonus_amount'] ?? 0,
                 'payment_type' => $validatedData['payment_type'] ?? null,
                 'remarks' => $validatedData['remarks'] ?? null,
                 'user_id' => $user->id,
                 'exchange_id' => $user->exchange_id,
             ]);
-            return response()->json(['success' => true, 'message' => 'Transaction successfully added!'], 201);
+            return response()->json(['success' => true, 'message' => 'Transaction successfully added!'], 200);
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Something went wrong: ' . $e->getMessage()], 500);
+            return response()->json(['error' => false, 'message' => 'Something went wrong: ' . $e->getMessage()], 500);
         }
     }
 
@@ -69,6 +71,6 @@ class CashController extends Controller
             return response()->json(['success' => true, 'message' => 'Cash deleted successfully!']);
         }
 
-        return response()->json(['success' => false, 'message' => 'Cash not found.'], 404);
+        return response()->json(['error' => false, 'message' => 'Cash not found.'], 404);
     }
 }
