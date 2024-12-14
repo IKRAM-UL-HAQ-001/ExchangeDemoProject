@@ -68,19 +68,31 @@
                     <form id="cashForm" action="{{ route('exchange.cash.store') }}" method="post">
                         @csrf
                         <div class="row">
+                            @if(Auth::user()->role === "withdrawal")
                             <div class="form-group">
                                 <label class="form-label" for="cash_type">Cash Type<span class="text-danger">*</span></label>
                                 <select class="form-control border px-3" id="cash_type" name="cash_type" required>
                                     <option disabled selected>Choose Cash Type</option>
-                                    <option value="deposit" {{ old('cash_type') == 'deposit' ? 'selected' : '' }}>Deposit</option>
                                     <option value="withdrawal" {{ old('cash_type') == 'withdrawal' ? 'selected' : '' }}>Withdrawal</option>
-                                    <option value="expense" {{ old('cash_type') == 'expense' ? 'selected' : '' }}>Expense</option>
                                 </select>
                                 @error('cash_type')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-
+                            @endif
+                            @if(Auth::user()->role === "deposit")
+                            <div class="form-group">
+                                <label class="form-label" for="cash_type">Cash Type<span class="text-danger">*</span></label>
+                                <select class="form-control border px-3" id="cash_type" name="cash_type" required>
+                                    <option disabled selected>Choose Cash Type</option>
+                                    <option value="deposit" {{ old('cash_type') == 'deposit' ? 'selected' : '' }}>Deposit</option>
+                                    {{-- <option value="withdrawal" {{ old('cash_type') == 'withdrawal' ? 'selected' : '' }}>Withdrawal</option> --}}
+                                </select>
+                                @error('cash_type')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            @endif
                             <div class="form-group" id="reference_number" style="display: none;">
                                 <label class="form-label" for="reference_number">Reference Number<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control border" name="reference_number" placeholder="Enter Reference Number" >
