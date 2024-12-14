@@ -17,8 +17,6 @@ class LoginController extends Controller
     public function index()
     {
         $exchangeRecords = Exchange::all();
-
-        // Create the view response
         return view("auth.login", compact('exchangeRecords'));
     }
 

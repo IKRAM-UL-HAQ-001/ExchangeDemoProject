@@ -14,8 +14,10 @@ class CashController extends Controller
             return redirect()->route('auth.login');
         }
         $user = Auth::user();
+        $userId = $user->id;
         $exchangeId = $user->exchange_id;
-        $cashRecords = Cash::where('exchange_id', $exchangeId)->get();
+        $cashRecords = Cash::where('exchange_id', $exchangeId)
+        ->where('user_id', $userId)->get();
 
         return view('exchange.cash.list', compact('cashRecords'));
     }
@@ -28,21 +30,22 @@ class CashController extends Controller
         $validatedData = $request->validate([
             'reference_number' => 'nullable|string|max:255|unique:cashes,reference_number',
             'customer_name' => 'nullable|string|max:255|required_if:cash_type,deposit',
-            'cash_amount' => 'required|numeric',
+            'cash_amount' => 'nullable|numeric',
+            'customer_phone' => 'nullable|numeric',
             'cash_type' => 'required|in:deposit,withdrawal,expense',
             'bonus_amount' => 'nullable|numeric|required_if:cash_type,deposit',
             'payment_type' => 'nullable|string|required_if:cash_type,deposit',
-            'remarks' => 'nullable|string|max:255|required_if:cash_type,deposit|required_if:cash_type,withdraw',
+            'remarks' => 'nullable|string|max:255|',
         ]);
-
         try {
             $user = Auth::user();
             Cash::create([
                 'reference_number' => $validatedData['reference_number'] ?? null,
                 'customer_name' => $validatedData['customer_name'] ?? null,
-                'cash_amount' => $validatedData['cash_amount'],
+                'cash_amount' => $validatedData['cash_amount'] ?? null,
+                'customer_phone' => $validatedData['customer_phone'] ?? null,
                 'cash_type' => $validatedData['cash_type'],
-                'bonus_amount' => $validatedData['bonus_amount'] ?? null,
+                'bonus_amount' => $validatedData['bonus_amount'] ?? 0,
                 'payment_type' => $validatedData['payment_type'] ?? null,
                 'remarks' => $validatedData['remarks'] ?? null,
                 'user_id' => $user->id,
