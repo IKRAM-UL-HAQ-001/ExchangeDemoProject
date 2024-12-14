@@ -8,6 +8,7 @@
                     <div class="bg-gradient-success shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                         <p style="color: black;"><strong>Bank Balance Table (Weekly Bases)</strong></p>
                         <div>
+                            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addBankFreezModal">Freez Bank</button>
                             <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addBankModal">Bank Form</button>
                         </div>
                     </div>
@@ -84,6 +85,73 @@
             <div class="modal-content">
                 <div class="modal-header d-flex justify-content-between align-items-center">
                     <h5 class="modal-title" id="addBankModalLabel" style="color:white">Add Bank Balance</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-validation">
+                        <div class="alert alert-success text-white" id='success' style="display:none;">
+                            {{ session('success') }}
+                        </div>
+                        <div class="alert alert-danger text-white" id='error' style="display:none;">
+                            {{ session('error') }}
+                        </div>
+                        <form id="bankForm" method="post"action="{{route('exchange.bank.store')}}">
+                            @csrf
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="cash_type" class="form-label">Cash Type<span class="text-danger">*</span></label>
+                                    <select class="js-select2 form-control border" id="cash_type" name="cash_type" required>
+                                        <option disabled selected>Choose Cash Type</option>
+                                        <option value="add">Add</option>
+                                        <option value="minus">Minus</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="bank_name" class="form-label">Bank Name<span class="text-danger">*</span></label>
+                                    <select class="js-select2 form-control border" id="bank_name" name="bank_name" required>
+                                        <option disabled selected>Choose Bank Name</option>
+                                        @foreach($bankRecords as $bank)
+                                            <option value="{{ $bank->name }}">{{ $bank->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="bank_balance" class="form-label">Bank Balance</label>
+                                    <input type="text" class="form-control border" id="bank_balance" name="bank_balance" readonly>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="account_number" class="form-label">Account Number<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control border" id="account_number" name="account_number" placeholder="Enter Account Number" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="cash_amount" class="form-label">Cash Amount<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control border" id="cash_amount" name="cash_amount" placeholder="Enter Cash Amount" value="{{ old('cash_amount') }}" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="remarks" class="form-label">Remarks<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control border" id="remarks" name="remarks" placeholder="Enter Remarks" required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeModalButton">Close</button>
+                                <button type="submit" class="btn btn-success" id="submitBankEntry">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="addBankFreezModal" tabindex="-1" aria-labelledby="addBankFreezModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header d-flex justify-content-between align-items-center">
+                    <h5 class="modal-title" id="addBankFreezModalLabel" style="color:white">Add Bank Balance</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">

@@ -20,7 +20,9 @@
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder">User</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Exchange</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Balance</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Cash Amount</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Cash Type</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Total Balance</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Created At</th>
                                 </tr>
                             </thead>
