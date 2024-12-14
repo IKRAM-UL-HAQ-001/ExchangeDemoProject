@@ -85,100 +85,93 @@
                         </div>
                         <form id="cashForm" action="{{ route('exchange.cash.store') }}" method="post">
                             @csrf
-                            <div class="row">
-                                <!-- Column 1 -->
-                                <div class="col-md-6">
-                                    <div class="form-group" hidden>
-                                        <label class="form-label" for="cash_type">Cash Type<span
-                                                class="text-danger">*</span></label>
-                                        <select class="form-control border px-3" id="cash_type" name="cash_type" required>
-                                            <option value="deposit" readonly selected>Deposit</option>
-                                        </select>
-                                        @error('cash_type')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group" id="reference_number">
-                                        <label class="form-label" for="reference_number">Reference Number<span
-                                                class="text-danger">*</span></label>
-                                        <input type="text" class="form-control border" name="reference_number"
-                                            placeholder="Enter Reference Number">
-                                        @error('reference_number')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group" id="customer_name">
-                                        <label class="form-label" for="customer_name">Customer Name<span
-                                                class="text-danger">*</span></label>
-                                        <input type="text" class="form-control border" name="customer_name"
-                                            placeholder="Enter Customer Name">
-                                        @error('customer_name')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group" id="customer_phone">
-                                        <label class="form-label" for="customer_phone">Customer Phone Number<span
-                                                class="text-danger">*</span></label>
-                                        <input type="text" class="form-control border" name="customer_phone"
-                                            placeholder="Enter Customer Phone Number">
-                                        @error('customer_phone')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group" id="cash_amount">
-                                        <label for="cash_amount" class="form-label">Amount<span
-                                                class="text-danger">*</span></label>
-                                        <input type="text" class="form-control border" name="cash_amount"
-                                            placeholder="Enter Cash Amount" required>
-                                        @error('cash_amount')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group" id="bonus-amount-field">
-                                        <label class="form-label" for="bonus_amount">Bonus Amount <span
-                                                class="text-pink">(optional)</span></label>
-                                        <input type="text" class="form-control border" name="bonus_amount"
-                                            placeholder="Enter Bonus Amount if any">
-                                        @error('bonus_amount')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group" id="payment-type-field">
-                                <label class="form-label">Payment Type<span class="text-danger">*</span></label>
-                                <div class="row">
-                                    @foreach (['google_pay', 'phone_pay', 'imps', 'neft', 'i20_pay'] as $index => $payment)
-                                        <div class="col-md-4">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="payment_type"
-                                                    id="payment_{{ $payment }}" value="{{ $payment }}">
-                                                <label class="form-check-label" for="payment_{{ $payment }}">
-                                                    {{ ucfirst(str_replace('_', ' ', $payment)) }}
-                                                </label>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                                @error('payment_type')
+                            <div class="form-group" hidden>
+                                <label class="form-label" for="cash_type">Cash Type<span
+                                        class="text-danger">*</span></label>
+                                <select class="form-control border px-3" id="cash_type" name="cash_type" required>
+                                    <option value="deposit" readonly selected>Deposit</option>
+                                </select>
+                                @error('cash_type')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-                            <div class="form-group row mb-3 col-lg-12 mt-2 ">
-                                <div class="col-lg-12 ml-auto pt-3 d-flex flex-row gap-3 justify-content-end">
-                                    <button type="button" class=" btn btn-dark" data-bs-dismiss="modal"
-                                        aria-label="Close" id="closeModalButton">Close</button>
-                                    <button type="submit" class="btn btn-success">Submit</button>
-                                </div>
+                            <div class="form-group" id="reference_number">
+                                <label class="form-label" for="reference_number">Reference Number<span
+                                        class="text-danger">*</span></label>
+                                <input type="text" class="form-control border" name="reference_number"
+                                    placeholder="Enter Reference Number">
+                                @error('reference_number')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
-                        </form>
+                            <div class="form-group" id="customer_name">
+                                <label class="form-label" for="customer_name">Customer Name<span
+                                        class="text-danger">*</span></label>
+                                <input type="text" class="form-control border" name="customer_name"
+                                    placeholder="Enter Customer Name">
+                                @error('customer_name')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group" id="customer_phone">
+                                <label class="form-label" for="customer_phone">Customer Phone Number<span
+                                        class="text-danger">*</span></label>
+                                <input type="text" class="form-control border" name="customer_phone"
+                                    placeholder="Enter Customer Phone Number">
+                                @error('customer_phone')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group" id="cash_amount">
+                                <label for="cash_amount" class="form-label">Amount<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control border" name="cash_amount"
+                                    placeholder="Enter Cash Amount" required>
+                                @error('cash_amount')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group" id="bonus-amount-field">
+                                <label class="form-label" for="bonus_amount">Bonus Amount <span
+                                        class="text-pink">(optional)</span></label>
+                                <input type="text" class="form-control border" name="bonus_amount"
+                                    placeholder="Enter Bonus Amount if any">
+                                @error('bonus_amount')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
                     </div>
+
+                    <div class="form-group" id="payment-type-field">
+                        <label class="form-label">Payment Type<span class="text-danger">*</span></label>
+                        <div class="row">
+                            @foreach (['google_pay', 'phone_pay', 'imps', 'neft', 'i20_pay'] as $index => $payment)
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="payment_type"
+                                            id="payment_{{ $payment }}" value="{{ $payment }}">
+                                        <label class="form-check-label" for="payment_{{ $payment }}">
+                                            {{ ucfirst(str_replace('_', ' ', $payment)) }}
+                                        </label>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                        @error('payment_type')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group row mb-3 col-lg-12 mt-2 ">
+                        <div class="col-lg-12 ml-auto pt-3 d-flex flex-row gap-3 justify-content-end">
+                            <button type="button" class=" btn btn-dark" data-bs-dismiss="modal" aria-label="Close"
+                                id="closeModalButton">Close</button>
+                            <button type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                    </div>
+                    </form>
                 </div>
             </div>
         </div>
+    </div>
     </div>
     <div class="modal fade" id="exportdepositModal" tabindex="-1" aria-labelledby="exportdepositModalLabel"
         aria-hidden="true">
@@ -266,8 +259,8 @@
         });
 
         $('#closeModalButton').on('click', function() {
-        cashForm[0].reset();
-        location.reload();
+            cashForm[0].reset();
+            location.reload();
         });
     </script>
 @endsection
