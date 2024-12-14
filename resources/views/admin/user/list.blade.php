@@ -197,7 +197,7 @@ function toggleStatus(checkbox) {
         },
         success: function(response) {
             if (!response.success) {
-                alert('Error updating status.');
+                alert('status updated.');
             }
         },
         error: function() {
