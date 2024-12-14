@@ -185,16 +185,19 @@
                     </li>
                     @if(Auth::user()->role == "exchange" && session('bankUser') && session('bankUser')->user_id == Auth::id())
                     <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->is('exchange/bank*') ? 'active bg-gradient-success' : '' }}" href="#bankSubMenu" data-bs-toggle="collapse" aria-expanded="false">
+                        <a class="nav-link text-white {{ request()->is('exchange/bank*') ? 'active bg-gradient-success' : '' }}" 
+                           href="#bankSubMenu" data-bs-toggle="collapse" 
+                           aria-expanded="{{ request()->is('exchange/bank*') ? 'true' : 'false' }}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">account_balance</i>
                             </div>
                             <span class="nav-link-text ms-1">Bank List</span>
                         </a>
-                        <div class="collapse" id="bankSubMenu">
+                        <div class="collapse {{ request()->is('exchange/bank*') ? 'show' : '' }}" id="bankSubMenu">
                             <ul class="nav flex-column ms-3">
                                 <li class="nav-item">
-                                    <a class="nav-link text-white {{ request()->is('exchange/bank') ? 'active bg-gradient-success' : '' }}" href="{{ route('exchange.bank.list') }}">
+                                    <a class="nav-link text-white {{ request()->is('exchange/bank') ? 'active bg-gradient-success' : '' }}" 
+                                       href="{{ route('exchange.bank.list') }}">
                                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                             <i class="material-icons opacity-10">account_balance</i>
                                         </div>
@@ -202,7 +205,8 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-white {{ request()->routeIs('exchange.bank.freezbank') ? 'active bg-gradient-success' : '' }}" href="{{ route('exchange.bank.freezbank') }}">
+                                    <a class="nav-link text-white {{ request()->is('exchange/bank/freez*') ? 'active bg-gradient-success' : '' }}" 
+                                       href="{{ route('exchange.bank.freezbank') }}">
                                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                             <i class="material-icons opacity-10">account_balance</i>
                                         </div>
