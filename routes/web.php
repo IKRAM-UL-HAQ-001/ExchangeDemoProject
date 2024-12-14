@@ -156,6 +156,7 @@ Route::get('/export-customer', [CustomerController::class, 'customerExportExcel'
 
     //bank
     Route::get('/exchange/bank', [BankEntryController::class, 'index'])->name('exchange.bank.list');
+    Route::get('/exchange/bank/freez', [BankEntryController::class, 'freezBankIndex'])->name('exchange.bank.freezbank');
     Route::post('/exchange/bank/post', [BankEntryController::class, 'store'])->name('exchange.bank.store');
     Route::post('/exchange/bank/balance/post', [BankEntryController::class, 'getBankBalance'])->name('exchange.bank.post');
 

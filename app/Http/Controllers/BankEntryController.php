@@ -22,6 +22,18 @@ class BankEntryController extends Controller
         }    
     }
 
+    public function freezBankIndex()
+    {
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        } else {
+            $exchangeId = Auth::user()->exchange_id;
+            $bankEntryRecords = BankEntry::where('exchange_id', $exchangeId)->get();
+            $bankRecords = Bank::all();
+            
+            return view('exchange.bank.freezbank', compact('bankEntryRecords', 'bankRecords'));
+        }    
+    }
     public function create()
     {
         if (!auth()->check()) {
