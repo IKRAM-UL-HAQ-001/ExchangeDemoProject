@@ -79,8 +79,9 @@
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
-                            <small class="text-danger">Password must be 8 digits.</small>
+
                             <input type="password" class="form-control border px-3" id="password" placeholder="Enter Password" required>
+                            <small class="text-danger">Password must be 8 digits.</small>
                         </div>
                         <div class="mb-3">
                             <label for="exchange" class="form-label">Exchange</label>
