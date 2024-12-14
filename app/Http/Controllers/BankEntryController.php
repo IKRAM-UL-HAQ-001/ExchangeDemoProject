@@ -22,7 +22,7 @@ class BankEntryController extends Controller
         }    
     }
 
-    public function freezBankIndex()
+    public function freezBankIndex(Request $request)
     {
         if (!auth()->check()) {
             return redirect()->route('auth.login');
