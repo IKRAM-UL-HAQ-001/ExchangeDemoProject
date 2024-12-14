@@ -24,27 +24,27 @@
                             </thead>
                             <tbody>
                                 @foreach ($userRecords as $user)
-                                    <tr data-user-id="{{ $user->id ?? 'N/A' }}" data-exchange-id="{{ $user->exchange->id ?? 'N/A' }}">
-                                            <td>{{ $user->name ?? 'N/A' }}</td>
-                                            <td>{{ $user->exchange->name ?? 'N/A' }}</td>
-                                            <td>{{ $user->created_at ?? 'N/A' }}</td>
-                                            <td class="text-center">
-                                                <form action="{{ route('admin.user.status') }}" method="POST" class="toggle-form d-flex justify-content-center">
-                                                    @csrf
-                                                    <input type="hidden" name="userId" value="{{ $user->id }}">
-                                                    <input type="hidden" name="status" value="{{ $user->status }}">
-                                                    <input type="checkbox" id="checkbox-{{ $user->id }}" name="status_toggle"
-                                                           {{ $user->status === 'active' ? 'checked' : '' }} onchange="toggleStatus(this)">
-                                                    <label for="checkbox-{{ $user->id }}" class="button bg-white">
-                                                        <div class="dot"></div>
-                                                    </label>
-                                                </form>
-                                            </td>
-                                        <td class="text-center">
-                                            <button class="btn btn-danger btn-sm" onclick="deleteUser(this)">Delete</button>
-                                            <button class="btn btn-warning btn-sm" onclick="editUser(this)">Edit</button>
-                                        </td>
-                                    </tr>
+                                <tr data-user-id="{{ $user->id ?? 'N/A' }}" data-exchange-id="{{ $user->exchange->id ?? 'N/A' }}">
+                                    <td>{{ $user->name ?? 'N/A' }}</td>
+                                    <td>{{ $user->exchange->name ?? 'N/A' }}</td>
+                                    <td>{{ $user->created_at ?? 'N/A' }}</td>
+                                    <td class="text-center">
+                                        <form action="{{ route('admin.user.status') }}" method="POST" class="toggle-form d-flex justify-content-center">
+                                            @csrf
+                                            <input type="hidden" name="userId" value="{{ $user->id }}">
+                                            <input type="hidden" name="status" value="{{ $user->status }}">
+                                            <input type="checkbox" id="checkbox-{{ $user->id }}" name="status_toggle"
+                                                   {{ $user->status === 'active' ? 'checked' : '' }} onchange="toggleStatus(this)">
+                                            <label for="checkbox-{{ $user->id }}" class="button bg-white">
+                                                <div class="dot"></div>
+                                            </label>
+                                        </form>
+                                    </td>
+                                    <td class="text-center">
+                                        <button class="btn btn-danger btn-sm" onclick="deleteUser(this)">Delete</button>
+                                        <button class="btn btn-warning btn-sm" onclick="editUser(this)">Edit</button>
+                                    </td>
+                                </tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -54,7 +54,7 @@
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Add User Modal -->
     <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -72,9 +72,9 @@
                         <div class="mb-3">
                             <label for="type" class="form-label">User Type</label>
                             <select class="form-select px-3" id="type" required>
-                                <option disabled selected> Select an exchange </option>
-                                <option value="deposit"> Deposit </option>
-                                <option value="withdrawal"> Withdrawal </option>
+                                <option disabled selected>Select an exchange</option>
+                                <option value="deposit">Deposit</option>
+                                <option value="withdrawal">Withdrawal</option>
                             </select>
                         </div>
                         <div class="mb-3">
@@ -86,7 +86,7 @@
                             <select class="form-select px-3" id="exchange" required>
                                 <option value="" disabled selected>Select an exchange</option>
                                 @foreach ($exchangeRecords as $exchange)
-                                    <option value="{{ $exchange->id }}">{{ $exchange->name }}</option>
+                                <option value="{{ $exchange->id }}">{{ $exchange->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -101,55 +101,39 @@
     </div>
 </div>
 
-<!-- Delete Confirmation Modal -->
-<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header d-flex justify-content-between align-items-center">
-                <h5 class="modal-title" id="deleteConfirmationModalLabel" style="color:white;">Confirm Delete</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p style="color:black;">Are you sure you want to delete this user?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger" id="confirmDeleteButton">Delete</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script>
 $(document).ready(function() {
-        const userTable = $('#userTable').DataTable({
-            pagingType: "full_numbers",
-            language: {
-                paginate: {
-                    first: '«',
-                    last: '»',
-                    next: '›',
-                    previous: '‹'
-                }
-            },
-            lengthMenu: [1, 10, 25, 50],
-            pageLength: 5,
-            order: [[2, 'desc']]
-        });
+    // Initialize DataTable with safety checks
+    if ($.fn.DataTable.isDataTable('#userTable')) {
+        $('#userTable').DataTable().destroy();
+    }
+
+    $('#userTable').DataTable({
+        pagingType: "full_numbers",
+        language: {
+            paginate: {
+                first: '«',
+                last: '»',
+                next: '›',
+                previous: '‹'
+            }
+        },
+        lengthMenu: [1, 10, 25, 50],
+        pageLength: 5,
+        order: [[2, 'desc']]
+    });
 });
 
 function addUser() {
     const name = $('#name').val();
     const password = $('#password').val();
     const exchange = $('#exchange').val();
+    const type = $('#type').val();
 
     $.ajax({
-        url: '{{route("admin.user.post")}}',
+        url: '{{ route("admin.user.post") }}',
         method: 'POST',
         data: {
             _token: '{{ csrf_token() }}',
@@ -160,66 +144,23 @@ function addUser() {
         },
         success: function(response) {
             if (response.message === "User added successfully!") {
-
-//                alert('User added successfully');
                 $('#addUserModal').modal('hide');
-                location.reload(); // Correct way to reload the page
+                location.reload();
             }
         },
-        error: function(response) {
+        error: function() {
             alert('Error adding user!');
         }
     });
 }
 
-let userIdToDelete = null; // Variable to hold the user ID to delete
-
 function deleteUser(button) {
-    // Get the user ID from the row's data attribute
     const row = $(button).closest('tr');
-    userIdToDelete = row.data('user-id');
+    const userId = row.data('user-id');
 
-    // Show the confirmation modal
-    $('#deleteConfirmationModal').modal('show');
-}
-$('#confirmDeleteButton').on('click', function() {
-    if (userIdToDelete) {
+    if (confirm('Are you sure you want to delete this user?')) {
         $.ajax({
             url: '{{ route("admin.user.destroy") }}',
-            method: 'POST',
-            data: {
-                _token: '{{ csrf_token() }}',
-                id: userIdToDelete
-            },
-            success: function(response) {
-                if (response.success) {
-                    // Remove the user row from the table
-                    $(`tr[data-user-id="${userIdToDelete}"]`).remove();
-                    
-                    // Hide the modal
-                    $('#deleteConfirmationModal').modal('hide');
-                    
-                    // Optional: Show a success message
-//                    alert('User deleted successfully');
-                } else {
-  //                  alert('Error: ' + response.message);
-                }
-            },
-            error: function(xhr) {
-                alert('Failed to delete user: ' + xhr.responseText);
-            }
-        });
-    }
-});
-
-
-function eleteUser(button) {
-    if (confirm('Are you sure you want to delete this user?')) {
-        const row = $(button).closest('tr');
-        const userId = row.data('user-id');
-
-        $.ajax({
-            url: '{{route("admin.user.destroy")}}',
             method: 'POST',
             data: {
                 _token: '{{ csrf_token() }}',
@@ -227,12 +168,13 @@ function eleteUser(button) {
             },
             success: function(response) {
                 if (response.success) {
-                    //alert('User deleted successfully');
                     row.remove();
+                } else {
+                    alert('Error: ' + response.message);
                 }
             },
-            error: function(response) {
-                alert('Error deleting user!');
+            error: function() {
+                alert('Failed to delete user.');
             }
         });
     }
@@ -243,7 +185,7 @@ function toggleStatus(checkbox) {
     const status = checkbox.checked ? 'active' : 'inactive';
 
     $.ajax({
-        url: '/admin/user/status',
+        url: '{{ route("admin.user.status") }}',
         method: 'POST',
         data: {
             _token: '{{ csrf_token() }}',
@@ -251,12 +193,12 @@ function toggleStatus(checkbox) {
             status: status
         },
         success: function(response) {
-            if (response.success) {
-                alert('Status updated');
+            if (!response.success) {
+                alert('Error updating status.');
             }
         },
-        error: function(response) {
-            alert('Error updating status');
+        error: function() {
+            alert('Error updating status.');
         }
     });
 }
