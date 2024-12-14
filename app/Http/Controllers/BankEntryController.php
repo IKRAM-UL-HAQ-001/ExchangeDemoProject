@@ -6,6 +6,7 @@ use App\Models\BankEntry;
 use App\Models\Bank;
 use Illuminate\Http\Request;
 use Auth;
+use Illuminate\Validation\Rule;
 class BankEntryController extends Controller
 {
 
@@ -15,7 +16,8 @@ class BankEntryController extends Controller
             return redirect()->route('auth.login');
         } else {
             $exchangeId = Auth::user()->exchange_id;
-            $bankEntryRecords = BankEntry::where('exchange_id', $exchangeId)->get();
+            $bankEntryRecords = BankEntry::where('exchange_id', $exchangeId)
+            ->where('user_id', $userId)->get();
             $bankRecords = Bank::all();
             
             return view('exchange.bank.list', compact('bankEntryRecords', 'bankRecords'));
@@ -28,7 +30,11 @@ class BankEntryController extends Controller
             return redirect()->route('auth.login');
         } else {
             $exchangeId = Auth::user()->exchange_id;
-            $bankEntryRecords = BankEntry::where('exchange_id', $exchangeId)->get();
+            $userId = Auth::user()->id;
+            $bankEntryRecords = BankEntry::where('exchange_id', $exchangeId)
+            ->where('user_id', $userId)
+            ->where('status', "freez")
+            ->get();
             $bankRecords = Bank::all();
             
             return view('exchange.bank.freezbank', compact('bankEntryRecords', 'bankRecords'));
@@ -50,32 +56,31 @@ class BankEntryController extends Controller
         if (!auth()->check()) {
             return redirect()->route('auth.login');
         }
-
         $validatedData = $request->validate([
-            'account_number' => 'required|string|max:255',
+            'account_number' => Rule::requiredIf(!$request->has('freez')),'string','max:255',
             'bank_name' => 'required|string|max:255',
+            'cash_type' => 'required|string|max:255',
             'cash_amount' => 'required|numeric',
-            'cash_type' => 'required|string',
             'remarks' => 'required|string',
         ]);
-
         try {
-            $user = Auth::user();
 
+            $user = Auth::user();
             if ($user->role == "exchange") {
                 $bankEntry = BankEntry::create([
-                    'account_number' => $validatedData['account_number'],
+                    'account_number' => $validatedData['account_number'] ?? 0,
                     'bank_name' => $validatedData['bank_name'],
-                    'cash_amount' => $validatedData['cash_amount'],
+                    'cash_amount' => (int) $validatedData['cash_amount'],
                     'cash_type' => $validatedData['cash_type'],
                     'remarks' => $validatedData['remarks'],
+                    'status' => "freez",
                     'exchange_id' => $user->exchange_id,
                     'user_id' => $user->id,
                 ]);
-                return response()->json(['message' => 'Bank Entry Data saved successfully!', 'data' => $bankEntry], 201);
+                return response()->json(['success' => true,'message' => 'Bank Entry Data saved successfully!'], 200);
             }
         } catch (\Exception $e) {
-            return response()->json(['message' => 'An error occurred while saving Bank Entry Data: ' . $e->getMessage()], 500);
+            return response()->json(['success' => false,'message' => 'An error occurred while saving Bank Entry Data: ' . $e->getMessage()], 500);
         }
     }
 

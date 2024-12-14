@@ -1,5 +1,6 @@
 @extends('layout.main')
 @section('content')
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <div class="container-fluid py-4">
         <div class="row">
             <div class="col-12">
@@ -19,17 +20,12 @@
                             <table id="bankTable" class="table align-items-center mb-0 table-striped table-hover px-2">
                                 <thead>
                                     <tr>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Bank Name
-                                        </th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Account
-                                            Number</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Cash Type
-                                        </th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Cash Amount
-                                        </th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Remarks</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Bank Balance
-                                        </th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Bank Name</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Cash Type</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Cash Amount</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Remarks</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Bank Balance</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Created At</th>
                                     </tr>
                                 </thead>
                                 @php
@@ -37,7 +33,6 @@
                                     $bankBalances = [];
                                     $firstEntryFlags = [];
                                 @endphp
-
                                 <tbody>
                                     @foreach ($bankEntryRecords as $bankEntry)
                                         @php
@@ -57,7 +52,6 @@
 
                                         <tr>
                                             <td>{{ $bankEntry->bank_name }}</td>
-                                            <td>{{ $bankEntry->account_number }}</td>
                                             <td>{{ $bankEntry->cash_type }}</td>
                                             <td>{{ $bankEntry->cash_amount }}</td>
                                             <td>{{ $bankEntry->remarks }}</td>
@@ -74,11 +68,10 @@
                                                     {{ $bankBalances[$bankEntry->bank_name] }}
                                                 @endif
                                             </td>
+                                            <td>{{ $bankEntry->created_at }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
-
-
                             </table>
                         </div>
                     </div>
@@ -101,20 +94,10 @@
                             <div class="alert alert-danger text-white" id='error' style="display:none;">
                                 {{ session('error') }}
                             </div>
-                            <form id="bankForm" method="post"action="{{ route('exchange.bank.store') }}">
+                            <form id="bankForm" method="post" action="{{ route('exchange.bank.store') }}">
                                 @csrf
                                 <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="cash_type" class="form-label">Cash Type<span
-                                                class="text-danger">*</span></label>
-                                        <select class="js-select2 form-control border" id="cash_type" name="cash_type"
-                                            required>
-                                            <option disabled selected>Choose Cash Type</option>
-                                            <option value="add">Add</option>
-                                            <option value="minus">Minus</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
+                                    <div class="col-md-12 mb-3">
                                         <label for="bank_name" class="form-label">Bank Name<span
                                                 class="text-danger">*</span></label>
                                         <select class="js-select2 form-control border" id="bank_name" name="bank_name"
@@ -125,29 +108,22 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="bank_balance" class="form-label">Bank Balance</label>
+                                    <div class="col-md-12 mb-3">
+                                        <label for="bank_balance" class="form-label">
+                                            Bank Balance
+                                            <small class="text-danger">readonly</small>
+                                        </label>
                                         <input type="text" class="form-control border" id="bank_balance"
                                             name="bank_balance" readonly>
                                     </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="account_number" class="form-label">Account Number<span
-                                                class="text-danger">*</span></label>
-                                        <input type="text" class="form-control border" id="account_number"
-                                            name="account_number" placeholder="Enter Account Number" required>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
+                                    <div class="col-md-12 mb-3">
                                         <label for="cash_amount" class="form-label">Cash Amount<span
                                                 class="text-danger">*</span></label>
                                         <input type="text" class="form-control border" id="cash_amount"
                                             name="cash_amount" placeholder="Enter Cash Amount"
                                             value="{{ old('cash_amount') }}" required>
                                     </div>
-                                    <div class="col-md-6 mb-3">
+                                    <div class="col-md-12 mb-3">
                                         <label for="remarks" class="form-label">Remarks<span
                                                 class="text-danger">*</span></label>
                                         <input type="text" class="form-control border" id="remarks" name="remarks"
@@ -166,6 +142,7 @@
             </div>
         </div>
     </div>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script>
@@ -186,7 +163,6 @@
 
             $('#bank_name').change(function() {
                 var bankName = $(this).val();
-                console.log(bankName);
 
                 $('#bankForm input, #bankForm select').prop('disabled', true);
 
@@ -215,12 +191,13 @@
 
             // Submit Bank Entry
             $('#submitBankEntry').click(function(event) {
-                event.preventDefault(); // Prevent default form submission
+                event.preventDefault();
 
-                const accountNumber = $('#account_number').val();
+                const accountNumber = $('#account_number').val(); // Ensure this is correctly defined
                 const bankName = $('#bank_name').val();
+                const freez = 'freez';
                 const cashAmount = $('#cash_amount').val();
-                const cashType = $('#cash_type').val();
+                const cashType = "minus";
                 const remarks = $('#remarks').val();
 
                 $.ajax({
@@ -230,6 +207,7 @@
                         account_number: accountNumber,
                         bank_name: bankName,
                         cash_amount: cashAmount,
+                        freez: freez,
                         cash_type: cashType,
                         remarks: remarks,
                         _token: '{{ csrf_token() }}'
@@ -238,18 +216,16 @@
                         if (response.message) {
                             $('#error').hide();
                             $('#success').text(response.message).show();
-                            // $('#addBankModal').modal('hide');
-                            $('#bankForm')[0].reset();
+                            $('#bankForm')[0].reset(); // Reset the form
                             setTimeout(() => {
                                 $('#success').hide();
-                            }, 2000); // Reset the form
+                                $('#addBankModal').modal(
+                                'hide'); // Close modal after success
+                            }, 2000);
                             location.reload(); // Reload to update the table
                         } else {
                             $('#success').hide();
                             $('#error').text(response.message).show();
-                            setTimeout(() => {
-                                $('#success').hide();
-                            }, 2000);
                         }
                     },
                     error: function(xhr) {
@@ -263,19 +239,17 @@
                     }
                 });
             });
-
-        });
-        $('#closeModalButton').on('click', function() {
-            cashForm[0].reset();
-            location.reload();
+            $('#closeModalButton').on('click', function() {
+                $('#bankForm')[0].reset();
+                location.reload();
+            });
         });
     </script>
+
     <style>
         .form-control.border {
             border: 1px solid #007bff;
-            /* Change to your desired color */
             border-radius: 0.25rem;
-            /* Adjust border radius if needed */
         }
     </style>
 @endsection

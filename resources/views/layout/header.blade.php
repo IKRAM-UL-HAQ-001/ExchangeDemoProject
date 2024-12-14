@@ -2,30 +2,28 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/logo.png">
-    <link rel="icon" type="image/png" href="./assets/img/logo.png">
     <meta name="robots" content="index, follow">
-
-    <title>
-        Your Custom Exchange Platform
-    </title>
-
-    <!-- Customized Meta Description -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description" content="testing this">
     <meta name="google-site-verification" content="dyeHS1jvPA6amUut6GVo-n5SoCdgjTEw4LZzb3-u774" />
-    <!-- Fonts and Icons -->
-    <link rel="stylesheet" type="text/css"
-        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
-    <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
-    <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/css/nucleo-icons.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet">
+
+    <!-- Page Title -->
+    <title>Your Custom Exchange Platform</title>
+
+    <!-- Favicon and Apple Touch Icon -->
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/logo.png') }}">
     <link rel="icon" type="image/png" href="{{ asset('assets/img/logo.png') }}">
+
+    <!-- Fonts and Icons -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- CSS Files -->
+    <link href="{{ asset('assets/css/material-dashboard.css?v=3.1.0') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/nucleo-icons.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
     <script type="application/ld+json">
     {
     "@context": "https://schema.org",
