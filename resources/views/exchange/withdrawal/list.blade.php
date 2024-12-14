@@ -92,13 +92,6 @@
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-                            <div class="form-group" id="customer_phone">
-                                <label class="form-label" for="customer_phone">Customer Phone Number<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control border" name="customer_phone" placeholder="Enter Customer Phone Number">
-                                @error('customer_phone')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
                             <div class="form-group" id="cash_amount">
                                 <label for="cash_amount" class="form-label">Amount<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control border" name="cash_amount" placeholder="Enter Cash Amount" required>
