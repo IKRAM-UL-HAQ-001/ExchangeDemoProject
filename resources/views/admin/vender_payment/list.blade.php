@@ -71,7 +71,7 @@
                                 <option value="" disabled selected>Select an Payment Type</option>
                                 <option value="rent"> Rent</option>
                                 <option value="salary"> salary</option>
-                                <option value="pati_cash"> Pati Cash</option>
+                                <option value="patty_cash"> Pati Cash</option>
                                 <option value="bank_payment"> Bank Payment</option>
                                 <option value="master_payment"> Master Payment</option>
                                 <option value="general_expense"> General Expense</option>
