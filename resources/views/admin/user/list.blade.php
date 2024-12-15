@@ -313,9 +313,9 @@
                 success: function(response) {
                     if (response.success) {
                         $('#editUserModal').modal('hide');
-                        window.location.reload();
+                        location.reload();
                     } else {
-                        alert('Error: ' + response.message);
+                        // alert('Error: ' + response.message);
                     }
                 },
                 error: function() {

@@ -80,7 +80,7 @@ class UserController extends Controller
                 $user->password = bcrypt($request->password);
             }
             $user->save();    
-            return response()->json(['message' => 'User updated successfully.', 'exchange_name' => $user->exchange->name]);
+            return response()->json(['success' => true, 'message' => 'User updated successfully.', 'exchange_name' => $user->exchange->name]);
         } 
     }
     

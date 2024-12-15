@@ -35,8 +35,6 @@ class AdminController extends Controller
 
             $totalPaidAmountDaily = VenderPayment::whereDate('created_at', $today)
                 ->sum('paid_amount');
-            
-
 
             $totalDepositDaily = Cash::where('cash_type', 'deposit')
                 ->whereDate('created_at', $today)
@@ -75,6 +73,11 @@ class AdminController extends Controller
             ->where(DB::raw("WEEK(created_at)"), $currentWeek)
             ->whereYear('created_at', $currentYear)
             ->sum('cash_amount');
+
+            $totalPaidAmountWeekly = VenderPayment::where(DB::raw("WEEK(created_at)"), $currentWeek)
+            ->whereYear('created_at', $currentYear)
+            ->sum('paid_amount');
+
 
             $totalWithdrawalWeekly = Cash::where('cash_type', 'withdrawal')
             ->where(DB::raw("WEEK(created_at)"), $currentWeek)
@@ -190,7 +193,7 @@ class AdminController extends Controller
                 'totalBalanceWeekly', 'totalDepositWeekly',
                 'totalWithdrawalWeekly', 'totalExpenseWeekly', 'totalBonusWeekly', 'totalOldCustomersWeekly',
                 'totalOwnerProfitWeekly', 'totalCustomersWeekly','totalFreezAmountWeekly',
-                'totalMasterSettlingWeekly',
+                'totalMasterSettlingWeekly','totalPaidAmountWeekly',
                 
                 'totalBalanceMonthly', 'totalDepositMonthly','totalWithdrawalMonthly', 
                 'totalExpenseMonthly', 'totalMasterSettlingMonthly', 'totalPaidAmountMonthly',
