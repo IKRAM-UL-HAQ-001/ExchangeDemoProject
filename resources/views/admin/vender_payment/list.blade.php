@@ -134,7 +134,6 @@ function addVenderPayment() {
                 location.reload();
                 closeModal();
             }
-
             $('#addVenderPaymentModal').modal('hide');
             document.getElementById('addVenderPaymentForm').reset();
         },
@@ -147,11 +146,9 @@ function addVenderPayment() {
 function deleteVenderPayment(button, id) {
     const row = $(button).parents('tr');
     const table = $('#venderPaymentTable').DataTable();
-
     if (!confirm('Are you sure you want to delete this vender payment?')) {
         return;
     }
-
     $.ajax({
         url: "{{ route('admin.vender_payment.destroy') }}",
         method: "POST",
