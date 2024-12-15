@@ -17,7 +17,7 @@
             <div class="card">
                 <div class="test1 card-header p-3">
                     <div class="d-flex align-items-center">
-                        <div class="icon icon-lg icon-shape bg-gradient-success shadow-dark text-center border-radius-xl position-relative"
+                        <div class="icon icon-lg icon-shape bg-gradient-success  text-center border-radius-xl position-relative"
                         style="width: 60px; height: 60px;">
                             <i class="material-icons opacity-10">account_balance_wallet</i>
                         </div>
@@ -81,7 +81,7 @@
                 <div class="card">
                     <div class="test1 card-header p-3">
                         <div class="d-flex align-items-center">
-                            <div class="icon icon-lg icon-shape bg-gradient-success shadow-dark text-center border-radius-xl position-relative"
+                            <div class="icon icon-lg icon-shape bg-gradient-success  text-center border-radius-xl position-relative"
                             style="width: 60px; height: 60px;">
                                 <i class="material-icons opacity-10">account_balance_wallet</i>
                             </div>
@@ -145,7 +145,7 @@
                     <div class="card">
                         <div class="test1 card-header p-3">
                             <div class="d-flex align-items-center">
-                                <div class="icon icon-lg icon-shape bg-gradient-success shadow-dark text-center border-radius-xl position-relative" style="width: 60px; height: 60px;">
+                                <div class="icon icon-lg icon-shape bg-gradient-success  text-center border-radius-xl position-relative" style="width: 60px; height: 60px;">
                                     <i class="material-icons opacity-10">account_balance_wallet</i>
                                 </div>
                                 <div class="text-center flex-grow-1 ms-3">

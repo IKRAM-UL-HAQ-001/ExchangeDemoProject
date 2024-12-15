@@ -120,7 +120,8 @@ Route::get('/export-customer', [CustomerController::class, 'customerExportExcel'
     
     //Vender Payment
     Route::get('/admin/venderPayment', [VenderPaymentController::class, 'index'])->name('admin.vender_payment.list');
-    
+    Route::post('/admin/venderPayment/post', [VenderPaymentController::class, 'store'])->name('admin.vender_payment.store');
+    Route::post('/admin/venderPayment/destroy', [VenderPaymentController::class, 'destroy'])->name('admin.vender_payment.destroy');
     //Vender Payment
     Route::get('/admin/openCloseBalance', [OpenCloseBalanceController::class, 'index'])->name('admin.open_close_balance.list');
     Route::post('/admin/openCloseBalance/destroy', [OpenCloseBalanceController::class, 'destroy'])->name('admin.open_close_balance.destroy');
