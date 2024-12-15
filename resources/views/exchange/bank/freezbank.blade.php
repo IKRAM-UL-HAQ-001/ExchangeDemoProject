@@ -36,7 +36,6 @@
                                 <tbody>
                                     @foreach ($bankEntryRecords as $bankEntry)
                                         @php
-                                            // Initialize balance if the bank is not already processed
                                             if (!isset($bankBalances[$bankEntry->bank_name])) {
                                                 $bankBalances[$bankEntry->bank_name] = 0;
                                                 $firstEntryFlags[$bankEntry->bank_name] = true; // Mark the first entry

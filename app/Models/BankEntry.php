@@ -13,6 +13,7 @@ class BankEntry extends Model
         'bank_name',
         'cash_amount',
         'cash_type',
+        'status',
         'remarks',
         'exchange_id',
         'user_id',

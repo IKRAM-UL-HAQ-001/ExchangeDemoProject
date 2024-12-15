@@ -18,7 +18,9 @@ class BankEntryController extends Controller
             $exchangeId = Auth::user()->exchange_id;
             $userId = Auth::user()->id;
             $bankEntryRecords = BankEntry::where('exchange_id', $exchangeId)
-            ->where('user_id', $userId)->get();
+            ->where('user_id', $userId)
+            ->where('status', null)->get();
+            
             $bankRecords = Bank::all();
             
             return view('exchange.bank.list', compact('bankEntryRecords', 'bankRecords'));
@@ -65,7 +67,6 @@ class BankEntryController extends Controller
             'remarks' => 'required|string',
         ]);
         try {
-
             $user = Auth::user();
             if ($user->role == "exchange") {
                 $bankEntry = BankEntry::create([
@@ -88,7 +89,6 @@ class BankEntryController extends Controller
     public function getBankBalance(Request $request) 
     {
         $request->validate(['bank_name' => 'required|string']);
-
         $sumBalance = BankEntry::where('bank_name', $request->bank_name)
             ->selectRaw('SUM(CASE WHEN cash_type = "add" THEN cash_amount WHEN cash_type = "minus" THEN -cash_amount END) as balance')
             ->value('balance');
