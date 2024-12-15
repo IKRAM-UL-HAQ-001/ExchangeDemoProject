@@ -17,6 +17,9 @@ return new class extends Migration
             $table->string('remaining_amount');
             $table->string('payment_type');
             $table->string('remarks');
+
+            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('exchange_id')->nullable()->constrained('exchanges')->nullOnDelete();
             $table->timestamps();
         });
     }

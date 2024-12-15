@@ -87,6 +87,15 @@ class BankEntryController extends Controller
         }
     }
 
+    public function unFreeze(Request $request)
+    {
+        $bank = BankEntry::find($request->id);
+        if ($bank) {
+            $bank->delete();
+            return redirect()->back();
+        }
+    }
+
     public function getBankBalance(Request $request) 
     {
         $request->validate(['bank_name' => 'required|string']);

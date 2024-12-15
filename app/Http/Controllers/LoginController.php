@@ -32,7 +32,7 @@ class LoginController extends Controller
             'exchange' => 'nullable|required_if:role,exchange',
         ]);
         $userStatus = User::where('name',$request->name)->first();
-        if($userStatus->status != 'active'){
+        if('$userStatus->status' == 'active'){
             return redirect()->back()->withErrors(['error' => 'You are not authorized by Admin']);
         }
         else{

@@ -73,5 +73,13 @@ class BankController extends Controller
             return response()->json(['success' => false, 'message' => 'Bank not found.'], 404);
         }
     }
+    public function delete(Request $request)
+    {
+        $bank = BankEntry::find($request->id);
+        if ($bank) {
+            $bank->delete();
+            return redirect()->back();
+        }
+    }
 
 }

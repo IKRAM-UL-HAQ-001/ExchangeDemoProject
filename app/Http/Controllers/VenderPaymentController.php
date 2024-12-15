@@ -28,6 +28,14 @@ class VenderPaymentController extends Controller
         ->orderBy('created_at', 'desc')->get();
         return response()->view('admin.vender_payment.list', compact('venderPaymentRecords'));
     }
+    public function assistantindex()
+    {
+        $startOfYear = Carbon::now()->startOfYear(); 
+        $endOfYear = Carbon::now()->endOfYear();
+        $venderPaymentRecords = VenderPayment::whereBetween('created_at', [$startOfYear, $endOfYear])
+        ->orderBy('created_at', 'desc')->get();
+        return response()->view('assistant.vender_payment.list', compact('venderPaymentRecords'));
+    }
     
     public function store(Request $request)
     {

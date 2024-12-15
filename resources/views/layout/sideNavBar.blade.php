@@ -278,6 +278,14 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link text-white {{ request()->is('assistant/venderPayment') ? 'active bg-gradient-success' : '' }}" href="{{route('assistant.vender_payment.list')}}">
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">swap_horiz</i>
+                            </div>
+                            <span class="nav-link-text ms-1">Vender Payment</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link text-white {{ request()->is('assistant/bankBalance') ? 'active bg-gradient-success' : '' }}" href="{{route('assistant.bank_balance.list')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">account_balance_wallet</i>

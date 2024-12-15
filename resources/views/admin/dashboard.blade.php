@@ -23,7 +23,8 @@
             <div class="card">
                 <div class="test1 card-header p-3">
                     <div class="d-flex align-items-center">
-                        <div class="icon icon-lg icon-shape bg-gradient-success shadow-dark text-center border-radius-xl position-relative">
+                        <div class="icon icon-lg icon-shape bg-gradient-success shadow-dark text-center border-radius-xl position-relative"
+                        style="width: 60px; height: 60px;">
                             <i class="material-icons"style="color:white">account_balance_wallet</i>
                         </div>
                         <div class=" text-end ms-3 text-center flex-grow-1"> <!-- Center alignment -->
@@ -54,7 +55,8 @@
                 <div class="card">
                     <div class="test1 card-header p-3">
                         <div class="d-flex align-items-center">
-                            <div class=" icon icon-lg icon-shape {{ e( $dailyColorClasses[$index % count($dailyColorClasses)]) }} shadow-{{ e( strtolower($dailyColorClasses[$index % count($dailyColorClasses)])) }} text-center )border-radius-xl position-relative">
+                            <div class=" icon icon-lg icon-shape {{ e( $dailyColorClasses[$index % count($dailyColorClasses)]) }} shadow-{{ e( strtolower($dailyColorClasses[$index % count($dailyColorClasses)])) }} text-center )border-radius-xl position-relative"
+                            style="width: 60px; height: 60px;">
                                 <i class=" material-icons" style="color:white">{{ e( $card[2]) }}</i>
                             </div>
                             <div class="text-end ms-3 text-center flex-grow-1"> <!-- Center alignment -->
@@ -69,64 +71,72 @@
         @endforeach
     </div>
     <!-- Weekly Bases Section -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card-header p-0 position-relative mb-3">
-                <div class="bg-gradient-success shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
-                    <h5 class="text-white mb-3"><strong>Weekly Bases</strong></h5>
-                </div>
+    <!-- Weekly Bases Section -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card-header p-0 position-relative mb-3">
+            <div class="bg-gradient-success shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+                <h5 class="text-white mb-3"><strong>Weekly Bases</strong></h5>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="row mb-4">
+<div class="row mb-4">
+    <div class="col-xl-3 col-sm-6 mb-4">
+        <div class="card">
+            <div class="test1 card-header p-3">
+                <div class="d-flex align-items-center">
+                    <!-- Icon Section -->
+                    <div class="icon icon-lg icon-shape bg-gradient-success shadow-dark text-center border-radius-xl position-relative" 
+                         style="width: 60px; height: 60px;">
+                        <i class="material-icons opacity-10" style="color: white;">account_balance_wallet</i>
+                    </div>
+                    <!-- Text Section -->
+                    <div class="text-center flex-grow-1 ms-3">
+                        <p class="text-sm mb-0 text-capitalize">Weekly Margin</p>
+                        <h4 class="mb-0" style="color:white;">{{ $totalBalanceWeekly }}</h4>
+                    </div>
+                </div>
+            </div>
+            <hr class="dark horizontal my-0">
+        </div>
+    </div>
+
+    @foreach ([ 
+        ['Weekly Freez Amount', $totalFreezAmountWeekly, 'arrow_downward'],
+        ['Total Deposit', $totalDepositWeekly, 'arrow_upward'],
+        ['Total Withdrawal', $totalWithdrawalWeekly, 'arrow_downward'],
+        ['Total Expense', $totalExpenseWeekly, 'money_off'],
+        ['Total Bonus', $totalBonusWeekly, 'star'],
+        ['Total Users', $totalUsers, 'group'],
+        ['Customers', $totalOldCustomersWeekly, 'person'],
+        ['Weekly Profit', $totalOwnerProfitWeekly, 'attach_money'],
+        ['Total New Customers', $totalCustomersWeekly, 'group_add'],
+        ['Total Settling Points', $totalMasterSettlingWeekly, 'point_of_sale'],
+    ] as $index => $card)
         <div class="col-xl-3 col-sm-6 mb-4">
             <div class="card">
                 <div class="test1 card-header p-3">
                     <div class="d-flex align-items-center">
-                        <div class="icon icon-lg icon-shape bg-gradient-success shadow-dark text-center border-radius-xl position-relative">
-                            <i class="material-icons opacity-10">account_balance_wallet</i>
+                        <!-- Icon Section -->
+                        <div class="icon icon-lg icon-shape bg-gradient-success shadow-dark text-center border-radius-xl position-relative" 
+                             style="width: 60px; height: 60px;">
+                            <i class="material-icons opacity-10" style="color: white;">{{ $card[2] }}</i>
                         </div>
+                        <!-- Text Section -->
                         <div class="text-center flex-grow-1 ms-3">
-                            <p class="text-sm mb-0 text-capitalize">Weekly Margin</p>
-                            <h4 class="mb-0" style="color:white">{{ $totalBalanceWeekly }}</h4>
+                            <p class="text-sm mb-0 text-capitalize">{{ $card[0] }}</p>
+                            <h4 class="mb-0" style="color:white;">{{ $card[1] }}</h4>
                         </div>
                     </div>
                 </div>
                 <hr class="dark horizontal my-0">
             </div>
         </div>
+    @endforeach
+</div>
 
-        @foreach ([ 
-            ['Weekly Freez Amount', $totalFreezAmountWeekly, 'bg-gradient-success', 'arrow_downward'],
-            ['Total Deposit', $totalDepositWeekly, 'bg-gradient-success', 'arrow_upward'],
-            ['Total Withdrawal', $totalWithdrawalWeekly, 'bg-gradient-success', 'arrow_downward'],
-            ['Total Expense', $totalExpenseWeekly, 'bg-gradient-success', 'money_off'],
-            ['Total Bonus', $totalBonusWeekly, 'bg-gradient-success', 'star'],
-            ['Total Users', $totalUsers, 'group'],
-            ['Customers', $totalOldCustomersWeekly, 'bg-gradient-success', 'person'],
-            ['Weekly Profit', $totalOwnerProfitWeekly, 'bg-gradient-success', 'attach_money'],
-            ['Total New Customers', $totalCustomersWeekly, 'bg-gradient-success', 'group_add'],
-            ['Total Settling Points', $totalMasterSettlingWeekly, 'bg-gradient-success', 'point_of_sale'],
-        ] as $card)
-            <div class="col-xl-3 col-sm-6 mb-4">
-                <div class="card">
-                    <div class="test1 card-header p-3">
-                        <div class="d-flex align-items-center">
-                            <div class="icon icon-lg icon-shape {{ $card[2] }} shadow-{{ strtolower($card[2]) }} text-center border-radius-xl position-relative">
-                                <i class="material-icons opacity-10">{{ $card[2] }}</i>
-                            </div>
-                            <div class=" text-center flex-grow-1 ms-3">
-                                <p class="text-sm mb-0 text-capitalize">{{ $card[0] }}</p>
-                                <h4 class="mb-0" style="color:white">{{ $card[1] }}</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <hr class="dark horizontal my-0">
-                </div>
-            </div>
-        @endforeach
-    </div>
 
     <!-- Monthly Bases Section -->
     <div class="row mb-4">
@@ -146,22 +156,26 @@
             ];
         @endphp
 
-        <div class="col-xl-3 col-sm-6 mb-4">
-            <div class="card">
-                <div class="test1 card-header p-3">
-                    <div class="d-flex align-items-center">
-                        <div class=" icon icon-lg icon-shape bg-gradient-success shadow-dark text-center border-radius-xl position-relative">
-                            <i class="material-icons" style="color:white">account_balance_wallet</i> <!-- Monthly Profit -->
-                        </div>
-                        <div class=" text-end ms-3 text-center flex-grow-1"> <!-- Center alignment -->
-                            <p class=" text-sm mb-0 text-capitalize">Monthly Margin</p>
-                            <h4 class="mb-0" style="color:white">{{ e( $totalBalanceMonthly )}}</h4>
-                        </div>
-                    </div>
+<div class="col-xl-3 col-sm-6 mb-4">
+    <div class="card">
+        <div class="test1 card-header p-3">
+            <div class="d-flex align-items-center">
+                <!-- Icon Section -->
+                <div class="icon icon-lg icon-shape bg-gradient-success shadow-dark text-center border-radius-xl position-relative" 
+                     style="width: 60px; height: 60px;">
+                    <i class="material-icons" style="color: white;">account_balance_wallet</i> <!-- Monthly Profit Icon -->
                 </div>
-                <hr class="dark horizontal my-0">
+                <!-- Text Section -->
+                <div class="text-center ms-3 flex-grow-1">
+                    <p class="text-sm mb-0 text-capitalize" style="color: #aaa;">Monthly Margin</p>
+                    <h4 class="mb-0" style="color: white;">{{ e($totalBalanceMonthly) }}</h4>
+                </div>
             </div>
         </div>
+        <hr class="dark horizontal my-0">
+    </div>
+</div>
+
 
         @foreach ([ 
             ['Total Deposit', $totalDepositMonthly, 'arrow_circle_up'],
@@ -180,7 +194,7 @@
                 <div class="card">
                     <div class="test1 card-header p-3">
                         <div class="d-flex align-items-center">
-                            <div class=" icon icon-lg icon-shape {{ e( $monthlyColorClasses[$index % count($monthlyColorClasses)]) }} shadow-{{ e( strtolower($monthlyColorClasses[$index % count($monthlyColorClasses)])) }} text-center border-radius-xl position-relative">
+                            <div class=" icon icon-lg icon-shape {{ e( $monthlyColorClasses[$index % count($monthlyColorClasses)]) }} shadow-{{ e( strtolower($monthlyColorClasses[$index % count($monthlyColorClasses)])) }} text-center border-radius-xl position-relative"  style="width: 60px; height: 60px;">
                                 <i class="material-icons" style="color:white">{{ e( $card[2]) }}</i>
                             </div>
                             <div class="text-end ms-3 text-center flex-grow-1"> <!-- Center alignment -->

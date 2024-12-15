@@ -1,6 +1,7 @@
 @extends('layout.main')
 @section('content')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
     <div class="container-fluid py-4">
         <div class="row">
             <div class="col-12">
@@ -22,6 +23,7 @@
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Remarks</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Bank Balance</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Created At</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Action</th>
                                     </tr>
                                 </thead>
                                 @php
@@ -64,6 +66,13 @@
                                                 @endif
                                             </td>
                                             <td>{{ $bankEntry->created_at }}</td>
+                                            <td>
+                                                <form action="{{ route('admin.bank.delete') }}" method="POST">
+                                                    @csrf
+                                                    <input type="hidden" name="id" value="{{ $bankEntry->id }}">
+                                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                                </form>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>

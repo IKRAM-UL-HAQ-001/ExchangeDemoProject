@@ -1,11 +1,12 @@
 @extends("layout.main")
 @section('content')
 <div class="container-fluid">
+
     <!-- Daily Bases Section -->
     <div class="row mb-4">
         <div class="col-12">
             <div class="card-header p-0 position-relative mb-3">
-                <div class="bg-gradient-success  border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+                <div class="bg-gradient-success border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                     <h5 class="text-white mb-3"><strong>Daily Bases</strong></h5>
                 </div>
             </div>
@@ -17,12 +18,12 @@
             <div class="card">
                 <div class="test1 card-header p-3">
                     <div class="d-flex align-items-center">
-                        <div class="icon icon-lg icon-shape bg-gradient-success shadow-dark text-center border-radius-xl position-relative">
+                        <div class="icon icon-lg icon-shape bg-gradient-success shadow-dark text-center border-radius-xl position-relative" style="width: 60px; height: 60px;">
                             <i class="material-icons opacity-10">attach_money</i>
                         </div>
                         <div class="text-center flex-grow-1 ms-3">
                             <p class="text-sm mb-0 text-capitalize">Total Bank Balance</p>
-                            <h4 class="mb-0" style="color:white">{{ $totalBankBalance }}</h4>
+                            <h4 class="mb-0" style="color:white;">{{ $totalBankBalance }}</h4>
                         </div>
                     </div>
                 </div>
@@ -31,9 +32,7 @@
         </div>
 
         @php
-            $colorClasses = [
-                'bg-gradient-success',
-            ];
+            $colorClasses = ['bg-gradient-success'];
         @endphp
 
         @foreach ([
@@ -71,12 +70,12 @@
                 <div class="card">
                     <div class="test1 card-header p-3">
                         <div class="d-flex align-items-center">
-                            <div class="icon icon-lg icon-shape {{ $colorClass }} shadow-{{ strtolower($colorClass) }} text-center border-radius-xl position-relative">
+                            <div class="icon icon-lg icon-shape {{ $colorClass }} shadow-dark text-center border-radius-xl position-relative" style="width: 60px; height: 60px;">
                                 <i class="material-icons opacity-10">{{ $icon }}</i>
                             </div>
                             <div class="text-center flex-grow-1 ms-3">
                                 <p class="text-sm mb-0 text-capitalize">{{ $card[0] }}</p>
-                                <h4 class="mb-0" style="color:white">{{ $card[1] }}</h4>
+                                <h4 class="mb-0" style="color:white;">{{ $card[1] }}</h4>
                             </div>
                         </div>
                     </div>
@@ -102,12 +101,12 @@
             <div class="card">
                 <div class="test1 card-header p-3">
                     <div class="d-flex align-items-center">
-                        <div class="icon icon-lg icon-shape bg-gradient-success shadow-dark text-center border-radius-xl position-relative">
+                        <div class="icon icon-lg icon-shape bg-gradient-success shadow-dark text-center border-radius-xl position-relative" style="width: 60px; height: 60px;">
                             <i class="material-icons opacity-10">attach_money</i>
                         </div>
                         <div class="text-center flex-grow-1 ms-3">
                             <p class="text-sm mb-0 text-capitalize">Monthly Margin</p>
-                            <h4 class="mb-0" style="color:white">{{ $totalBalanceMonthly }}</h4>
+                            <h4 class="mb-0" style="color:white;">{{ $totalBalanceMonthly }}</h4>
                         </div>
                     </div>
                 </div>
@@ -148,12 +147,12 @@
                 <div class="card">
                     <div class="test1 card-header p-3">
                         <div class="d-flex align-items-center">
-                            <div class="icon icon-lg icon-shape {{ $colorClass }} shadow-{{ strtolower($colorClass) }} text-center border-radius-xl position-relative">
+                            <div class="icon icon-lg icon-shape {{ $colorClass }} shadow-dark text-center border-radius-xl position-relative" style="width: 60px; height: 60px;">
                                 <i class="material-icons opacity-10">{{ $icon }}</i>
                             </div>
                             <div class="text-center flex-grow-1 ms-3">
                                 <p class="text-sm mb-0 text-capitalize">{{ $card[0] }}</p>
-                                <h4 class="mb-0" style="color:white">{{ $card[1] }}</h4>
+                                <h4 class="mb-0" style="color:white;">{{ $card[1] }}</h4>
                             </div>
                         </div>
                     </div>

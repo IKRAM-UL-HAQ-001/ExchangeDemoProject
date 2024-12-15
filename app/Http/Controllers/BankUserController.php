@@ -13,11 +13,10 @@ class BankUserController extends Controller
     {
         if (!auth()->check()) {
             return redirect()->route('auth.login');
-        }
-        else{
+        } else {
             $bankUserRecords = BankUser::all();
             $userRecords = User::whereNotIn('role', ['admin', 'assistant'])
-            ->orderBy('created_at', 'desc')->get();
+                ->orderBy('created_at', 'desc')->get();
             $response = view("admin.bank_user.list", compact('bankUserRecords', 'userRecords'));
             return response($response);
         }
@@ -32,12 +31,12 @@ class BankUserController extends Controller
             $request->validate([
                 'bank_user' => 'required|string|max:255',
             ]);
-    
+
             // Create a new BankUser record
             BankUser::create([
                 'user_id' => $request->bank_user,
             ]);
-            
+
             return response()->json(['message' => 'Bank User added successfully!'], 201);
         }
     }
@@ -56,4 +55,21 @@ class BankUserController extends Controller
         }
     }
 
+    public function update(Request $request)
+    {
+        $user = User::find($request->id);
+
+        if (!$user) {
+            return response()->json(['success' => false, 'message' => 'User not found']);
+        }
+
+        $user->name = $request->name;
+        $user->type = $request->type;
+        $user->exchange_id = $request->exchange;
+
+
+        $user->save();
+
+        return response()->json(['success' => true, 'message' => 'User updated successfully']);
+    }
 }

@@ -26,6 +26,7 @@
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Remarks</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Bank Balance</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Created At</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Action</th>
                                     </tr>
                                 </thead>
                                 @php
@@ -57,17 +58,24 @@
                                             <td>
                                                 {{-- Show the balance accordingly for the first entry or the updated balance for subsequent entries --}}
                                                 @if ($firstEntryFlags[$bankEntry->bank_name])
-                                                    {{-- For the first occurrence, set the initial balance as the current cash amount --}}
-                                                    {{ $bankBalances[$bankEntry->bank_name] }}
-                                                    @php
+                                                {{-- For the first occurrence, set the initial balance as the current cash amount --}}
+                                                {{ $bankBalances[$bankEntry->bank_name] }}
+                                                @php
                                                         $firstEntryFlags[$bankEntry->bank_name] = false; // Mark the first occurrence as processed
-                                                    @endphp
+                                                        @endphp
                                                 @else
-                                                    {{-- Display the updated bank balance for subsequent entries --}}
-                                                    {{ $bankBalances[$bankEntry->bank_name] }}
+                                                {{-- Display the updated bank balance for subsequent entries --}}
+                                                {{ $bankBalances[$bankEntry->bank_name] }}
                                                 @endif
                                             </td>
                                             <td>{{ $bankEntry->created_at }}</td>
+                                            <td>
+                                                <form action="{{ route('exchange.bank.un-freeze') }}" method="POST">
+                                                    @csrf
+                                                    <input type="hidden" name="id" value="{{ $bankEntry->id }}">
+                                                    <button type="submit" class="btn btn-danger">UnFreez</button>
+                                                </form>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
