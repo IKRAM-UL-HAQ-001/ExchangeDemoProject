@@ -154,13 +154,12 @@ class AdminController extends Controller
             
             $totalBalanceMonthly =  $totalDepositMonthly -  $totalWithdrawalMonthly -  $totalExpenseMonthly ;
             $totalOpenCloseBalanceMonthly = $totalOpenCloseBalance + $totalBalanceMonthly;
+
             // Bank data and balances
             $totalAmountAdd = BankEntry::where('cash_type', 'add')
-            ->where('status','!=','freez')
             ->sum('cash_amount');
 
             $totalAmountSubtract = BankEntry::where('cash_type', 'minus')
-            ->where('status','!=','freez')
             ->sum('cash_amount');
 
             $totalBankBalance = $totalAmountAdd - $totalAmountSubtract;
