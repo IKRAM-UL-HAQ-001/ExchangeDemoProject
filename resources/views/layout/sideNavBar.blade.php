@@ -215,7 +215,7 @@
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-white {{ request()->is('exchange/bank/freez*') ? 'active bg-gradient-success' : '' }}" 
-                                       href="{{ route('exchange.bank.freezbank') }}">
+                                       href="{{ route('exchange.bank.bank_freez') }}">
                                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                             <i class="material-icons opacity-10">account_balance</i>
                                         </div>
@@ -259,6 +259,14 @@
                             <span class="nav-link-text ms-1">Report</span>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white {{ request()->is('exchange/venderPayment') ? 'active bg-gradient-success' : '' }}" href="{{route('exchange.vender_payment.list')}}">
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">swap_horiz</i>
+                            </div>
+                            <span class="nav-link-text ms-1">Vender Payment</span>
+                        </a>
+                    </li>
                 @endif
                 @if(Auth::user()->role === "assistant")
                     <li class="nav-item">
@@ -275,14 +283,6 @@
                                 <i class="material-icons opacity-10">settings</i>
                             </div>
                             <span class="nav-link-text ms-1">Master Settling</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->is('assistant/venderPayment') ? 'active bg-gradient-success' : '' }}" href="{{route('assistant.vender_payment.list')}}">
-                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="material-icons opacity-10">swap_horiz</i>
-                            </div>
-                            <span class="nav-link-text ms-1">Vender Payment</span>
                         </a>
                     </li>
                     <li class="nav-item">

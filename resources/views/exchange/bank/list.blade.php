@@ -77,8 +77,6 @@
                                         </tr>
                                     @endforeach
                                 </tbody>
-
-
                             </table>
                         </div>
                     </div>
@@ -104,7 +102,7 @@
                             <form id="bankForm" method="post"action="{{ route('exchange.bank.store') }}">
                                 @csrf
                                 <div class="row">
-                                    <div class="col-md-6 mb-3">
+                                    <div class="col-md-12 mb-3">
                                         <label for="cash_type" class="form-label">Cash Type<span
                                                 class="text-danger">*</span></label>
                                         <select class="js-select2 form-control border" id="cash_type" name="cash_type"
@@ -114,7 +112,7 @@
                                             <option value="minus">Minus</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-6 mb-3">
+                                    <div class="col-md-12 mb-3">
                                         <label for="bank_name" class="form-label">Bank Name<span
                                                 class="text-danger">*</span></label>
                                         <select class="js-select2 form-control border" id="bank_name" name="bank_name"
@@ -125,35 +123,37 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="bank_balance" class="form-label">Bank Balance</label>
+                                {{-- </div>
+                                <div class="row"> --}}
+                                    <div class="col-md-12 mb-3">
+                                        <label for="bank_balance" class="form-label">Bank Balance
+                                            <small class="text-danger">readonly</small>
+                                        </label>
                                         <input type="text" class="form-control border" id="bank_balance"
                                             name="bank_balance" readonly>
                                     </div>
-                                    <div class="col-md-6 mb-3">
+                                    <div class="col-md-12 mb-3">
                                         <label for="account_number" class="form-label">Account Number<span
                                                 class="text-danger">*</span></label>
                                         <input type="text" class="form-control border" id="account_number"
                                             name="account_number" placeholder="Enter Account Number" required>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
+                                {{-- </div>
+                                <div class="row"> --}}
+                                    <div class="col-md-12 mb-3">
                                         <label for="cash_amount" class="form-label">Cash Amount<span
                                                 class="text-danger">*</span></label>
                                         <input type="text" class="form-control border" id="cash_amount"
                                             name="cash_amount" placeholder="Enter Cash Amount"
                                             value="{{ old('cash_amount') }}" required>
                                     </div>
-                                    <div class="col-md-6 mb-3">
+                                    <div class="col-md-12 mb-3">
                                         <label for="remarks" class="form-label">Remarks<span
                                                 class="text-danger">*</span></label>
                                         <input type="text" class="form-control border" id="remarks" name="remarks"
                                             placeholder="Enter Remarks" required>
                                     </div>
-                                </div>
+                                {{-- </div> --}}
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                                         id="closeModalButton">Close</button>

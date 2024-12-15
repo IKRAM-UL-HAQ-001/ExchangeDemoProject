@@ -17,9 +17,10 @@ return new class extends Migration
             $table->string('remaining_amount');
             $table->string('payment_type');
             $table->string('remarks');
-
-            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
-            $table->foreignId('exchange_id')->nullable()->constrained('exchanges')->nullOnDelete();
+            $table->unsignedBigInteger('exchange_id')->nullable();
+            $table->foreign('exchange_id')->references('id')->on('exchanges')->onDelete('cascade');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

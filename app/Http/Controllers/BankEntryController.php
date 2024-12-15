@@ -19,7 +19,8 @@ class BankEntryController extends Controller
             $userId = Auth::user()->id;
             $bankEntryRecords = BankEntry::where('exchange_id', $exchangeId)
             ->where('user_id', $userId)
-            ->where('status', null)->get();
+            ->where('status', null)
+            ->get();
             
             $bankRecords = Bank::all();
             
@@ -40,7 +41,7 @@ class BankEntryController extends Controller
             ->get();
             $bankRecords = Bank::all();
             
-            return view('exchange.bank.freezbank', compact('bankEntryRecords', 'bankRecords'));
+            return view('exchange.bank.bank_freez', compact('bankEntryRecords', 'bankRecords'));
         }    
     }
     
@@ -54,14 +55,13 @@ class BankEntryController extends Controller
             return view("exchange.bank.list", compact('bankRecords'));
         }
     }
-
     public function store(Request $request)
     {
         if (!auth()->check()) {
             return redirect()->route('auth.login');
         }
         $validatedData = $request->validate([
-            'account_number' => Rule::requiredIf(!$request->has('freez')),'string','max:255',
+            'account_number' => 'required|string|max:15',
             'bank_name' => 'required|string|max:255',
             'cash_type' => 'required|string|max:255',
             'cash_amount' => 'required|numeric',
@@ -73,10 +73,9 @@ class BankEntryController extends Controller
                 $bankEntry = BankEntry::create([
                     'account_number' => $validatedData['account_number'] ?? 0,
                     'bank_name' => $validatedData['bank_name'],
-                    'cash_amount' => (int) $validatedData['cash_amount'],
+                    'cash_amount' => $validatedData['cash_amount'],
                     'cash_type' => $validatedData['cash_type'],
                     'remarks' => $validatedData['remarks'],
-                    'status' => "freez",
                     'exchange_id' => $user->exchange_id,
                     'user_id' => $user->id,
                 ]);
@@ -84,6 +83,38 @@ class BankEntryController extends Controller
             }
         } catch (\Exception $e) {
             return response()->json(['success' => false,'message' => 'An error occurred while saving Bank Entry Data: ' . $e->getMessage()], 500);
+        }
+    }
+
+    public function freezBankStore(Request $request)
+    {
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        }
+        $validatedData = $request->validate([
+            'account_number' => 'nullable|string|max:15',
+            'bank_name' => 'required|string|max:255',
+            'cash_type' => 'required|string|max:255',
+            'cash_amount' => 'required|numeric',
+            'remarks' => 'required|string',
+        ]);
+        try {
+            $user = Auth::user();
+            if ($user->role == "exchange") {
+                $bankEntry = BankEntry::create([
+                    'account_number' => $validatedData['account_number'] ?? 0,
+                    'bank_name' => $validatedData['bank_name'],
+                    'cash_amount' => $validatedData['cash_amount'],
+                    'cash_type' => $validatedData['cash_type'],
+                    'remarks' => $validatedData['remarks'],
+                    'status' => "freez",
+                    'exchange_id' => $user->exchange_id,
+                    'user_id' => $user->id,
+                ]);
+                return response()->json(['success' => true,'message' => 'Bank Freez Entry Data saved successfully!'], 200);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['success' => false,'message' => 'An error occurred while saving Bank Freez Entry Data: ' . $e->getMessage()], 500);
         }
     }
 

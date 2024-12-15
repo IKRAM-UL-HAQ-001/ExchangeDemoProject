@@ -101,7 +101,7 @@
                             <div class="alert alert-danger text-white" id='error' style="display:none;">
                                 {{ session('error') }}
                             </div>
-                            <form id="bankForm" method="post" action="{{ route('exchange.bank.store') }}">
+                            <form id="bankForm" method="post" action="{{ route('exchange.bank.bank_freez.store') }}">
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-12 mb-3">
@@ -200,7 +200,6 @@
             $('#submitBankEntry').click(function(event) {
                 event.preventDefault();
 
-                const accountNumber = $('#account_number').val(); // Ensure this is correctly defined
                 const bankName = $('#bank_name').val();
                 const freez = 'freez';
                 const cashAmount = $('#cash_amount').val();
@@ -208,10 +207,9 @@
                 const remarks = $('#remarks').val();
 
                 $.ajax({
-                    url: "{{ route('exchange.bank.store') }}",
+                    url: "{{ route('exchange.bank.bank_freez.store') }}",
                     method: "POST",
                     data: {
-                        account_number: accountNumber,
                         bank_name: bankName,
                         cash_amount: cashAmount,
                         freez: freez,

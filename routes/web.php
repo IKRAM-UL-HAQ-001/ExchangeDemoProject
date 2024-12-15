@@ -145,9 +145,7 @@ Route::get('/export-customer', [CustomerController::class, 'customerExportExcel'
     Route::get('/assistant/bankBalance', [BankBalanceController::class, 'indexAssistant'])->name('assistant.bank_balance.list');
     
     
-    Route::get('/assistant/venderPayment', [VenderPaymentController::class, 'assistantindex'])->name('assistant.vender_payment.list');
-    Route::post('/assistant/venderPayment/post', [VenderPaymentController::class, 'assistantstore'])->name('assistant.vender_payment.store');
-    Route::post('/assistant/venderPayment/destroy', [VenderPaymentController::class, 'assistantdestroy'])->name('assistant.vender_payment.destroy');
+    
     
     
     
@@ -158,7 +156,12 @@ Route::get('/export-customer', [CustomerController::class, 'customerExportExcel'
     
     
     // Route::group(['middleware' => ['exchange']], function () {
-        
+    
+    // vender payment
+    Route::get('/exchange/venderPayment', [VenderPaymentController::class, 'exchangeIndex'])->name('exchange.vender_payment.list');
+    Route::post('/exchange/venderPayment/post', [VenderPaymentController::class, 'exchangeStore'])->name('exchange.vender_payment.store');
+    Route::post('/exchange/venderPayment/destroy', [VenderPaymentController::class, 'exchangeDestroy'])->name('exchange.vender_payment.destroy');
+
     //Exchange Dashboard
     Route::get('/exchange', [ExchangeController::class, 'index'])->name('exchange.dashboard');
     
@@ -169,8 +172,9 @@ Route::get('/export-customer', [CustomerController::class, 'customerExportExcel'
     
     //bank
     Route::get('/exchange/bank', [BankEntryController::class, 'index'])->name('exchange.bank.list');
-    Route::get('/exchange/bank/freez', [BankEntryController::class, 'freezBankIndex'])->name('exchange.bank.freezbank');
+    Route::get('/exchange/bank/freez', [BankEntryController::class, 'freezBankIndex'])->name('exchange.bank.bank_freez');
     Route::post('/exchange/bank/post', [BankEntryController::class, 'store'])->name('exchange.bank.store');
+    Route::post('/exchange/bankFreez/post', [BankEntryController::class, 'freezBankStore'])->name('exchange.bank.bank_freez.store');
     Route::post('/exchange/bank/balance/post', [BankEntryController::class, 'getBankBalance'])->name('exchange.bank.post');
     Route::post('/exchange/bank/un-freeze', [BankEntryController::class, 'unFreeze'])->name('exchange.bank.un-freeze');
     
