@@ -69,7 +69,7 @@
         <div class="row mb-4">
             <div class="col-12">
                 <div class="card-header p-0 position-relative mb-3">
-                    <div class="bg-gradient-success shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+                    <div class="bg-gradient-success  border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                         <h5 class="text-white mb-3"><strong>Weekly Bases</strong></h5>
                     </div>
                 </div>
@@ -132,7 +132,7 @@
             <div class="row mb-4">
                 <div class="col-12">
                     <div class="card-header p-0 position-relative mb-3">
-                        <div class="bg-gradient-success shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+                        <div class="bg-gradient-success  border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                             <h5 class="text-white mb-3"><strong>Monthly Bases</strong></h5>
                         </div>
                     </div>
