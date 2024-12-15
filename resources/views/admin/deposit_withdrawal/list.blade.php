@@ -22,18 +22,16 @@
                                     <tr>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder">User</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Exchange</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Reference No.
-                                        </th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Reference No.</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Customer</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Phone Number</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Amount</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Type</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Bonus</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Payment</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Balance</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Date and Time
-                                        </th>
-                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
-                                            Action</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Date and Time</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -55,6 +53,7 @@
                                                 <td>{{ $depositWithdrawal->exchange->name }}</td>
                                                 <td>{{ $depositWithdrawal->reference_number }}</td>
                                                 <td>{{ $depositWithdrawal->customer_name }}</td>
+                                                <td>{{ $depositWithdrawal->customer_phone }}</td>
                                                 <td>{{ $depositWithdrawal->cash_amount }}</td>
                                                 <td>{{ $depositWithdrawal->cash_type }}</td>
                                                 <td>{{ $depositWithdrawal->bonus_amount }}</td>

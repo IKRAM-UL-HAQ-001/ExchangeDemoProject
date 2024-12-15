@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bank;
+use App\Models\BankEntry;
 use Illuminate\Http\Request;
 Use App\Exports\BankListExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -27,7 +28,22 @@ class BankController extends Controller
             return view("admin.bank.list", compact('bankRecords'));
         }
     }
-
+    
+    public function freezBankIndex(Request $request)
+    {
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        } else {
+            $exchangeId = Auth::user()->exchange_id;
+            $userId = Auth::user()->id;
+            $bankEntryRecords = BankEntry::where('status', "freez")
+            ->get();
+            $bankRecords = Bank::all();
+            
+            return view('admin.bank_freez.list', compact('bankEntryRecords', 'bankRecords'));
+        }    
+    }
+    
     public function store(Request $request)
     {
         if (!auth()->check()) {

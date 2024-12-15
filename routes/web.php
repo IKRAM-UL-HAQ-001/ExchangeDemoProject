@@ -79,6 +79,10 @@ Route::get('/export-customer', [CustomerController::class, 'customerExportExcel'
     Route::post('/admin/bank/post', [BankController::class, 'store'])->name('admin.bank.store');
     Route::post('/admin/bank/destroy', [BankController::class, 'destroy'])->name('admin.bank.destroy');
 
+    //Freez Bank
+    Route::get('/admin/bank/freez', [BankController::class, 'freezBankIndex'])->name('admin.bank_freez.list');
+
+
     // bank user
     Route::get('/admin/bankUser', [BankUserController::class, 'index'])->name('admin.bank_user.list');
     Route::post('/admin/bankUser/post', [BankUserController::class, 'store'])->name('admin.bank_user.store');
@@ -95,6 +99,7 @@ Route::get('/export-customer', [CustomerController::class, 'customerExportExcel'
     //bank Balance
     Route::get('/admin/bankBalance', [BankBalanceController::class, 'index'])->name('admin.bank_balance.list');
     Route::post('/admin/bankBalance/destroy', [BankBalanceController::class, 'destroy'])->name('admin.bank_balance.destroy');
+
 
     //customer
     Route::get('/admin/customer', [CustomerController::class, 'index'])->name('admin.customer.list');
@@ -137,6 +142,8 @@ Route::get('/export-customer', [CustomerController::class, 'customerExportExcel'
     
     //bank Balance
     Route::get('/assistant/bankBalance', [BankBalanceController::class, 'indexAssistant'])->name('assistant.bank_balance.list');
+    
+
 
     //open close Balance
     Route::get('/assistant/openCloseBalance', [OpenCloseBalanceController::class, 'assistantIndex'])->name('assistant.open_close_balance.list');

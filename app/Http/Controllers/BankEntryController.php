@@ -43,6 +43,7 @@ class BankEntryController extends Controller
             return view('exchange.bank.freezbank', compact('bankEntryRecords', 'bankRecords'));
         }    
     }
+    
     public function create()
     {
         if (!auth()->check()) {

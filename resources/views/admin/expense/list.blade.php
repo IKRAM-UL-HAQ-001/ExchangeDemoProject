@@ -20,7 +20,7 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Exchange </th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Amount</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Type</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Remarks</th>
+                                    {{-- <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Remarks</th> --}}
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Balance</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Date and Time</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder  ">Action</th>
@@ -47,7 +47,7 @@
                                         <td>{{ $expense->exchange->name }}</td>
                                         <td>{{ $expense->cash_amount }}</td>
                                         <td>{{ $expense->cash_type }}</td>
-                                        <td>{{ $expense->remarks }}</td>
+                                        {{-- <td>{{ $expense->remarks }}</td> --}}
                                         <td>{{ $balance}}</td>
                                         <td>{{ $expense->created_at}}</td>
                                         <td class="text-center">
