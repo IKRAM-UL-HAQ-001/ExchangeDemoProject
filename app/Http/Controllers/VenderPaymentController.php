@@ -6,7 +6,7 @@ use App\Models\VenderPayment;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\VenderPaymentListExport;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 class VenderPaymentController extends Controller
 {
@@ -25,7 +25,7 @@ class VenderPaymentController extends Controller
         $startOfYear = Carbon::now()->startOfYear(); 
         $endOfYear = Carbon::now()->endOfYear();
         $venderPaymentRecords = VenderPayment::whereBetween('created_at', [$startOfYear, $endOfYear])
-        ->orderBy('created_at', 'desc')->get();
+        ->orderBy('created_at', 'desc')->paginate(20);
         return response()->view('admin.vender_payment.list', compact('venderPaymentRecords'));
     }
     public function assistantindex()
@@ -33,7 +33,7 @@ class VenderPaymentController extends Controller
         $startOfYear = Carbon::now()->startOfYear(); 
         $endOfYear = Carbon::now()->endOfYear();
         $venderPaymentRecords = VenderPayment::whereBetween('created_at', [$startOfYear, $endOfYear])
-        ->orderBy('created_at', 'desc')->get();
+        ->orderBy('created_at', 'desc')->paginate(20);
         return response()->view('assistant.vender_payment.list', compact('venderPaymentRecords'));
     }
     

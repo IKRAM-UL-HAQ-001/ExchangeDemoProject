@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('customer_Phone')->nullable();
             $table->integer('cash_amount')->nullable();
             $table->string('cash_type');
+            $table->boolean('approval')->default(0);
             $table->integer('bonus_amount')->nullable();
             $table->string('payment_type')->nullable();
             $table->text('remarks')->nullable();

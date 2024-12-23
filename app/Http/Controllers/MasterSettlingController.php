@@ -8,7 +8,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\MasterSettlingMonthlyListExport;
 use App\Exports\MasterSettlingWeeklyListExport;
 use Carbon\Carbon;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class MasterSettlingController extends Controller
 {
@@ -50,7 +50,7 @@ class MasterSettlingController extends Controller
             $masterSettlingRecords = MasterSettling::with(['exchange', 'user'])
                 ->whereBetween('created_at', [$startOfYear, $endOfYear])
                 ->orderBy('created_at', 'desc')
-                ->get();
+                ->paginate(20);
     
             return response()
                 ->view("admin.master_settling.list", compact('masterSettlingRecords'));
@@ -66,7 +66,7 @@ class MasterSettlingController extends Controller
             $endOfYear = Carbon::now()->endOfYear();
             $masterSettlingRecords = MasterSettling::with(['exchange', 'user'])
                 ->whereBetween('created_at', [$startOfYear, $endOfYear])
-                ->get();
+                ->paginate(20);
     
             return response()
                 ->view("assistant.master_settling.list", compact('masterSettlingRecords'));
@@ -83,8 +83,7 @@ class MasterSettlingController extends Controller
             $masterSettlingRecords = MasterSettling::with(['exchange', 'user'])
                 ->where('exchange_id', $exchangeId)
                 ->where('user_id', $userId)
-                ->get();
-    
+                ->paginate(20);   
             return response()
                 ->view("exchange.master_settling.list", compact('masterSettlingRecords'));
         }

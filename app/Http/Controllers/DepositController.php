@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Deposit;
 use App\Models\Cash;
+use App\Models\ExcelFile;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 Use App\Exports\DepositListExport;
 use Carbon\Carbon;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 class DepositController extends Controller
 {
     
@@ -41,10 +42,11 @@ class DepositController extends Controller
             ->where('exchange_id', $exchangeId)
             ->where('user_id', $userId)
             ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
-            ->get();
+            ->paginate(20);
 
+        $excelData = ExcelFile::all();
 
-        return view('exchange.deposit.list', compact('depositRecords'));
+        return view('exchange.deposit.list', compact('depositRecords','excelData'));
     }
 
 

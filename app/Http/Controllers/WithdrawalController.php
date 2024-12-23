@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 Use App\Exports\WithdrawalListExport;
 use Carbon\Carbon;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 class WithdrawalController extends Controller
 {
 
@@ -34,17 +34,15 @@ class WithdrawalController extends Controller
         if (!auth()->check()) {
             return redirect()->route('auth.login');
         }
-        
         $startOfWeek = Carbon::now()->startOfWeek();
         $endOfWeek = Carbon::now()->endOfWeek();
-        
         $exchangeId = auth()->user()->exchange_id;
         $userId = auth()->user()->id;
         $withdrawalRecords = Cash::with(['exchange', 'user'])
             ->where('exchange_id', $exchangeId) 
             ->where('user_id', $userId) 
             ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
-            ->get();
+            ->paginate(2);
             
         return response()->view('exchange.withdrawal.list', compact('withdrawalRecords'));
     }    

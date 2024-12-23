@@ -5,14 +5,14 @@
         <div class="col-12">
             <div class="card my-4">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div class="bg-gradient-success shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+                    <div class="bg-gradient-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                         <p style="color: black;"><strong>Cash Transactions</strong></p>
                         <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#cashTransactionModal">Add New Transaction</button>
                     </div>
                 </div>
                 <div class="card-body px-0 pb-2 px-3">
                     <div class="table-responsive p-0">
-                        <table id="cashTable" class="table align-items-center mb-0 table-striped table-hover">
+                        <table id="cash" class="table align-items-center mb-0 table-striped table-hover">
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder">User Name</th>
@@ -46,6 +46,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        {{ $cashRecords->links('pagination::bootstrap-4') }}
                     </div>
                 </div>
             </div>
@@ -56,7 +57,7 @@
     <div class="modal fade" id="cashTransactionModal" tabindex="-1" aria-labelledby="cashTransactionModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class=" bg-gradient-primary modal-header">
                     <h5 class="modal-title text-white" id="cashTransactionModalLabel">Cash Transaction Form</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeModalButton"></button>
                 </div>
@@ -162,7 +163,7 @@
                         <div class="form-group row mb-3 col-lg-12 mt-2 ">
                             <div class="col-lg-12 ml-auto pt-3 d-flex flex-row gap-3 justify-content-end">
                                 <button type="button" class=" btn btn-dark" data-bs-dismiss="modal" aria-label="Close" id="closeModalButton">Close</button>
-                                <button type="submit" class="btn btn-success">Submit</button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
                             </div>
                         </div>
                     </form>
@@ -176,19 +177,6 @@
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('#cashTable').DataTable({
-            pagingType: "full_numbers",
-            language: {
-                paginate: {
-                    first: '«',
-                    last: '»',
-                    next: '›',
-                    previous: '‹'
-                }
-            },
-            lengthMenu: [5, 10, 25, 50],
-            pageLength: 10
-        });
 
         const cashTypeSelect = $('#cash_type');
         const cashForm = $('#cashForm');

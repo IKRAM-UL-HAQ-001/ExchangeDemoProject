@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Cash;
 use Illuminate\Http\Request;
-use Auth;
+use Illuminate\Support\Facades\Auth;
+use DB;
+use App\Models\ExcelFile;
 
 class CashController extends Controller
 {
@@ -17,7 +19,7 @@ class CashController extends Controller
         $userId = $user->id;
         $exchangeId = $user->exchange_id;
         $cashRecords = Cash::where('exchange_id', $exchangeId)
-        ->where('user_id', $userId)->get();
+            ->where('user_id', $userId)->paginate(20);
 
         return view('exchange.cash.list', compact('cashRecords'));
     }
@@ -27,8 +29,7 @@ class CashController extends Controller
         if (!auth()->check()) {
             return response()->json(['success' => false, 'message' => 'User not authenticated.'], 401);
         }
-
-        // dd($request->customer_phone);
+        // dd($request);
         $validatedData = $request->validate([
             'reference_number' => 'nullable|string|max:255|unique:cashes,reference_number',
             'customer_name' => 'nullable|string|max:255|required_if:cash_type,deposit',
@@ -39,14 +40,16 @@ class CashController extends Controller
             'payment_type' => 'nullable|string|required_if:cash_type,deposit',
             'remarks' => 'nullable|string|max:255|',
         ]);
+
+
         try {
             $user = Auth::user();
             Cash::create([
                 'reference_number' => $validatedData['reference_number'] ?? null,
                 'customer_name' => $validatedData['customer_name'] ?? null,
                 'cash_amount' => $validatedData['cash_amount'] ?? null,
-                'customer_phone' => $validatedData['customer_phone']?? null,
-                'cash_type' => $validatedData['cash_type']?? null,
+                'customer_phone' => $validatedData['customer_phone'] ?? null,
+                'cash_type' => $validatedData['cash_type'] ?? null,
                 'bonus_amount' => $validatedData['bonus_amount'] ?? 0,
                 'payment_type' => $validatedData['payment_type'] ?? null,
                 'remarks' => $validatedData['remarks'] ?? null,
@@ -58,7 +61,24 @@ class CashController extends Controller
             return response()->json(['error' => false, 'message' => 'Something went wrong: ' . $e->getMessage()], 500);
         }
     }
-
+    public function approval(Request $request)
+    {
+        if (!auth()->check()) {
+            return response()->json(['success' => false, 'message' => 'User not authenticated.'], 401);
+        }
+        $approval = $request->approval;
+        $id = $request->id;
+        $cash = Cash::find($id);
+        if ($cash) {
+            $cash->approval = $approval;
+            $cash->update();
+        } else {
+            return redirect()->back()->withErrors([
+                'error' => 'Entry Not Found',
+            ]);
+        }
+        return redirect()->back();
+    }
     public function destroy(Request $request)
     {
         if (!auth()->check()) {

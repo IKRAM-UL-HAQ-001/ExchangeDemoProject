@@ -7,7 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 Use App\Exports\CustomerListExport;
 use Maatwebsite\Excel\Facades\Excel;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 class CustomerController extends Controller
 {
 
@@ -32,7 +32,7 @@ class CustomerController extends Controller
         $startOfWeek = Carbon::now()->startOfWeek();
         $endOfWeek = Carbon::now()->endOfWeek();
         $customerRecords = Customer::whereBetween('created_at', [$startOfWeek, $endOfWeek])
-        ->orderBy('created_at', 'desc')->get();
+        ->orderBy('created_at', 'desc')->paginate(20);
 
         return view("admin.customer.list", compact('customerRecords'));
     }
@@ -97,7 +97,7 @@ class CustomerController extends Controller
         $user = Auth::user();
         $customerRecords = Customer::where('exchange_id', $user->exchange_id)
             ->where('user_id', $user->id)
-            ->get();
+            ->paginate(20);
 
         return view("exchange.customer.list", compact('customerRecords'));
     }

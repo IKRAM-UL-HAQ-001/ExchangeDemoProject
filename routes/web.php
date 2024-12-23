@@ -22,8 +22,7 @@ use App\Http\Controllers\OpenCloseBalanceController;
 use App\Http\Controllers\DepositController;
 use App\Http\Controllers\WithdrawalController;
 use App\Http\Controllers\DatabaseExportController;
-use App\Http\Middleware\XSSMiddleware;
-use App\Http\Middleware\sanitizeInput;
+use App\Http\Controllers\ExcelFileController;
 
 Route::get('/', [LoginController::class, 'index'])->name('auth.login');
 Route::post('/auth/login/post', [LoginController::class, 'login'])->name('login.post');
@@ -42,7 +41,7 @@ Route::get('/export-venderPayment', [VenderPaymentController::class, 'venderPaym
 Route::get('/export-openCloseBalance', [OpenCloseBalanceController::class, 'openCloseBalanceExportExcel'])->name('export.openCloseBalance');
 Route::get('/export-customer', [CustomerController::class, 'customerExportExcel'])->name('export.customer');
 
-// Route::group(['middleware' => ['admin']], function () {
+Route::group(['middleware' => ['admin']], function () {
 
     //download databsae
     Route::get('/admin/download', [DatabaseExportController::class, 'downloadDatabase'])->name('admin.confirm.download');
@@ -53,10 +52,10 @@ Route::get('/export-customer', [CustomerController::class, 'customerExportExcel'
 
     //update password
     Route::post('/passwordUpdate', [LoginController::class, 'update'])->name('password.update');
-    
+
     //logout all
     Route::get('/post', [LoginController::class, 'logoutAll'])->name('logout.all');
-    
+
     //Report
     Route::get('/admin/report', [ReportController::class, 'index'])->name('admin.report.list');
     Route::post('/admin/report/post', [ReportController::class, 'report'])->name('admin.report.generate');
@@ -68,112 +67,118 @@ Route::get('/export-customer', [CustomerController::class, 'customerExportExcel'
     Route::post('/admin/user/destroy', [UserController::class, 'destroy'])->name('admin.user.destroy');
     Route::post('/admin/user/status', [UserController::class, 'userStatus'])->name('admin.user.status');
 
-    
+
     // exchange
     Route::get('/admin/exchange', [ExchangeController::class, 'exchangeList'])->name('admin.exchange.list');
     Route::post('/admin/exchange/post', [ExchangeController::class, 'store'])->name('admin.exchange.store')->middleware('encrypt.request.data');
     Route::post('/admin/exchange/destroy', [ExchangeController::class, 'destroy'])->name('admin.exchange.destroy');
-    
+
     //bank
     Route::get('/admin/bank', [BankController::class, 'index'])->name('admin.bank.list');
     Route::post('/admin/bank/post', [BankController::class, 'store'])->name('admin.bank.store');
     Route::post('/admin/bank/destroy', [BankController::class, 'destroy'])->name('admin.bank.destroy');
 
-    
-    
+
+
     //Freez Bank
     Route::get('/admin/bank/freez', [BankController::class, 'freezBankIndex'])->name('admin.bank_freez.list');
     Route::post('/admin/bank/delete', [BankController::class, 'delete'])->name('admin.bank.delete');
-    
-    
+
+
     // bank user
     Route::get('/admin/bankUser', [BankUserController::class, 'index'])->name('admin.bank_user.list');
     Route::post('/admin/bankUser/post', [BankUserController::class, 'store'])->name('admin.bank_user.store');
-    Route::post('/admin/bankUser/destroy', [BankUserController::class, 'destroy'])->name('admin.bank_user.destroy');        
-    
+    Route::post('/admin/bankUser/destroy', [BankUserController::class, 'destroy'])->name('admin.bank_user.destroy');
+
     // deposit withdrawal
     Route::get('/admin/deposit-withdrawal', [DepositWithdrawalController::class, 'index'])->name('admin.deposit_withdrawal.list');
-    Route::post('/admin/deposit-withdrawal/destroy', [DepositWithdrawalController::class, 'destroy'])->name('admin.deposit_withdrawal.destroy');    
-    
+    Route::post('/admin/deposit-withdrawal/destroy', [DepositWithdrawalController::class, 'destroy'])->name('admin.deposit_withdrawal.destroy');
+
     //expense
     Route::get('/admin/expense', [ExpenseController::class, 'index'])->name('admin.expense.list');
     Route::post('/admin/expense/destroy', [ExpenseController::class, 'destroy'])->name('admin.expense.destroy');
-    
+
     //bank Balance
     Route::get('/admin/bankBalance', [BankBalanceController::class, 'index'])->name('admin.bank_balance.list');
     Route::post('/admin/bankBalance/destroy', [BankBalanceController::class, 'destroy'])->name('admin.bank_balance.destroy');
-    
-    
+
+
     //customer
     Route::get('/admin/customer', [CustomerController::class, 'index'])->name('admin.customer.list');
     Route::post('/admin/customer/destroy', [CustomerController::class, 'destroy'])->name('admin.customer.destroy');
-    
+
     //Master Settling
     Route::get('/admin/masterSettling', [MasterSettlingController::class, 'index'])->name('admin.master_settling.list');
     Route::post('/admin/masterSettling/destroy', [MasterSettlingController::class, 'destroy'])->name('admin.master_settling.destroy');
     Route::post('/admin/masterSettling/update', [MasterSettlingController::class, 'update'])->name('admin.master_settling.update');
-    
+
     //Owner Profit
     Route::get('/admin/ownerProfit', [OwnerProfitController::class, 'index'])->name('admin.owner_profit.list');
     Route::post('/admin/ownerProfit/destroy', [OwnerProfitController::class, 'destroy'])->name('admin.owner_profit.destroy');
-    
-    
+
+
     //Vender Payment
-    Route::get('/admin/venderPayment', [VenderPaymentController::class, 'index'])->name('admin.vender_payment.list');
-    
+    Route::get('/admin/vender_payment', [VenderPaymentController::class, 'index'])->name('admin.vender_payment.list');
+    Route::post('/admin/venderPayment/post', [VenderPaymentController::class, 'store'])->name('admin.vender_payment.store');
+    Route::post('/admin/venderPayment/delete', [VenderPaymentController::class, 'destroy'])->name('admin.vender_payment.destroy');
+
     //Vender Payment
     Route::get('/admin/openCloseBalance', [OpenCloseBalanceController::class, 'index'])->name('admin.open_close_balance.list');
     Route::post('/admin/openCloseBalance/destroy', [OpenCloseBalanceController::class, 'destroy'])->name('admin.open_close_balance.destroy');
-    
-    // });
-    
-    // Route::group(['middleware' => ['assistant']], function () {
-        
+
+    //File Operations
+    Route::get('/admin/file', [ExcelFileController::class, 'index'])->name('admin.file.list');
+    Route::post('/admin/file/post', [ExcelFileController::class, 'store'])->name('admin.file.post');
+    Route::post('/admin/file/destroy', [ExcelFileController::class, 'destroy'])->name('admin.file.destroy');
+});
+
+Route::group(['middleware' => ['assistant']], function () {
+
     // assistant dashboard
     Route::get('/assistant', [AssistantController::class, 'index'])->name('assistant.dashboard');
-    
+
     // deposit withdrawal
     Route::get('/assistant/deposit-withdrawal', [DepositWithdrawalController::class, 'assistantIndex'])->name('assistant.deposit_withdrawal.list');
-    
+
     //expense
     Route::get('/assistant/expense', [ExpenseController::class, 'assistantIndex'])->name('assistant.expense.list');
-    
+
     //Master Settling
     Route::get('/assistant/masterSettling', [MasterSettlingController::class, 'indexAssistant'])->name('assistant.master_settling.list');
-    
+
     //bank Balance
     Route::get('/assistant/bankBalance', [BankBalanceController::class, 'indexAssistant'])->name('assistant.bank_balance.list');
-    
-    
+
+
     Route::get('/assistant/venderPayment', [VenderPaymentController::class, 'assistantindex'])->name('assistant.vender_payment.list');
     Route::post('/assistant/venderPayment/post', [VenderPaymentController::class, 'assistantstore'])->name('assistant.vender_payment.store');
     Route::post('/assistant/venderPayment/destroy', [VenderPaymentController::class, 'assistantdestroy'])->name('assistant.vender_payment.destroy');
-    
-    
-    
+
+
+
     //open close Balance
     Route::get('/assistant/openCloseBalance', [OpenCloseBalanceController::class, 'assistantIndex'])->name('assistant.open_close_balance.list');
-    // });
-    
-    
-    
-    // Route::group(['middleware' => ['exchange']], function () {
-        
+});
+
+
+
+Route::group(['middleware' => ['exchange']], function () {
+
     //Exchange Dashboard
     Route::get('/exchange', [ExchangeController::class, 'index'])->name('exchange.dashboard');
-    
+
     //Exchange Cash
     Route::get('/exchange/cash', [CashController::class, 'index'])->name('exchange.cash.list');
     Route::post('/exchange/cash/store', [CashController::class, 'store'])->name('exchange.cash.store');
     Route::post('/exchange/cash/destroy', [CashController::class, 'destroy'])->name('exchange.cash.destroy');
-    
+
     //bank
     Route::get('/exchange/bank', [BankEntryController::class, 'index'])->name('exchange.bank.list');
     Route::get('/exchange/bank/freez', [BankEntryController::class, 'freezBankIndex'])->name('exchange.bank.freezbank');
     Route::post('/exchange/bank/post', [BankEntryController::class, 'store'])->name('exchange.bank.store');
     Route::post('/exchange/bank/balance/post', [BankEntryController::class, 'getBankBalance'])->name('exchange.bank.post');
     Route::post('/exchange/bank/un-freeze', [BankEntryController::class, 'unFreeze'])->name('exchange.bank.un-freeze');
-    
+
     //customer
     Route::get('/exchange/customer', [CustomerController::class, 'exchangeIndex'])->name('exchange.customer.list');
     Route::post('/exchange/customer/post', [CustomerController::class, 'store'])->name('exchange.customer.store');
@@ -184,10 +189,11 @@ Route::get('/export-customer', [CustomerController::class, 'customerExportExcel'
 
     // withdrawal withdrawal
     Route::get('/exchange/withdrawal', [WithdrawalController::class, 'index'])->name('exchange.withdrawal.list');
+    Route::post('/exchange/withdrawal/approval', [CashController::class, 'approval'])->name('exchange.withdrawal.approval');
 
     // deposit withdrawal
     Route::get('/exchange/deposit', [DepositController::class, 'index'])->name('exchange.deposit.list');
-        
+
     //expense
     Route::get('/exchange/expense', [ExpenseController::class, 'exchangeIndex'])->name('exchange.expense.list');
 
@@ -202,4 +208,4 @@ Route::get('/export-customer', [CustomerController::class, 'customerExportExcel'
     //open close balance
     Route::get('/exchange/openCloseBalance', [OpenCloseBalanceController::class, 'exchangeIndex'])->name('exchange.open_close_balance.list');
     Route::post('/exchange/openCloseBalance/post', [OpenCloseBalanceController::class, 'store'])->name('exchange.open_close_balance.store');
-// });
+});

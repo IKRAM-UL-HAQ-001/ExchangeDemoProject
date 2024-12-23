@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BankUser;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class BankUserController extends Controller
 {
@@ -14,9 +14,9 @@ class BankUserController extends Controller
         if (!auth()->check()) {
             return redirect()->route('auth.login');
         } else {
-            $bankUserRecords = BankUser::all();
+            $bankUserRecords = BankUser::paginate(20);
             $userRecords = User::whereNotIn('role', ['admin', 'assistant'])
-                ->orderBy('created_at', 'desc')->get();
+                ->orderBy('created_at', 'desc')->paginate(20);
             $response = view("admin.bank_user.list", compact('bankUserRecords', 'userRecords'));
             return response($response);
         }

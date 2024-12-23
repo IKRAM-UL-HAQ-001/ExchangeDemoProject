@@ -8,7 +8,7 @@ Use App\Exports\ExpenseListExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class ExpenseController extends Controller
 {
@@ -36,7 +36,7 @@ class ExpenseController extends Controller
             $expenseRecords = Cash::with(['exchange', 'user'])
                 ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
                 ->orderBy('created_at', 'desc')
-                ->get();
+                ->paginate(20);
     
             return response()
                 ->view('admin.expense.list', compact('expenseRecords'));
@@ -52,8 +52,7 @@ class ExpenseController extends Controller
             $endOfWeek = Carbon::now()->endOfWeek();
             $expenseRecords = Cash::with(['exchange', 'user'])
                 ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
-                ->get();
-    
+                ->paginate(20);    
             return response()
                 ->view('assistant.expense.list', compact('expenseRecords'));
         }
@@ -85,8 +84,7 @@ class ExpenseController extends Controller
                 ->where('exchange_id', $exchangeId)
                 ->where('user_id', $userId)
                 ->where('cash_type', 'expense')
-                ->get();
-    
+                ->paginate(20);    
             return response()
                 ->view('exchange.expense.list', compact('expenseRecords'));
         }

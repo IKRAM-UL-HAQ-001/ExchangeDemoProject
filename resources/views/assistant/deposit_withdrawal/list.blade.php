@@ -5,16 +5,18 @@
         <div class="col-12">
             <div class="card my-4">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div class="bg-gradient-success shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+                    <div class="bg-gradient-primary  border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                         <p style="color: black;"><strong>Deposit - Withdrawal Table (Weekly Bases)</strong></p>
-                         <div>
-                                 <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exportdepositModal">Deposit Export</button>
-                                 <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exportWithdrawalModal">Withdrawal Export</button>
+                        <div>
+                            <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exportdepositModal">Deposit Export</button>
+                            <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exportWithdrawalModal">Withdrawal Export</button>
+                    
+                        </div>
                     </div>
                 </div>
                 <div class="card-body px-0 pb-2 px-3">
                     <div class="table-responsive p-0">
-                        <table id="depositWithdrawalTable" class="table align-items-center mb-0 table-striped table-hover px-2">
+                        <table id="depositWithdrawal" class="table align-items-center mb-0 table-striped table-hover px-2">
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">User </th>
@@ -42,23 +44,25 @@
                                             $balance -= $depositWithdrawal->cash_amount;
                                         }
                                     @endphp
-                                @if($depositWithdrawal->cash_type !="expense")
-                                    <tr>
-                                        <td>{{ $depositWithdrawal->user->name }}</td>
-                                        <td>{{ $depositWithdrawal->exchange->name }}</td>
-                                        <td>{{ $depositWithdrawal->reference_number }}</td>
-                                        <td>{{ $depositWithdrawal->customer_name }}</td>
-                                        <td>{{ $depositWithdrawal->cash_amount }}</td>
-                                        <td>{{ $depositWithdrawal->cash_type }}</td>
-                                        <td>{{ $depositWithdrawal->bonus_amount }}</td>
-                                        <td>{{ $depositWithdrawal->payment_type }}</td>
-                                        <td>{{ $depositWithdrawal->remarks }}</td>
-                                        <td>{{ number_format($balance, 2) }}</td>
-                                    </tr>
-                                @endif
+                                    @if($depositWithdrawal->cash_type !="expense")
+                                        <tr>
+                                            <td>{{ $depositWithdrawal->user->name }}</td>
+                                            <td>{{ $depositWithdrawal->exchange->name }}</td>
+                                            <td>{{ $depositWithdrawal->reference_number }}</td>
+                                            <td>{{ $depositWithdrawal->customer_name }}</td>
+                                            <td>{{ $depositWithdrawal->cash_amount }}</td>
+                                            <td>{{ $depositWithdrawal->cash_type }}</td>
+                                            <td>{{ $depositWithdrawal->bonus_amount }}</td>
+                                            <td>{{ $depositWithdrawal->payment_type }}</td>
+                                            <td>{{ $depositWithdrawal->remarks }}</td>
+                                            <td>{{ number_format($balance, 2) }}</td>
+                                        </tr>
+                                    @endif
                             @endforeach
                             </tbody>
                         </table>
+                        {{ $depositWithdrawalRecords->links('pagination::bootstrap-4') }}
+
                     </div>
                 </div>
             </div>
@@ -68,7 +72,7 @@
 <div class="modal fade" id="exportdepositModal" tabindex="-1" aria-labelledby="exportdepositModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header d-flex justify-content-between align-items-center" style="background-color:#fb8c00;">
+            <div class="bg-gradient-primary modal-header d-flex justify-content-between align-items-center" style="background-color:#fb8c00;">
                 <h5 class="modal-title" id="exportWithdrawalModalLabel" style="color:white">Deposit</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -85,7 +89,7 @@
                         <input type="date" class="form-control border px-3" id="edate" name="end_date" required
                             value="{{ \Carbon\Carbon::today()->toDateString() }}">
                     </div>
-                    <button type="submit" class="btn btn-success">
+                    <button type="submit" class="btn btn-primary">
                         Generate File
                     </button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -116,7 +120,7 @@
                         <input type="date" class="form-control border px-3" id="edate" name="end_date" required
                             value="{{ \Carbon\Carbon::today()->toDateString() }}">
                     </div>
-                    <button type="submit" class="btn btn-success"> Generate File </button>
+                    <button type="submit" class="btn btn-primary"> Generate File </button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </form>
 
@@ -128,23 +132,4 @@
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-<script>
-$(document).ready(function() {
-        const userTable = $('#depositWithdrawalTable').DataTable({
-            pagingType: "full_numbers"
-            , language: {
-                paginate: {
-                    first: '«'
-                    , last: '»'
-                    , next: '›'
-                    , previous: '‹'
-                }
-            }
-            , lengthMenu: [1, 10, 25, 50]
-            , pageLength: 10
-        });
-});
-
-</script>
 @endsection

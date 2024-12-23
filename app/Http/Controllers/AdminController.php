@@ -13,7 +13,7 @@ use App\Models\User;
 use App\Models\Exchange;
 use App\Models\VenderPayment;
 use Carbon\Carbon;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use DB;
 use Illuminate\Http\Request;
 
@@ -44,6 +44,7 @@ class AdminController extends Controller
 
             $totalWithdrawalDaily = Cash::where('cash_type', 'withdrawal')
                 ->whereDate('created_at', $today)
+                ->where('approval', '1')
                 ->sum('cash_amount');   
 
             $totalExpenseDaily = Cash::where('cash_type', 'expense')
@@ -79,6 +80,7 @@ class AdminController extends Controller
             $totalWithdrawalWeekly = Cash::where('cash_type', 'withdrawal')
             ->where(DB::raw("WEEK(created_at)"), $currentWeek)
             ->whereYear('created_at', $currentYear)
+            ->where('approval', '1')
             ->sum('cash_amount');
 
             $totalExpenseWeekly = Cash::where('cash_type', 'expense')
@@ -118,6 +120,7 @@ class AdminController extends Controller
             $totalWithdrawalMonthly = Cash::where('cash_type', 'withdrawal')
                 ->whereMonth('created_at', $currentMonth)
                 ->whereYear('created_at', $currentYear)
+                ->where('approval', '1')
                 ->sum('cash_amount');
 
             $totalPaidAmountMonthly = VenderPayment::whereMonth('created_at', $currentMonth)

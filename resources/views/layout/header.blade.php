@@ -14,7 +14,8 @@
     <link rel="icon" type="image/png" href="{{ asset('assets/img/logo.png') }}">
 
     <!-- Fonts and Icons -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700"
+        rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
@@ -33,6 +34,32 @@
     }
     </script>
     <style>
+        #sidenav-collapse-main::-webkit-scrollbar {
+            width: 8px;
+        }
+    
+        #sidenav-collapse-main::-webkit-scrollbar-thumb {
+            background-color: #888;
+            border-radius: 10px;
+        }
+    
+        #sidenav-collapse-main::-webkit-scrollbar-thumb:hover {
+            background-color: #555;
+        }
+    
+        body::-webkit-scrollbar {
+            width: 8px;
+        }
+    
+        body::-webkit-scrollbar-thumb {
+            background-color: #80bdff;
+            border-radius: 10px;
+        }
+    
+        body::-webkit-scrollbar-thumb:hover {
+            background-color: #555;
+        }
+    
         .bg-gradient-to-white {
             background: linear-gradient(to bottom, #f0f0f0, white);
         }
@@ -88,6 +115,71 @@
 
         .td-large {
             width: 45%;
+        }
+
+        .pagination {
+            display: flex;
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            justify-content: flex-end !important;
+
+        }
+
+        .pagination li {
+            margin: 0 5px;
+        }
+
+        .pagination li a,
+        .pagination li span {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #f1f1f1;
+            /* Light background color */
+            color: #333;
+            /* Text color */
+            border-radius: 4px;
+            font-size: 16px;
+            /* Adjust the font size */
+            text-decoration: none;
+        }
+
+        .pagination li a:hover,
+        .pagination li span:hover {
+            background-color: #ddd;
+            /* Change background color on hover */
+        }
+
+        .pagination .page-link {
+            color: black;
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .pagination li.active span {
+            background-color: #007bff;
+            /* Change background color for the active page */
+            color: white;
+            /* Text color for active page */
+            font-size: 18px;
+            /* Increase font size for the active page */
+            padding: 10px 18px;
+            /* Increase padding to make it bigger */
+        }
+
+        .pagination li.disabled span {
+            background-color: #e0e0e0;
+            /* Gray color for disabled state */
+            color: #2a2a2a;
+            /* Text color for disabled state */
+        }
+
+        .pagination li a,
+        .pagination li span {
+            font-size: 14px;
+            /* Default font size for pagination */
         }
 
         .td-small {
@@ -212,31 +304,6 @@
             }
         }
     </style>
-    <script>
-        document.addEventListener('contextmenu', function(event) {
-            event.preventDefault();
-        });
 
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'F12' || (event.ctrlKey && event.shiftKey && event.key === 'I') || (event.ctrlKey &&
-                    event.key === 'U')) {
-                event.preventDefault();
-            }
-        });
-
-        document.addEventListener('keydown', function(event) {
-            if ((event.ctrlKey && event.shiftKey && (event.key === 'J' || event.key === 'C')) || (event.ctrlKey &&
-                    event.key === 'S')) {
-                event.preventDefault();
-            }
-        });
-
-        document.addEventListener('selectstart', function(event) {
-            event.preventDefault();
-        });
-        document.addEventListener('copy', function(event) {
-            event.preventDefault();
-        });
-    </script>
 
 </head>

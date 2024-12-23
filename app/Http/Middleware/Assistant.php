@@ -19,6 +19,6 @@ class Assistant
         if (Auth::check() && Auth::user()->isAssistant()) {
             return $next($request);
         }
-        return redirect('/welcome')->with('error', 'You do not have assistant access.');
+        return redirect('/')->with('error', 'You do not have assistant access.');
     }
 }

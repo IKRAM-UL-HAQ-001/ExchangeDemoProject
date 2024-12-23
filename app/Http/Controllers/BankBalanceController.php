@@ -8,7 +8,7 @@ Use App\Exports\BankBalanceListExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-use Auth; 
+use Illuminate\Support\Facades\Auth; 
 class BankBalanceController extends Controller
 {
     
@@ -35,7 +35,7 @@ class BankBalanceController extends Controller
             $endOfWeek = Carbon::now()->endOfWeek();
             $bankBalanceRecords = BankEntry::with(['user', 'exchange'])
                 ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
-                ->get();
+                ->paginate(20);
             
             return response()
                 ->view("admin.bank_balance.list", compact('bankBalanceRecords'));
@@ -51,7 +51,7 @@ class BankBalanceController extends Controller
             $endOfWeek = Carbon::now()->endOfWeek();
             $bankBalanceRecords = BankEntry::with(['user', 'exchange'])
                 ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
-                ->get();
+                ->paginate(20);
             
             return response()
                 ->view("assistant.bank_balance.list", compact('bankBalanceRecords'));

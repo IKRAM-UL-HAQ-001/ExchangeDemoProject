@@ -5,7 +5,7 @@
         <div class="col-12">
             <div class="card my-4">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div class="bg-gradient-success shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+                    <div class="bg-gradient-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                         <p style="color: black;"><strong>Customer Table</strong></p>
                         <div>
                             <a href="{{ route('export.customer') }}" class="btn btn-dark">Customer Export Excel</a>
@@ -15,7 +15,7 @@
                 </div>
                 <div class="card-body px-0 pb-2 px-3">
                     <div class="table-responsive p-0">
-                        <table id="customerTable" class="table align-items-center mb-0 table-striped table-hover px-2">
+                        <table id="customer" class="table align-items-center mb-0 table-striped table-hover px-2">
                             <thead>
                                 <tr>
                                     <th>User</th>
@@ -39,6 +39,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        {{ $customerRecords->links('pagination::bootstrap-4') }}
                     </div>
                 </div>
             </div>
@@ -49,7 +50,7 @@
 <div class="modal fade" id="addCustomerModal" tabindex="-1" aria-labelledby="addCustomerModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header d-flex justify-content-between align-items-center">
+            <div class="bg-gradient-primary modal-header d-flex justify-content-between align-items-center">
                 <h5 class="modal-title" id="addCustomerModalLabel" style="color:white">Add Customer</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -85,7 +86,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeModalButton">Close</button>
-                            <button type="button" class="btn btn-success" id="submitCustomerEntry">Submit</button>
+                            <button type="button" class="btn btn-primary" id="submitCustomerEntry">Submit</button>
                         </div>
                     </form>
                 </div>
@@ -99,21 +100,6 @@
 
 <script>
     $(document).ready(function() {
-        // Ensure you include DataTables CSS as well
-        const userTable = $('#customerTable').DataTable({
-            pagingType: "full_numbers",
-            language: {
-                paginate: {
-                    first: '«',
-                    last: '»',
-                    next: '›',
-                    previous: '‹'
-                }
-            },
-            lengthMenu: [5, 10, 25, 50],
-            pageLength: 10
-        });
-    
         $('#submitCustomerEntry').click(function(event) {
             event.preventDefault();
     

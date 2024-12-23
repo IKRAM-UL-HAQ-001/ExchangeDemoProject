@@ -3,7 +3,7 @@
     <div class="container-fluid pb-5">
         <br>
         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 mt-5">
-            <div class="bg-gradient-success shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+            <div class="bg-gradient-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                 <p style="color: black;"><strong>Reports</strong></p>
                 <div>
                     <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#reportModal">Show Report</button>
@@ -58,7 +58,7 @@
         <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header d-flex justify-content-between align-items-center bg-warning">
+                    <div class="bg-gradient-primary modal-header d-flex justify-content-between align-items-center bg-primary">
                         <h5 class="modal-title" id="reportModalLabel" style="color:white">Generate Report</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -81,7 +81,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-warning" id="generateReportBtn">
+                        <button type="button" class="btn btn-primary" id="generateReportBtn">
                             <span id="btnText">Generate Report</span>
                             <span id="btnSpinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
                         </button>

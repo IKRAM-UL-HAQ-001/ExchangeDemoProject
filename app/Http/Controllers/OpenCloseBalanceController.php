@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\OpenCloseBalanceListExport;
 use Carbon\Carbon;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class OpenCloseBalanceController extends Controller
 {
@@ -30,7 +30,7 @@ class OpenCloseBalanceController extends Controller
     {
         $startOfWeek = Carbon::now()->startOfWeek();
         $openingClosingBalanceRecords = OpenCloseBalance::where('created_at', '>=', $startOfWeek)
-        ->orderBy('created_at', 'desc')->get();
+        ->orderBy('created_at', 'desc')->paginate(20);
         return response()
             ->view('admin.open_close_balance.list', compact('openingClosingBalanceRecords'));
     }
@@ -42,7 +42,7 @@ class OpenCloseBalanceController extends Controller
         $openingClosingBalanceRecords = OpenCloseBalance::where('exchange_id', $exchangeId)
             ->where('created_at', '>=', $startOfWeek)
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(20);
     
         return response()
             ->view('exchange.open_close_balance.list', compact("openingClosingBalanceRecords"));
@@ -51,7 +51,7 @@ class OpenCloseBalanceController extends Controller
     public function assistantIndex()
     {
         $startOfWeek = Carbon::now()->startOfWeek();
-        $openingClosingBalanceRecords = OpenCloseBalance::where('created_at', '>=', $startOfWeek)->get();
+        $openingClosingBalanceRecords = OpenCloseBalance::where('created_at', '>=', $startOfWeek)->paginate(20);
     
         return response()
             ->view('assistant.open_close_balance.list', compact("openingClosingBalanceRecords"));

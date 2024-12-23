@@ -8,7 +8,7 @@ Use App\Exports\DepositListExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Cash;
 use Illuminate\Http\Request;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 class DepositWithdrawalController extends Controller
@@ -26,7 +26,7 @@ class DepositWithdrawalController extends Controller
         $depositWithdrawalRecords = Cash::with(['exchange', 'user'])
             ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(20);
 
         return view('admin.deposit_withdrawal.list', compact('depositWithdrawalRecords'));
     }
@@ -42,7 +42,7 @@ class DepositWithdrawalController extends Controller
 
         $depositWithdrawalRecords = Cash::with(['exchange', 'user'])
             ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
-            ->get();
+            ->paginate(20);
 
         return view('assistant.deposit_withdrawal.list', compact('depositWithdrawalRecords'));
     }

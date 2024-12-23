@@ -6,7 +6,7 @@
     <div class="row mb-4">
         <div class="col-12">
             <div class="card-header p-0 position-relative mb-3">
-                <div class="bg-gradient-success border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+                <div class="bg-gradient-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                     <h5 class="text-white mb-3"><strong>Daily Bases</strong></h5>
                 </div>
             </div>
@@ -18,7 +18,7 @@
             <div class="card">
                 <div class="test1 card-header p-3">
                     <div class="d-flex align-items-center">
-                        <div class="icon icon-lg icon-shape bg-gradient-success shadow-dark text-center border-radius-xl position-relative" style="width: 60px; height: 60px;">
+                        <div class="icon icon-lg icon-shape bg-gradient-primary  text-center border-radius-xl position-relative" style="width: 60px; height: 60px;">
                             <i class="material-icons opacity-10">attach_money</i>
                         </div>
                         <div class="text-center flex-grow-1 ms-3">
@@ -32,7 +32,7 @@
         </div>
 
         @php
-            $colorClasses = ['bg-gradient-success'];
+            $colorClasses = ['bg-gradient-primary'];
         @endphp
 
         @foreach ([
@@ -70,7 +70,7 @@
                 <div class="card">
                     <div class="test1 card-header p-3">
                         <div class="d-flex align-items-center">
-                            <div class="icon icon-lg icon-shape {{ $colorClass }} shadow-dark text-center border-radius-xl position-relative" style="width: 60px; height: 60px;">
+                            <div class="icon icon-lg icon-shape {{ $colorClass }}  text-center border-radius-xl position-relative" style="width: 60px; height: 60px;">
                                 <i class="material-icons opacity-10">{{ $icon }}</i>
                             </div>
                             <div class="text-center flex-grow-1 ms-3">
@@ -89,7 +89,7 @@
     <div class="row mb-4">
         <div class="col-12">
             <div class="card-header p-0 position-relative mb-3">
-                <div class="bg-gradient-success shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+                <div class="bg-gradient-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                     <h5 class="text-white mb-3"><strong>Monthly Bases</strong></h5>
                 </div>
             </div>
@@ -101,7 +101,7 @@
             <div class="card">
                 <div class="test1 card-header p-3">
                     <div class="d-flex align-items-center">
-                        <div class="icon icon-lg icon-shape bg-gradient-success shadow-dark text-center border-radius-xl position-relative" style="width: 60px; height: 60px;">
+                        <div class="icon icon-lg icon-shape bg-gradient-primary  text-center border-radius-xl position-relative" style="width: 60px; height: 60px;">
                             <i class="material-icons opacity-10">attach_money</i>
                         </div>
                         <div class="text-center flex-grow-1 ms-3">
@@ -147,7 +147,7 @@
                 <div class="card">
                     <div class="test1 card-header p-3">
                         <div class="d-flex align-items-center">
-                            <div class="icon icon-lg icon-shape {{ $colorClass }} shadow-dark text-center border-radius-xl position-relative" style="width: 60px; height: 60px;">
+                            <div class="icon icon-lg icon-shape {{ $colorClass }}  text-center border-radius-xl position-relative" style="width: 60px; height: 60px;">
                                 <i class="material-icons opacity-10">{{ $icon }}</i>
                             </div>
                             <div class="text-center flex-grow-1 ms-3">

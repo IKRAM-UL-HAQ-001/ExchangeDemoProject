@@ -6,7 +6,7 @@
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <div
-                            class="bg-gradient-success shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+                            class="bg-gradient-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                             <p style="color: black;"><strong>User Table</strong></p>
                             <button type="button" class="btn btn-light" data-bs-toggle="modal"
                                 data-bs-target="#addUserModal">Add New User</button>
@@ -14,7 +14,7 @@
                     </div>
                     <div class="card-body px-0 pb-2 px-3">
                         <div class="table-responsive p-0" style="overflow-y: hidden;">
-                            <table id="userTable" class="table align-items-center mb-0 table-striped table-hover px-2">
+                            <table id="user" class="table align-items-center mb-0 table-striped table-hover px-2">
                                 <thead>
                                     <tr>
                                         <th class="text-uppercase text-secondary font-weight-bolder text-dark">User Name
@@ -54,13 +54,15 @@
                                             <td class="text-center">
                                                 <button class="btn btn-danger btn-sm"
                                                     onclick="deleteUser(this)">Delete</button>
-                                                <button class="btn btn-warning btn-sm"
+                                                <button class="btn btn-primary btn-sm"
                                                     onclick="editUser(this)">Edit</button>
                                             </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
                             </table>
+                        {{ $userRecords->links('pagination::bootstrap-4') }}
+
                         </div>
                     </div>
                 </div>
@@ -71,7 +73,7 @@
         <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header d-flex justify-content-between align-items-center">
+                    <div class="bg-gradient-primary modal-header d-flex justify-content-between align-items-center">
                         <h5 class="modal-title" id="addUserModalLabel" style="color:white">Add New User</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -112,20 +114,18 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success" onclick="addUser()">Save User</button>
+                        <button type="submit" class="btn btn-primary" onclick="addUser()">Save User</button>
                     </div>
                 </div>
             </div>
         </div>
-
-
 
         <!-- Edit User Modal -->
         <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel"
             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header d-flex justify-content-between align-items-center">
+                    <div class="bg-gradient-primary modal-header d-flex justify-content-between align-items-center">
                         <h5 class="modal-title" id="editUserModalLabel" style="color:white">Edit User</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -164,40 +164,17 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success" onclick="saveUserChanges()">Save Changes</button>
+                        <button type="submit" class="btn btn-primary" onclick="saveUserChanges()">Save Changes</button>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script>
-        $(document).ready(function() {
             // Initialize DataTable with safety checks
-            if ($.fn.DataTable.isDataTable('#userTable')) {
-                $('#userTable').DataTable().destroy();
-            }
 
-            $('#userTable').DataTable({
-                pagingType: "full_numbers",
-                language: {
-                    paginate: {
-                        first: '«',
-                        last: '»',
-                        next: '›',
-                        previous: '‹'
-                    }
-                },
-                lengthMenu: [1, 10, 25, 50],
-                pageLength: 5,
-                order: [
-                    [2, 'desc']
-                ]
-            });
-        });
 
         function addUser() {
             const name = $('#name').val();

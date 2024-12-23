@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\OwnerProfitListExport;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 class OwnerProfitController extends Controller
 {
     public function ownerProfitListExportExcel(Request $request)
@@ -32,7 +32,7 @@ class OwnerProfitController extends Controller
             $startOfYear = Carbon::now()->startOfYear();
             $endOfYear = Carbon::now()->endOfYear();
             $ownerProfitRecords = OwnerProfit::whereBetween('created_at', [$startOfYear, $endOfYear])
-            ->orderBy('created_at', 'desc')->get();    
+            ->orderBy('created_at', 'desc')->paginate(20);
             return response()
                 ->view('admin.owner_profit.list', compact('ownerProfitRecords'));
         }
@@ -91,10 +91,9 @@ class OwnerProfitController extends Controller
         } else {
             $user = Auth::user();
             $ownerProfitRecords = OwnerProfit::where('exchange_id', $user->exchange_id)
-                ->where('user_id', $user->id)
-                ->get();
-            return response()
-                ->view("exchange.owner_profit.list", compact('ownerProfitRecords'));
+            ->where('user_id', $user->id)
+            ->paginate(20);
+            return response()->view("exchange.owner_profit.list", compact('ownerProfitRecords'));
         }
     }
     

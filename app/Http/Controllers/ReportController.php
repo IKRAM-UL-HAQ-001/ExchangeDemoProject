@@ -55,6 +55,7 @@ class ReportController extends Controller
 
             $withdrawal = Cash::whereBetween('created_at', [$start_date, $end_date])
                 ->where('exchange_id', $exchangeId)
+                ->where('approval','1')
                 ->where('cash_type', 'withdrawal')
                 ->sum('cash_amount');
 
@@ -122,6 +123,7 @@ class ReportController extends Controller
 
             $withdrawal = Cash::whereBetween('created_at', [$start_date, $end_date])
                 ->where('exchange_id', $exchangeId)
+                ->where('approval','1')
                 ->where('cash_type', 'withdrawal')
                 ->sum('cash_amount');
 

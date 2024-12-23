@@ -5,7 +5,7 @@
         <div class="col-12">
             <div class="card my-4">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div class="bg-gradient-success shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+                    <div class="bg-gradient-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                         <p style="color: black;"><strong>Vender Payment Table</strong></p>
                         <div>
                             <a href="{{ route('export.venderPayment') }}" class="btn btn-dark">Export Vender Payment List</a>
@@ -15,7 +15,7 @@
                 </div>
                 <div class="card-body px-0 pb-2 px-3">
                     <div class="table-responsive p-0" style="overflow-y: hidden;">
-                        <table id="venderPaymentTable" class="table align-items-center mb-0 table-striped table-hover px-2">
+                        <table id="venderPayment" class="table align-items-center mb-0 table-striped table-hover px-2">
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Paid Amount</th>
@@ -41,6 +41,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        {{ $venderPaymentRecords->links('pagination::bootstrap-4') }}
                     </div>
                 </div>
             </div>
@@ -51,7 +52,7 @@
     <div class="modal fade" id="addVenderPaymentModal" tabindex="-1" aria-labelledby="addVenderPaymentModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header d-flex justify-content-between align-items-center">
+                <div class="bg-gradient-primary modal-header d-flex justify-content-between align-items-center">
                     <h5 class="modal-title" id="addVenderPaymentModalLabel" style="color:white">Add New Vender Payment</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -85,7 +86,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-success" onclick="addVenderPayment()">Submit</button>
+                    <button type="button" class="btn btn-primary" onclick="addVenderPayment()">Submit</button>
                 </div>
             </div>
         </div>
@@ -93,24 +94,7 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script>
-$(document).ready(function() {
-        const userTable = $('#venderPaymentTable').DataTable({
-            pagingType: "full_numbers",
-            language: {
-                paginate: {
-                    first: '«',
-                    last: '»',
-                    next: '›',
-                    previous: '‹'
-                }
-            },
-            lengthMenu: [5, 10, 25, 50],
-            pageLength: 10,
-            order: [[4, 'desc']]
-        });
-});
 
 function addVenderPayment() {
     const paid_amount = document.getElementById('paid_amount').value;

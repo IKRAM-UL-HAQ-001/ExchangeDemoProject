@@ -13,7 +13,7 @@ use App\Models\User;
 use App\Models\Exchange;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use DB;
 class AssistantController extends Controller
 {
@@ -39,6 +39,7 @@ class AssistantController extends Controller
 
             $totalWithdrawalDaily = Cash::where('cash_type', 'withdrawal')
                 ->whereDate('created_at', $today)
+                ->where('approval', '1')
                 ->sum('cash_amount');   
 
             $totalExpenseDaily = Cash::where('cash_type', 'expense')
@@ -70,6 +71,7 @@ class AssistantController extends Controller
             $totalWithdrawalMonthly = Cash::where('cash_type', 'withdrawal')
                 ->whereMonth('created_at', $currentMonth)
                 ->whereYear('created_at', $currentYear)
+                ->where('approval', '1')
                 ->sum('cash_amount');
             
             $totalExpenseMonthly = Cash::where('cash_type', 'expense')

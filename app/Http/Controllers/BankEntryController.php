@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BankEntry;
 use App\Models\Bank;
 use Illuminate\Http\Request;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 class BankEntryController extends Controller
 {
@@ -19,9 +19,9 @@ class BankEntryController extends Controller
             $userId = Auth::user()->id;
             $bankEntryRecords = BankEntry::where('exchange_id', $exchangeId)
             ->where('user_id', $userId)
-            ->where('status', null)->get();
+            ->where('status', null)->paginate(20);
             
-            $bankRecords = Bank::all();
+            $bankRecords = Bank::paginate(20);
             
             return view('exchange.bank.list', compact('bankEntryRecords', 'bankRecords'));
         }    
@@ -37,7 +37,7 @@ class BankEntryController extends Controller
             $bankEntryRecords = BankEntry::where('exchange_id', $exchangeId)
             ->where('user_id', $userId)
             ->where('status', "freez")
-            ->get();
+            ->paginate(20);
             $bankRecords = Bank::all();
             
             return view('exchange.bank.freezbank', compact('bankEntryRecords', 'bankRecords'));

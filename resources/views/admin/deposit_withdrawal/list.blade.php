@@ -6,7 +6,7 @@
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <div
-                            class="bg-gradient-success shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+                            class="bg-gradient-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                             <p style="color: black;"><strong>Deposit - Withdrawal Table (Weekly Basis)</strong></p>
                             <div>
                                  <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exportdepositModal">Deposit Export</button>
@@ -16,7 +16,7 @@
                     </div>
                     <div class="card-body px-0 pb-2 px-3">
                         <div class="table-responsive p-0" style="overflow-y: hidden;">
-                            <table id="depositWithdrawalTable"
+                            <table id="depositWithdrawal"
                                 class="table align-items-center mb-0 table-striped table-hover px-2">
                                 <thead>
                                     <tr>
@@ -71,6 +71,8 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                        {{ $depositWithdrawalRecords->links('pagination::bootstrap-4') }}
+
                         </div>
                     </div>
                 </div>
@@ -80,7 +82,7 @@
 <div class="modal fade" id="exportWithdrawalModal" tabindex="-1" aria-labelledby="exportWithdrawalModalLabel" aria-hidden="true">
     <div class="modal-dialog" >
         <div class="modal-content" >
-            <div class="modal-header d-flex justify-content-between align-items-center" style="background-color:#fb8c00;">
+            <div class="bg-gradient-primary modal-header d-flex justify-content-between align-items-center" style="background-color:#fb8c00;">
                 <h5 class="modal-title" id="exportWithdrawalModalLabel" style=" color:white">Withdrawal</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -97,8 +99,8 @@
                         <input type="date" class="form-control border px-3" id="edate" name="end_date" required
                             value="{{ \Carbon\Carbon::today()->toDateString() }}">
                     </div>
-                    <button type="submit" class="btn btn-warning"> Generate File </button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary"> Generate File </button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                 </form>
 
             </div>
@@ -109,7 +111,7 @@
 <div class="modal fade" id="exportdepositModal" tabindex="-1" aria-labelledby="exportdepositModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header d-flex justify-content-between align-items-center" style="background-color:#fb8c00;">
+            <div class="bg-gradient-primary modal-header d-flex justify-content-between align-items-center" style="background-color:#fb8c00;">
                 <h5 class="modal-title" id="exportWithdrawalModalLabel" style="color:white">Deposit</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -126,7 +128,7 @@
                         <input type="date" class="form-control border px-3" id="edate" name="end_date" required
                             value="{{ \Carbon\Carbon::today()->toDateString() }}">
                     </div>
-                    <button type="submit" class="btn btn-warning">
+                    <button type="submit" class="btn btn-primary">
                         Generate File
                     </button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -137,27 +139,8 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script>
 
-    $(document).ready(function() {
-        const userTable = $('#depositWithdrawalTable').DataTable({
-            pagingType: "full_numbers",
-            language: {
-                paginate: {
-                    first: '«',
-                    last: '»',
-                    next: '›',
-                    previous: '‹'
-                }
-            },
-            lengthMenu: [1, 10, 25, 50],
-            pageLength: 10,
-            order: [
-                [10, 'desc']
-            ]
-        });
-    });
 
     function deleteDepositWithdrawal(button, id) {
         const row = $(button).closest('tr'); // Changed to closest for better readability

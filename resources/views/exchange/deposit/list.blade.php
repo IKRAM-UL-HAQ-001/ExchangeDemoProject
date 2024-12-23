@@ -6,7 +6,7 @@
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <div
-                            class="bg-gradient-success shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+                            class="bg-gradient-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                             <p style="color: black;"><strong>Deposit Table (Weekly Bases)</strong></p>
                             <div>
                                 <button type="button" class="btn btn-dark" data-bs-toggle="modal"
@@ -18,7 +18,7 @@
                     </div>
                     <div class="card-body px-0 pb-2 px-3">
                         <div class="table-responsive p-0">
-                            <table id="depositTable" class="table align-items-center mb-0 table-striped table-hover px-2">
+                            <table id="deposit" class="table align-items-center mb-0 table-striped table-hover px-2">
                                 <thead>
                                     <tr>
                                         <th class="text-uppercase text-secondary font-weight-bolder">Reference No.</th>
@@ -61,6 +61,7 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            {{ $depositRecords->links('pagination::bootstrap-4') }}
                         </div>
                     </div>
                 </div>
@@ -71,7 +72,7 @@
             aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class=" bg-gradient-primary modal-header">
                         <h5 class="modal-title text-white" id="cashTransactionModalLabel">Cash Transaction Form</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                             id="closeModalButton"></button>
@@ -104,11 +105,20 @@
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
+                            @php
+                            $name = 'll'
+                            @endphp
                             <div class="form-group" id="customer_name">
                                 <label class="form-label" for="customer_name">Customer Name<span
                                         class="text-danger">*</span></label>
                                 <input type="text" class="form-control border" name="customer_name"
-                                    placeholder="Enter Customer Name">
+                                    placeholder="Enter Customer Name" list="customerNames">
+                                <datalist id="customerNames">
+                                    @foreach ($excelData as $item)
+                                        <option data-countryCode="{{ $item->customer_name }}"
+                                            value="{{ $item->customer_name }}">
+                                    @endforeach
+                                </datalist>
                                 @error('customer_name')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -117,13 +127,21 @@
                                 <label class="form-label" for="customer_phone">Customer Phone Number<span
                                         class="text-danger">*</span></label>
                                 <input type="text" class="form-control border" name="customer_phone"
-                                    placeholder="Enter Customer Phone Number">
+                                    placeholder="Enter Customer Phone Number" list="customerPhones">
                                 @error('customer_phone')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
+                                <datalist id="customerPhones">
+                                    @foreach ($excelData as $item)
+                                        <option data-countryCode="{{ $item->customer_phone }}"
+                                            value="{{ $item->customer_phone }}">
+                                    @endforeach
+                                </datalist>
                             </div>
+
                             <div class="form-group" id="cash_amount">
-                                <label for="cash_amount" class="form-label">Amount<span class="text-danger">*</span></label>
+                                <label for="cash_amount" class="form-label">Amount<span
+                                        class="text-danger">*</span></label>
                                 <input type="text" class="form-control border" name="cash_amount"
                                     placeholder="Enter Cash Amount" required>
                                 @error('cash_amount')
@@ -164,7 +182,7 @@
                         <div class="col-lg-12 ml-auto pt-3 d-flex flex-row gap-3 justify-content-end">
                             <button type="button" class=" btn btn-dark" data-bs-dismiss="modal" aria-label="Close"
                                 id="closeModalButton">Close</button>
-                            <button type="submit" class="btn btn-success">Submit</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     </div>
                     </form>
@@ -177,8 +195,7 @@
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header d-flex justify-content-between align-items-center"
-                    style="background-color:#fb8c00;">
+                <div class="bg-gradient-primary modal-header d-flex justify-content-between align-items-center">
                     <h5 class="modal-title" id="exportWithdrawalModalLabel" style="color:white">Deposit</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -195,7 +212,7 @@
                             <input type="date" class="form-control border px-3" id="edate" name="end_date"
                                 required value="{{ \Carbon\Carbon::today()->toDateString() }}">
                         </div>
-                        <button type="submit" class="btn btn-warning">
+                        <button type="submit" class="btn btn-primary">
                             Generate File
                         </button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -206,23 +223,7 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script>
-        $(document).ready(function() {
-            const userTable = $('#depositTable').DataTable({
-                pagingType: "full_numbers",
-                language: {
-                    paginate: {
-                        first: '«',
-                        last: '»',
-                        next: '›',
-                        previous: '‹'
-                    }
-                },
-                lengthMenu: [1, 10, 25, 50],
-                pageLength: 10
-            });
-        });
         const cashForm = $('#cashForm');
         cashForm.on('submit', function(e) {
 

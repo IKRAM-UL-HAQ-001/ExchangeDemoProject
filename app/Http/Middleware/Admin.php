@@ -14,6 +14,6 @@ class Admin
         if (Auth::check() && Auth::user()->isAdmin()) {
             return $next($request);
         }
-        return redirect('welcome')->with('error','You have not admin access');
+        return redirect('/')->with('error','You have not admin access');
     }
 }

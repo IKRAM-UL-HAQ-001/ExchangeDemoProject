@@ -19,7 +19,7 @@ class UserController extends Controller
             $userRecords = User::with('exchange')
             ->where('role', '!=', 'admin')
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(20);
             $exchangeRecords = Exchange::all();
             return view("admin.user.list", compact('userRecords', 'exchangeRecords'));
         }

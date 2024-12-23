@@ -7,7 +7,7 @@ use App\Models\BankEntry;
 use Illuminate\Http\Request;
 Use App\Exports\BankListExport;
 use Maatwebsite\Excel\Facades\Excel;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 class BankController extends Controller
 {
     public function bankExportExcel()
@@ -24,7 +24,7 @@ class BankController extends Controller
         if (!auth()->check()) {
             return redirect()->route('auth.login');
         } else {
-            $bankRecords = Bank::orderBy('created_at', 'desc')->get();
+            $bankRecords = Bank::orderBy('created_at', 'desc')->paginate(20);
             return view("admin.bank.list", compact('bankRecords'));
         }
     }
@@ -37,7 +37,7 @@ class BankController extends Controller
             $exchangeId = Auth::user()->exchange_id;
             $userId = Auth::user()->id;
             $bankEntryRecords = BankEntry::where('status', "freez")
-            ->get();
+            ->paginate(20);
             $bankRecords = Bank::all();
             
             return view('admin.bank_freez.list', compact('bankEntryRecords', 'bankRecords'));

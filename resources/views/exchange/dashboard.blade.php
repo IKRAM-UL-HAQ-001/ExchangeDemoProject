@@ -5,7 +5,7 @@
     <div class="row mb-4">
         <div class="col-12">
             <div class="card-header p-0 position-relative mb-3">
-                <div class="bg-gradient-success border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+                <div class="bg-gradient-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                     <h5 class="text-white mb-3"><strong>Daily Bases</strong></h5>
                 </div>
             </div>
@@ -17,7 +17,7 @@
             <div class="card">
                 <div class="test1 card-header p-3">
                     <div class="d-flex align-items-center">
-                        <div class="icon icon-lg icon-shape bg-gradient-success shadow-dark text-center border-radius-xl position-relative"
+                        <div class="icon icon-lg icon-shape bg-gradient-primary shadow-dark text-center border-radius-xl position-relative"
                         style="width: 60px; height: 60px;">
                             <i class="material-icons opacity-10">account_balance_wallet</i>
                         </div>
@@ -32,18 +32,18 @@
         </div>
 
         @foreach ([ 
-            ['Today Freez Amount', $totalFreezAmountDaily, 'bg-gradient-success', 'arrow_downward'],
-            ['Today Margin', $totalBalanceDaily, 'bg-gradient-success', 'attach_money'],
-            ['Today Deposit', $totalDepositDaily, 'bg-gradient-success', 'arrow_upward'],
-            ['Today Withdrawal', $totalWithdrawalDaily, 'bg-gradient-success', 'arrow_downward'],
-            ['Today Expense', $totalExpenseDaily, 'bg-gradient-success', 'money_off'],
-            ['Today Bonus', $totalBonusDaily, 'bg-gradient-success', 'star'],
-            ['Today Users', $userCount, 'bg-gradient-success', 'people'],
-            ['Customers', $customerCountDaily, 'bg-gradient-success', 'person'],
-            ['Today Profit', $totalOwnerProfitDaily, 'bg-gradient-success', 'attach_money'],
-            ['Today New Customers', $totalNewCustomerDaily, 'bg-gradient-success', 'group_add'],
-            ['Today Open Close Balance', $totalOpenCloseBalanceDaily, 'bg-gradient-success', 'account_balance'],
-            ['Today Vendor Payments', $totalVendorPaymentsDaily, 'bg-gradient-success', 'payment'], // Vendor Payment Card
+            ['Today Freez Amount', $totalFreezAmountDaily, 'bg-gradient-primary', 'arrow_downward'],
+            ['Today Margin', $totalBalanceDaily, 'bg-gradient-primary', 'attach_money'],
+            ['Today Deposit', $totalDepositDaily, 'bg-gradient-primary', 'arrow_upward'],
+            ['Today Withdrawal', $totalWithdrawalDaily, 'bg-gradient-primary', 'arrow_downward'],
+            ['Today Expense', $totalExpenseDaily, 'bg-gradient-primary', 'money_off'],
+            ['Today Bonus', $totalBonusDaily, 'bg-gradient-primary', 'star'],
+            ['Today Users', $userCount, 'bg-gradient-primary', 'people'],
+            ['Customers', $customerCountDaily, 'bg-gradient-primary', 'person'],
+            ['Today Profit', $totalOwnerProfitDaily, 'bg-gradient-primary', 'attach_money'],
+            ['Today New Customers', $totalNewCustomerDaily, 'bg-gradient-primary', 'group_add'],
+            ['Today Open Close Balance', $totalOpenCloseBalanceDaily, 'bg-gradient-primary', 'account_balance'],
+            ['Today Vendor Payments', $totalVendorPaymentsDaily, 'bg-gradient-primary', 'payment'], // Vendor Payment Card
 
         ] as $card)
             <div class="col-xl-3 col-sm-6 mb-4">
@@ -69,7 +69,7 @@
         <div class="row mb-4">
             <div class="col-12">
                 <div class="card-header p-0 position-relative mb-3">
-                    <div class="bg-gradient-success shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+                    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                         <h5 class="text-white mb-3"><strong>Weekly Bases</strong></h5>
                     </div>
                 </div>
@@ -81,7 +81,7 @@
                 <div class="card">
                     <div class="test1 card-header p-3">
                         <div class="d-flex align-items-center">
-                            <div class="icon icon-lg icon-shape bg-gradient-success shadow-dark text-center border-radius-xl position-relative"
+                            <div class="icon icon-lg icon-shape bg-gradient-primary shadow-dark text-center border-radius-xl position-relative"
                             style="width: 60px; height: 60px;">
                                 <i class="material-icons opacity-10">account_balance_wallet</i>
                             </div>
@@ -96,17 +96,17 @@
             </div>
     
             @foreach ([ 
-                ['Weekly Freez Amount', $totalFreezAmountWeekly, 'bg-gradient-success', 'arrow_downward'],
-                ['Total Deposit', $totalDepositWeekly, 'bg-gradient-success', 'arrow_upward'],
-                ['Total Withdrawal', $totalWithdrawalWeekly, 'bg-gradient-success', 'arrow_downward'],
-                ['Total Expense', $totalExpenseWeekly, 'bg-gradient-success', 'money_off'],
-                ['Total Bonus', $totalBonusWeekly, 'bg-gradient-success', 'star'],
-                ['Total Users', $userCount, 'bg-gradient-success', 'people'],
-                ['Customers', $customerCountWeekly, 'bg-gradient-success', 'person'],
-                ['Weekly Profit', $totalOwnerProfitWeekly, 'bg-gradient-success', 'attach_money'],
-                ['Total New Customers', $totalNewCustomerWeekly, 'bg-gradient-success', 'group_add'],
-                ['Total Settling Points', $totalMasterSettlingWeekly, 'bg-gradient-success', 'point_of_sale'],
-                ['Total Vendor Payments', $totalVendorPaymentsWeekly, 'bg-gradient-success', 'payment'], // Vendor Payment Card
+                ['Weekly Freez Amount', $totalFreezAmountWeekly, 'bg-gradient-primary', 'arrow_downward'],
+                ['Total Deposit', $totalDepositWeekly, 'bg-gradient-primary', 'arrow_upward'],
+                ['Total Withdrawal', $totalWithdrawalWeekly, 'bg-gradient-primary', 'arrow_downward'],
+                ['Total Expense', $totalExpenseWeekly, 'bg-gradient-primary', 'money_off'],
+                ['Total Bonus', $totalBonusWeekly, 'bg-gradient-primary', 'star'],
+                ['Total Users', $userCount, 'bg-gradient-primary', 'people'],
+                ['Customers', $customerCountWeekly, 'bg-gradient-primary', 'person'],
+                ['Weekly Profit', $totalOwnerProfitWeekly, 'bg-gradient-primary', 'attach_money'],
+                ['Total New Customers', $totalNewCustomerWeekly, 'bg-gradient-primary', 'group_add'],
+                ['Total Settling Points', $totalMasterSettlingWeekly, 'bg-gradient-primary', 'point_of_sale'],
+                ['Total Vendor Payments', $totalVendorPaymentsWeekly, 'bg-gradient-primary', 'payment'], // Vendor Payment Card
                 
                 ] as $card)
                 <div class="col-xl-3 col-sm-6 mb-4">
@@ -132,7 +132,7 @@
             <div class="row mb-4">
                 <div class="col-12">
                     <div class="card-header p-0 position-relative mb-3">
-                        <div class="bg-gradient-success shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                             <h5 class="text-white mb-3"><strong>Monthly Bases</strong></h5>
                         </div>
                     </div>
@@ -145,7 +145,7 @@
                     <div class="card">
                         <div class="test1 card-header p-3">
                             <div class="d-flex align-items-center">
-                                <div class="icon icon-lg icon-shape bg-gradient-success shadow-dark text-center border-radius-xl position-relative" style="width: 60px; height: 60px;">
+                                <div class="icon icon-lg icon-shape bg-gradient-primary shadow-dark text-center border-radius-xl position-relative" style="width: 60px; height: 60px;">
                                     <i class="material-icons opacity-10">account_balance_wallet</i>
                                 </div>
                                 <div class="text-center flex-grow-1 ms-3">
@@ -159,17 +159,17 @@
                 </div>
                 <!-- Remaining Cards -->
                 @foreach ([ 
-                    ['Freez Amount', $totalFreezAmountMonthly, 'bg-gradient-success', 'arrow_downward'],
-                    ['Total Deposit', $totalDepositMonthly, 'bg-gradient-success', 'arrow_upward'],
-                    ['Total Withdrawal', $totalWithdrawalMonthly, 'bg-gradient-success', 'arrow_downward'],
-                    ['Total Expense', $totalExpenseMonthly, 'bg-gradient-success', 'money_off'],
-                    ['Total Bonus', $totalBonusMonthly, 'bg-gradient-success', 'star'],
-                    ['Total Users', $userCount, 'bg-gradient-success', 'people'],
-                    ['Customers', $customerCountMonthly, 'bg-gradient-success', 'person'],
-                    ['Monthly Profit', $totalOwnerProfitMonthly, 'bg-gradient-success', 'attach_money'],
-                    ['Total New Customers', $totalNewCustomerMonthly, 'bg-gradient-success', 'group_add'],
-                    ['Total Settling Points', $totalMasterSettlingMonthly, 'bg-gradient-success', 'point_of_sale'],
-                    ['Total Vendor Payments', $totalVendorPaymentsMonthly, 'bg-gradient-success', 'payment'],
+                    ['Freez Amount', $totalFreezAmountMonthly, 'bg-gradient-primary', 'arrow_downward'],
+                    ['Total Deposit', $totalDepositMonthly, 'bg-gradient-primary', 'arrow_upward'],
+                    ['Total Withdrawal', $totalWithdrawalMonthly, 'bg-gradient-primary', 'arrow_downward'],
+                    ['Total Expense', $totalExpenseMonthly, 'bg-gradient-primary', 'money_off'],
+                    ['Total Bonus', $totalBonusMonthly, 'bg-gradient-primary', 'star'],
+                    ['Total Users', $userCount, 'bg-gradient-primary', 'people'],
+                    ['Customers', $customerCountMonthly, 'bg-gradient-primary', 'person'],
+                    ['Monthly Profit', $totalOwnerProfitMonthly, 'bg-gradient-primary', 'attach_money'],
+                    ['Total New Customers', $totalNewCustomerMonthly, 'bg-gradient-primary', 'group_add'],
+                    ['Total Settling Points', $totalMasterSettlingMonthly, 'bg-gradient-primary', 'point_of_sale'],
+                    ['Total Vendor Payments', $totalVendorPaymentsMonthly, 'bg-gradient-primary', 'payment'],
                 ] as $card)
                     <div class="col-xl-3 col-sm-6 mb-4">
                         <div class="card h-100">

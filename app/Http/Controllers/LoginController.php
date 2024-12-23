@@ -8,7 +8,8 @@ use App\Models\Exchange;
 use App\Models\BankUser;
 use Illuminate\Http\Request;
 use Hash;
-use Auth;
+use Illuminate\Support\Facades\Auth;
+use DB;
 class LoginController extends Controller
 {
     /**
@@ -59,9 +60,9 @@ class LoginController extends Controller
                     ]);
             }
         }
-        return response()->view('auth.login')
+        return redirect()->route('auth.login')
             ->withErrors([
-                'name' => 'The provided credentials do not match our records.',
+                'error' => 'The provided credentials do not match our records.',
             ])->withInput($request->only('name'));
         }
     }
