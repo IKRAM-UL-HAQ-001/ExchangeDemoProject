@@ -17,12 +17,12 @@
     <meta name="description" content="testing this">
 </head>
 
-<body class="bg-gray-200">
+<body class="">
     <main class="main-content mt-0">
-        <div class="page-header align-items-start min-vh-100" style="background-image: url('../assets/img/img.jpg');">
+        <div class="page-header align-items-start min-vh-100" style="background-image: url('../assets/img/imgs.jpg'); ">
             <span class="mask bg-gradient-dark opacity-6"></span>
             <div class="container my-auto">
-                <h1 class="text-white font-weight-bolder text-center mt-2 mb-5" style="">Exchange Management System</h1>
+                <h1 class="text-white font-weight-bolder text-center mt-2 mb-5">Exchange Management System</h1>
                 <div class="row mt-3">
                     <div class="col-lg-4 col-md-8 col-12 mx-auto">
                         <div class="card z-index-0 fadeIn3 fadeInBottom">

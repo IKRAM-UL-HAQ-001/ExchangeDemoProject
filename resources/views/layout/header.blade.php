@@ -32,6 +32,16 @@
     "name": "Your Custom Exchange Platform",
     "description": "Effortlessly manage your exchange roles, including Admin, Exchange, and Assistant. Choose from top platforms: JADUGAR, AMAZON, CRICKETSTAR, FASTBET, BETBAZAR."
     }
+    document.addEventListener('DOMContentLoaded', function () {
+        const modals = document.querySelectorAll('.modal');
+
+        modals.forEach(function (modal) {
+            modal.addEventListener('hidden.bs.modal', function () {
+                // Refresh the page when any modal is closed
+                location.reload();
+            });
+        });
+    });
     </script>
     <style>
         #sidenav-collapse-main::-webkit-scrollbar {

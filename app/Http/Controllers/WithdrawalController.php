@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Withdrawal;
 use App\Models\Cash;
+use App\Models\Bank;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 Use App\Exports\WithdrawalListExport;
@@ -42,8 +43,8 @@ class WithdrawalController extends Controller
             ->where('exchange_id', $exchangeId) 
             ->where('user_id', $userId) 
             ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
-            ->paginate(2);
-            
-        return response()->view('exchange.withdrawal.list', compact('withdrawalRecords'));
+            ->paginate(20);
+        $bankRecords = Bank::all();
+        return response()->view('exchange.withdrawal.list', compact('withdrawalRecords','bankRecords'));
     }    
 }

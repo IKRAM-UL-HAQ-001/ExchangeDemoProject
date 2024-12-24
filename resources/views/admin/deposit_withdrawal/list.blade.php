@@ -35,6 +35,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+
                                     @php
                                         $balance = 0;
                                     @endphp
@@ -48,12 +49,13 @@
                                             }
                                         @endphp
                                         @if ($depositWithdrawal->cash_type != 'expense')
-                                            <tr>
+                                            <tr data-user-id="{{ $depositWithdrawal->id ?? 'N/A' }}"
+                                            data-exchange-id="{{ $depositWithdrawal->exchange->id ?? 'N/A' }}">
                                                 <td>{{ $depositWithdrawal->user->name }}</td>
                                                 <td>{{ $depositWithdrawal->exchange->name }}</td>
                                                 <td>{{ $depositWithdrawal->reference_number }}</td>
                                                 <td>{{ $depositWithdrawal->customer_name }}</td>
-                                                <td>{{ $depositWithdrawal->customer_phone }}</td>
+                                                <td>{{ $depositWithdrawal->customer_Phone }}</td>
                                                 <td>{{ $depositWithdrawal->cash_amount }}</td>
                                                 <td>{{ $depositWithdrawal->cash_type }}</td>
                                                 <td>{{ $depositWithdrawal->bonus_amount }}</td>
@@ -62,7 +64,7 @@
                                                 <td>{{ $depositWithdrawal->created_at }}</td>
                                                 <td class="text-center">
                                                     <button class="btn btn-danger btn-sm"
-                                                        onclick="deleteDepositWithdrawal(this, {{ $depositWithdrawal->id }})">
+                                                        onclick="deleteDepositWithdrawal(this)">
                                                         Delete
                                                     </button>
                                                 </td>
@@ -140,36 +142,29 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-
-
-    function deleteDepositWithdrawal(button, id) {
-        const row = $(button).closest('tr'); // Changed to closest for better readability
-        const table = $('#depositWithdrawalTable').DataTable();
-
-        if (!confirm('Are you sure you want to delete this deposit/withdrawal?')) {
-            return;
-        }
-
-        $.ajax({
-            url: "{{ route('admin.deposit_withdrawal.destroy') }}",
-            method: "POST",
-            data: {
-                id: id,
-                _token: '{{ csrf_token() }}'
-            },
-            success: function(response) {
-                if (response.success) {
-                    table.row(row).remove().draw();
-                    alert(response.message);
-                } else {
-                    alert(response.message || 'Failed to delete the Deposit/Withdrawal.');
+    function deleteDepositWithdrawal(button) {
+        const row = $(button).closest('tr');
+        const userId = row.data('user-id');
+        if (confirm('Are you sure you want to delete this data?')) {
+            $.ajax({
+                url: '{{ route('admin.deposit_withdrawal.destroy') }}',
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    id: userId
+                },
+                success: function(response) {
+                    if (response.success) {
+                        row.remove();
+                    } else {
+                        alert('Error: ' + response.message);
+                    }
+                },
+                error: function() {
+                    alert('Failed to delete user.');
                 }
-            },
-            error: function(xhr) {
-                console.error(xhr.responseText);
-                alert('Error: ' + xhr.status + ' - ' + xhr.statusText);
-            }
-        });
+            });
+        }
     }
 </script>
 @endsection

@@ -24,8 +24,8 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">White Label</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Credit Reff</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Settling Point</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Price</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Total Amount</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder ">Price</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder ">Total Amount</th>
                                 </tr>
                             </thead>
                             <tbody>

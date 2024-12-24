@@ -25,12 +25,13 @@
                             </thead>
                             <tbody>
                                 @foreach($openingClosingBalanceRecords as $openingClosingBalance)
-                                    <tr>
+                                    <tr data-user-id="{{ $openingClosingBalance->id ?? 'N/A' }}"
+                                    data-exchange-id="{{ $openingClosingBalance->exchange->id ?? 'N/A' }}">
                                         <td>{{ $openingClosingBalance->open_balance }}</td>
                                         <td>{{ $openingClosingBalance->remarks }}</td>
                                         <td>{{ $openingClosingBalance->created_at}}</td>
                                         <td class="text-center">
-                                            <button class="btn btn-danger btn-sm" onclick="deleteOpeningClosingBalance(this, {{ $openingClosingBalance->id }})">Delete</button>
+                                            <button class="btn btn-danger btn-sm" onclick="deleteOpenCloseBalance(this)">Delete</button>
                                         </td>                                       
                                     </tr>
                                 @endforeach
@@ -47,34 +48,30 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+    function deleteOpenCloseBalance(button) {
+        const row = $(button).closest('tr');
+        const userId = row.data('user-id');
 
-function deleteOpeningClosingBalance(button, id) {
-    const row = $(button).parents('tr');
-    const table = $('#openingClosingBalanceTable').DataTable();
-
-    if (!confirm('Are you sure you want to delete this opening closing balance?')) {
-        return;
-    }
-
-    $.ajax({
-        url: "{{ route('admin.open_close_balance.destroy') }}",
-        method: "POST",
-        data: {
-            id: id,
-            _token: '{{ csrf_token() }}'
-        },
-        success: function(response) {
-            if (response.success) {
-                table.row(row).remove().draw();
-                alert(response.message);
-            } else {
-                alert(response.message || 'Failed to delete the opening closing balance.');
-            }
-        },
-        error: function(xhr) {
-            alert('Error: ' + (xhr.responseJSON.message || 'An error occurred while deleting the opening closing balance.'));
+        if (confirm('Are you sure you want to delete this data?')) {
+            $.ajax({
+                url: '{{ route('admin.open_close_balance.destroy') }}',
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    id: userId
+                },
+                success: function(response) {
+                    if (response.success) {
+                        row.remove();
+                    } else {
+                    alert('Error: ' + response.message);
+                    }
+                },
+                error: function() {
+                    alert('Failed to delete user.');
+                }
+            });
         }
-    });
-}
+    }
 </script>
 @endsection

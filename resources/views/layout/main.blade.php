@@ -6,10 +6,10 @@
       <div style="
           width: 100%; 
           height: 100%; 
-          background-image: url('../assets/img/img.jpg'); 
+          background-image: url('../assets/img/imgs.jpg'); 
           background-size: cover; 
           background-position: center; 
-          opacity: 0.6;">
+          opacity: 1.0;">
       </div>
   </div>
 

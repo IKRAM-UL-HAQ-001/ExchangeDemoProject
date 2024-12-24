@@ -195,7 +195,7 @@
                 success: function(response) {
                     if (response.message === "User added successfully!") {
                         $('#addUserModal').modal('hide');
-                        location.reload();
+                         window.location.reload();
                     }
                 },
                 error: function() {

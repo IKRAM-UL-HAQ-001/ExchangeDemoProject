@@ -112,6 +112,7 @@ class AdminController extends Controller
             ->distinct('settling_point')
             ->sum('settling_point');
             // Monthly totals
+           
             $totalDepositMonthly = Cash::where('cash_type', 'deposit')
                 ->whereMonth('created_at', $currentMonth)
                 ->whereYear('created_at', $currentYear)

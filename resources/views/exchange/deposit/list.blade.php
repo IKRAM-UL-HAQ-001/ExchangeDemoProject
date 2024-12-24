@@ -105,9 +105,6 @@
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-                            @php
-                            $name = 'll'
-                            @endphp
                             <div class="form-group" id="customer_name">
                                 <label class="form-label" for="customer_name">Customer Name<span
                                         class="text-danger">*</span></label>
@@ -157,34 +154,26 @@
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-                    </div>
-
-                    <div class="form-group" id="payment-type-field">
-                        <label class="form-label">Payment Type<span class="text-danger">*</span></label>
-                        <div class="row">
-                            @foreach (['google_pay', 'phone_pay', 'imps', 'neft', 'i20_pay'] as $index => $payment)
-                                <div class="col-md-4">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="payment_type"
-                                            id="payment_{{ $payment }}" value="{{ $payment }}">
-                                        <label class="form-check-label" for="payment_{{ $payment }}">
-                                            {{ ucfirst(str_replace('_', ' ', $payment)) }}
-                                        </label>
-                                    </div>
-                                </div>
-                            @endforeach
+                            <div class="form-group" id="payment_type">
+                                <label class="form-label">Bank Name<span class="text-danger">*</span></label>
+                                <select class="form-select px-3" name="payment_type" id="payment_type" required >
+                                    <option value="" disabled selected>Select an Bank</option>
+                                    @foreach($bankRecords as $bank)
+                                        <option value="{{ $bank->name }}">{{ $bank->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('payment_type')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
                         </div>
-                        @error('payment_type')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="form-group row mb-3 col-lg-12 mt-2 ">
-                        <div class="col-lg-12 ml-auto pt-3 d-flex flex-row gap-3 justify-content-end">
-                            <button type="button" class=" btn btn-dark" data-bs-dismiss="modal" aria-label="Close"
-                                id="closeModalButton">Close</button>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                        <div class="form-group row mb-3 col-lg-12 mt-2 ">
+                            <div class="col-lg-12 ml-auto pt-3 d-flex flex-row gap-3 justify-content-end">
+                                <button type="button" class=" btn btn-dark" data-bs-dismiss="modal" aria-label="Close"
+                                    id="closeModalButton">Close</button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
                         </div>
-                    </div>
                     </form>
                 </div>
             </div>

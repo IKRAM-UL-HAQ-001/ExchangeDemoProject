@@ -31,7 +31,7 @@
                             </thead>
                             <tbody>
                                 @foreach($masterSettlingRecords as $masterSettling)
-                                <tr>
+                                <tr >
                                     <td>{{ $masterSettling->user->name }}</td>
                                     <td>{{ $masterSettling->exchange->name }}</td>
                                     <td>{{ $masterSettling->white_label }}</td>

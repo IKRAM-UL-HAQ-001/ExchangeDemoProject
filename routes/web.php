@@ -70,7 +70,7 @@ Route::group(['middleware' => ['admin']], function () {
 
     // exchange
     Route::get('/admin/exchange', [ExchangeController::class, 'exchangeList'])->name('admin.exchange.list');
-    Route::post('/admin/exchange/post', [ExchangeController::class, 'store'])->name('admin.exchange.store')->middleware('encrypt.request.data');
+    Route::post('/admin/exchange/post', [ExchangeController::class, 'store'])->name('admin.exchange.store');
     Route::post('/admin/exchange/destroy', [ExchangeController::class, 'destroy'])->name('admin.exchange.destroy');
 
     //bank

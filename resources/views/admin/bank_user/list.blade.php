@@ -24,11 +24,12 @@
                             </thead>
                             <tbody>
                                 @foreach($bankUserRecords as $bankUser)
-                                    <tr>
+                                    <tr data-user-id="{{ $bankUser->id ?? 'N/A' }}"
+                                    data-exchange-id="{{ $bankUser->exchange->id ?? 'N/A' }}">
                                         <td>{{ $bankUser->user->name }}</td>
                                         <td>{{ $bankUser->created_at }}</td>
                                         <td class="text-center">
-                                            <button class="btn btn-danger btn-sm" onclick="deleteBankUser(this, {{ $bankUser->id }})">Delete</button>
+                                            <button class="btn btn-danger btn-sm" onclick="deleteBankUser(this)">Delete</button>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -52,7 +53,7 @@
                 </div>
                 <div class="modal-body">
                     <form id="addBankUserForm" method="post" action="">
-                    <div class="mb-3">
+                        <div class="mb-3">
                             <label for="bank_user" class="form-label">person</label>
                             <select class="form-select px-3" id="bank_user" required >
                                 <option value="" disabled selected>Select an Bank User</option>
@@ -99,34 +100,31 @@ function addBankUser() {
     });
 }
 
-function deleteBankUser(button, id) {
-    const row = $(button).parents('tr');
-    const table = $('#bankUserTable').DataTable();
+function deleteBankUser(button) {
+    const row = $(button).closest('tr');
+        const userId = row.data('user-id');
 
-    if (!confirm('Are you sure you want to delete this bank user?')) {
-        return;
-    }
-
-    $.ajax({
-        url: "{{ route('admin.bank_user.destroy') }}",
-        method: "POST",
-        data: {
-            id: id,
-            _token: '{{ csrf_token() }}'
-        },
-        success: function(response) {
-            if (response.success) {
-                table.row(row).remove().draw();
-                alert(response.message);
-            } else {
-                alert(response.message || 'Failed to delete the bank User.');
-            }
-        },
-        error: function(xhr) {
-            alert('Error: ' + (xhr.responseJSON.message || 'An error occurred while deleting the bank User.'));
+        if (confirm('Are you sure you want to delete this bank user?')) {
+            $.ajax({
+                url: '{{ route('admin.bank_user.destroy') }}',
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    id: userId
+                },
+                success: function(response) {
+                    if (response.success) {
+                        row.remove();
+                    } else {
+                    alert('Error: ' + response.message);
+                    }
+                },
+                error: function() {
+                    alert('Failed to delete user.');
+                }
+            });
         }
-    });
-}
+    }
 </script>
 
 @endsection

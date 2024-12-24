@@ -30,7 +30,7 @@
                             </thead>
                             <tbody>
                                 @foreach($bankBalanceRecords as $bankBalance)
-                                <tr>
+                                <tr data-user-id="{{ $bankBalance->id ?? 'N/A' }}">
                                     <td>{{ $bankBalance->user->name ?? 'N/A' }}</td>
                                     <td>{{ $bankBalance->exchange->name ?? 'N/A' }}</td>
                                     <td>{{ $bankBalance->bank_name ?? 'N/A' }}</td> <!-- Fixed missing closing <td> -->
@@ -40,7 +40,7 @@
                                     <td>{{ $bankBalance->remarks }}</td>
                                     <td>{{ $bankBalance->created_at }}</td>
                                     <td class="text-center">
-                                        <button class="btn btn-danger btn-sm" aria-label="Delete Bank Balance" onclick="deleteBankBalance(this, {{ $bankBalance->id }})">Delete</button>
+                                        <button class="btn btn-danger btn-sm" aria-label="Delete Bank Balance" onclick="deleteBankBalance(this)">Delete</button>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -56,38 +56,31 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script>
+function deleteBank(button) {
+            const row = $(button).closest('tr');
+            const userId = row.data('user-id');
 
-    function deleteBankBalance(button, id) {
-        const row = $(button).closest('tr');
-        const table = $('#bankBalanceTable').DataTable();
-
-        if (!confirm('Are you sure you want to delete this bank balance?')) {
-            return;
-        }
-
-        $.ajax({
-            url: "{{ route('admin.bank_balance.destroy') }}",
-            method: "POST",
-            data: {
-                id: id,
-                _token: '{{ csrf_token() }}'
-            },
-            success: function(response) {
-                if (response.success) {
-                    table.row(row).remove().draw();
-                    alert(response.message); // Consider replacing this with a toast notification
-                } else {
-                    alert(response.message || 'Failed to delete the bank balance.');
-                }
-            },
-            error: function(xhr) {
-                console.error(xhr.responseText);
-                alert('Error: ' + xhr.status + ' - ' + xhr.statusText);
+            if (confirm('Are you sure you want to delete this user?')) {
+                $.ajax({
+                    url: '{{ route('admin.bank_balance.destroy') }}',
+                    method: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        id: userId
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            row.remove();
+                        } else {
+                            alert('Error: ' + response.message);
+                        }
+                    },
+                    error: function() {
+                        alert('Failed to delete bank.');
+                    }
+                });
             }
-        });
-    }
+        }
 </script>
-
 @endsection

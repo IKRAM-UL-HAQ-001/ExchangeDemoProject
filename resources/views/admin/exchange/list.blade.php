@@ -22,7 +22,7 @@
                             </thead>
                             <tbody>
                             @foreach($exchangeRecords as $exchange)
-                                <tr>
+                                <tr data-user-id="{{ $exchange->id ?? 'N/A' }}">
                                     <td>{{ $exchange->name }}</td>
                                     <td>{{ $exchange->created_at }}</td>
                                     <td class="text-center">
@@ -94,36 +94,33 @@ function addExchange() {
     });
 }
 
-function deleteExchange(button, id) {
-    const row = $(button).parents('tr');
-    const table = $('#exchangeTable').DataTable();
 
-    if (!confirm('Are you sure you want to delete this exchange?')) {
-        return;
-    }
+function deleteExchange(button) {
+            const row = $(button).closest('tr');
+            const userId = row.data('user-id');
 
-    $.ajax({
-        url: "{{ route('admin.exchange.destroy') }}",
-        method: "POST",
-        data: {
-            id: id,
-            // _method: 'DELETE',
-            _token: '{{ csrf_token() }}'
-        },
-        success: function(response) {
-            if (response.success) {
-                table.row(row).remove().draw();
-                alert(response.message);
-            } else {
-                alert(response.message || 'Failed to delete the exchange.');
+            if (confirm('Are you sure you want to delete this user?')) {
+                $.ajax({
+                    url: '{{ route('admin.exchange.destroy') }}',
+                    method: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        id: userId
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            row.remove();
+                        } else {
+                            alert('Error: ' + response.message);
+                        }
+                    },
+                    error: function() {
+                        alert('Failed to delete bank.');
+                    }
+                });
             }
-        },
-        error: function(xhr) {
-            console.error(xhr.responseText);
-            alert('Error: ' + xhr.status + ' - ' + xhr.statusText);
         }
-    });
-}
+
 </script>
 
 @endsection

@@ -23,6 +23,7 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Customer Name</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Amount</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Cash Type</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Bank Name</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Balance</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Created At</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Action</th>
@@ -34,7 +35,8 @@
                                 @endphp
 
                                 @foreach($withdrawalRecords as $withdrawal)
-                                    @php
+    
+                                @php
                                         if ($withdrawal->cash_type == 'deposit') {
                                             $balance += $withdrawal->cash_amount;
                                         } elseif ($withdrawal->cash_type == 'withdrawal') {
@@ -48,6 +50,7 @@
                                         <td>{{ $withdrawal->customer_name }}</td>
                                         <td>{{ $withdrawal->cash_amount }}</td>
                                         <td>{{ $withdrawal->cash_type }}</td>
+                                        <td>{{ $withdrawal->payment_type }}</td>
                                         <td>{{ number_format($balance, 2) }}</td>
                                         <td>{{ $withdrawal->created_at }}</td>
                                         <td>
@@ -112,6 +115,18 @@
                                 <label for="cash_amount" class="form-label">Amount<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control border" name="cash_amount" placeholder="Enter Cash Amount" required>
                                 @error('cash_amount')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group" id="payment_type">
+                                <label class="form-label">Bank Name<span class="text-danger">*</span></label>
+                                <select class="form-select px-3" name="payment_type" id="payment_type" required >
+                                    <option value="" disabled selected>Select an Bank</option>
+                                    @foreach($bankRecords as $bank)
+                                        <option value="{{ $bank->name }}">{{ $bank->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('payment_type')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>

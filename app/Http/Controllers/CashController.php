@@ -37,11 +37,9 @@ class CashController extends Controller
             'customer_phone' => 'nullable|numeric',
             'cash_type' => 'required|in:deposit,withdrawal,expense',
             'bonus_amount' => 'nullable|numeric|required_if:cash_type,deposit',
-            'payment_type' => 'nullable|string|required_if:cash_type,deposit',
+            'payment_type' => 'nullable|string|required_if:cash_type,deposit,withdrawal',
             'remarks' => 'nullable|string|max:255|',
         ]);
-
-
         try {
             $user = Auth::user();
             Cash::create([
