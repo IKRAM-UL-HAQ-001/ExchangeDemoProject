@@ -62,6 +62,7 @@ class BankController extends Controller
 
     public function destroy(Request $request)
     {
+        dd($request);
         if (!auth()->check()) {
             return redirect()->route('auth.login');
         } else {

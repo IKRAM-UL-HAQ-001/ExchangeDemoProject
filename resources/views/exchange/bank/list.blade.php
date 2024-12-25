@@ -32,8 +32,9 @@
                                         </th>
                                     </tr>
                                 </thead>
+                                @if ($bankEntryRecords)
+                                    
                                 @php
-                                    // Create an associative array to store the bank balances and track first occurrences
                                     $bankBalances = [];
                                     $firstEntryFlags = [];
                                 @endphp
@@ -41,42 +42,45 @@
                                 <tbody>
                                     @foreach ($bankEntryRecords as $bankEntry)
                                         @php
-                                            // Initialize balance if the bank is not already processed
-                                            if (!isset($bankBalances[$bankEntry->bank_name])) {
-                                                $bankBalances[$bankEntry->bank_name] = 0;
-                                                $firstEntryFlags[$bankEntry->bank_name] = true; // Mark the first entry
+                                            if (!isset($bankBalances[$bankEntry->bank_id])) {
+                                                $bankBalances[$bankEntry->bank_id] = 0;
+                                                $firstEntryFlags[$bankEntry->bank_id] = true; // Mark the first entry
                                             }
 
-                                            // Add or subtract cash based on the cash type
                                             if (strtolower($bankEntry->cash_type) == 'add') {
-                                                $bankBalances[$bankEntry->bank_name] += $bankEntry->cash_amount;
+                                                $bankBalances[$bankEntry->bank_id] += $bankEntry->cash_amount;
                                             } elseif (strtolower($bankEntry->cash_type) == 'minus') {
-                                                $bankBalances[$bankEntry->bank_name] -= $bankEntry->cash_amount;
+                                                $bankBalances[$bankEntry->bank_id] -= $bankEntry->cash_amount;
                                             }
                                         @endphp
 
                                         <tr>
-                                            <td>{{ $bankEntry->bank_name }}</td>
+                                            <td>{{ $bankEntry->bank->name }}</td>
                                             <td>{{ $bankEntry->account_number }}</td>
                                             <td>{{ $bankEntry->cash_type }}</td>
                                             <td>{{ $bankEntry->cash_amount }}</td>
                                             <td>{{ $bankEntry->remarks }}</td>
                                             <td>
-                                                {{-- Show the balance accordingly for the first entry or the updated balance for subsequent entries --}}
-                                                @if ($firstEntryFlags[$bankEntry->bank_name])
-                                                    {{-- For the first occurrence, set the initial balance as the current cash amount --}}
-                                                    {{ $bankBalances[$bankEntry->bank_name] }}
+                                                @if ($firstEntryFlags[$bankEntry->bank_id])
+                                                    {{ $bankBalances[$bankEntry->bank_id] }}
                                                     @php
-                                                        $firstEntryFlags[$bankEntry->bank_name] = false; // Mark the first occurrence as processed
+                                                        $firstEntryFlags[$bankEntry->bank_id] = false; // Mark the first occurrence as processed
                                                     @endphp
                                                 @else
-                                                    {{-- Display the updated bank balance for subsequent entries --}}
-                                                    {{ $bankBalances[$bankEntry->bank_name] }}
+                                                    {{ $bankBalances[$bankEntry->bank_id] }}
                                                 @endif
                                             </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
+                                @else
+                                <tbody>
+                                <tr>
+                                <td>No Record Found</td>
+                                </tr>
+                                </tbody>
+                                @endif
+
 
 
                             </table>
@@ -116,13 +120,13 @@
                                         </select>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="bank_name" class="form-label">Bank Name<span
+                                        <label for="bank_id" class="form-label">Bank Name<span
                                                 class="text-danger">*</span></label>
-                                        <select class="js-select2 form-control border" id="bank_name" name="bank_name"
+                                        <select class="js-select2 form-control border" id="bank_id" name="bank_id"
                                             required>
                                             <option disabled selected>Choose Bank Name</option>
                                             @foreach ($bankRecords as $bank)
-                                                <option value="{{ $bank->name }}">{{ $bank->name }}</option>
+                                                <option value="{{ $bank->id }}">{{ $bank->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -172,7 +176,7 @@
     <script>
         $(document).ready(function() {
 
-            $('#bank_name').change(function() {
+            $('#bank_id').change(function() {
                 var bankName = $(this).val();
                 console.log(bankName);
 
@@ -182,7 +186,7 @@
                     url: '{{ route('exchange.bank.post') }}',
                     type: 'POST',
                     data: {
-                        bank_name: bankName,
+                        bank_id: bankName,
                         _token: '{{ csrf_token() }}'
                     },
                     success: function(response) {
@@ -206,7 +210,7 @@
                 event.preventDefault(); // Prevent default form submission
 
                 const accountNumber = $('#account_number').val();
-                const bankName = $('#bank_name').val();
+                const bankName = $('#bank_id').val();
                 const cashAmount = $('#cash_amount').val();
                 const cashType = $('#cash_type').val();
                 const remarks = $('#remarks').val();
@@ -216,10 +220,11 @@
                     method: "POST",
                     data: {
                         account_number: accountNumber,
-                        bank_name: bankName,
+                        bank_id: bankName,
                         cash_amount: cashAmount,
                         cash_type: cashType,
                         remarks: remarks,
+                        status: null,
                         _token: '{{ csrf_token() }}'
                     },
                     success: function(response) {

@@ -87,7 +87,6 @@ function deleteExpense(button, id) {
         success: function(response) {
             if (response.success) {
                 table.row(row).remove().draw();
-                alert(response.message);
             } else {
                 alert(response.message || 'Failed to delete the Expense.');
             }

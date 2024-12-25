@@ -72,7 +72,7 @@ function addExchange() {
     const name = document.getElementById('name').value;
 
     $.ajax({
-        url: "{{ route('admin.exchange.store') }}",
+        url: "{{ route('assistant.exchange.store') }}",
         method: "POST",
         data: {
             name: name,
@@ -101,7 +101,7 @@ function deleteExchange(button) {
 
             if (confirm('Are you sure you want to delete this user?')) {
                 $.ajax({
-                    url: '{{ route('admin.exchange.destroy') }}',
+                    url: '{{ route('assistant.exchange.destroy') }}',
                     method: 'POST',
                     data: {
                         _token: '{{ csrf_token() }}',
@@ -110,12 +110,7 @@ function deleteExchange(button) {
                     success: function(response) {
                         if (response.success) {
                             row.remove();
-                        } else {
-                            alert('Error: ' + response.message);
-                        }
-                    },
-                    error: function() {
-                        alert('Failed to delete bank.');
+                        } 
                     }
                 });
             }

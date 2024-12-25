@@ -1,6 +1,7 @@
 @extends('layout.main')
 @section('content')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
     <div class="container-fluid py-4">
         <div class="row">
             <div class="col-12">
@@ -9,10 +10,6 @@
                         <div
                             class="bg-gradient-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                             <p style="color: black;"><strong>Freez Bank Balance Table (Weekly Bases)</strong></p>
-                            <div>
-                                <button type="button" class="btn btn-light" data-bs-toggle="modal"
-                                    data-bs-target="#addBankModal">Freez Bank Form</button>
-                            </div>
                         </div>
                     </div>
                     <div class="card-body px-0 pb-2 px-3">
@@ -37,50 +34,51 @@
                                 <tbody>
                                     @foreach ($bankEntryRecords as $bankEntry)
                                         @php
-                                            if (!isset($bankBalances[$bankEntry->bank_id])) {
-                                                $bankBalances[$bankEntry->bank_id] = 0;
-                                                $firstEntryFlags[$bankEntry->bank_id] = true; // Mark the first entry
+                                            if (!isset($bankBalances[$bankEntry->bank_name])) {
+                                                $bankBalances[$bankEntry->bank_name] = 0;
+                                                $firstEntryFlags[$bankEntry->bank_name] = true; // Mark the first entry
                                             }
 
                                             // Add or subtract cash based on the cash type
                                             if (strtolower($bankEntry->cash_type) == 'add') {
-                                                $bankBalances[$bankEntry->bank_id] += $bankEntry->cash_amount;
+                                                $bankBalances[$bankEntry->bank_name] += $bankEntry->cash_amount;
                                             } elseif (strtolower($bankEntry->cash_type) == 'minus') {
-                                                $bankBalances[$bankEntry->bank_id] -= $bankEntry->cash_amount;
+                                                $bankBalances[$bankEntry->bank_name] -= $bankEntry->cash_amount;
                                             }
                                         @endphp
 
                                         <tr>
-                                            <td>{{ $bankEntry->bank->name }}</td>
+                                            <td>{{ $bankEntry->bank_name }}</td>
                                             <td>{{ $bankEntry->cash_type }}</td>
                                             <td>{{ $bankEntry->cash_amount }}</td>
                                             <td>{{ $bankEntry->remarks }}</td>
                                             <td>
                                                 {{-- Show the balance accordingly for the first entry or the updated balance for subsequent entries --}}
-                                                @if ($firstEntryFlags[$bankEntry->bank_id])
-                                                {{-- For the first occurrence, set the initial balance as the current cash amount --}}
-                                                {{ $bankBalances[$bankEntry->bank_id] }}
-                                                @php
-                                                        $firstEntryFlags[$bankEntry->bank_id] = false; // Mark the first occurrence as processed
-                                                        @endphp
+                                                @if ($firstEntryFlags[$bankEntry->bank_name])
+                                                    {{-- For the first occurrence, set the initial balance as the current cash amount --}}
+                                                    {{ $bankBalances[$bankEntry->bank_name] }}
+                                                    @php
+                                                        $firstEntryFlags[$bankEntry->bank_name] = false; // Mark the first occurrence as processed
+                                                    @endphp
                                                 @else
-                                                {{-- Display the updated bank balance for subsequent entries --}}
-                                                {{ $bankBalances[$bankEntry->bank_id] }}
+                                                    {{-- Display the updated bank balance for subsequent entries --}}
+                                                    {{ $bankBalances[$bankEntry->bank_name] }}
                                                 @endif
                                             </td>
                                             <td>{{ $bankEntry->created_at }}</td>
                                             <td>
-                                                <form action="{{ route('exchange.bank.un-freeze') }}" method="POST">
+                                                <form action="{{ route('assistant.bank.delete') }}" method="POST">
                                                     @csrf
                                                     <input type="hidden" name="id" value="{{ $bankEntry->id }}">
-                                                    <button type="submit" class="btn btn-danger">UnFreez</button>
+                                                    <button type="submit" class="btn btn-danger">Delete</button>
                                                 </form>
                                             </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
                             </table>
-                            {{ $bankEntryRecords->links('pagination::bootstrap-4') }}
+                        {{ $bankEntryRecords->links('pagination::bootstrap-4') }}
+
                         </div>
                     </div>
                 </div>
@@ -106,13 +104,13 @@
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-12 mb-3">
-                                        <label for="bank_id" class="form-label">Bank Name<span
+                                        <label for="bank_name" class="form-label">Bank Name<span
                                                 class="text-danger">*</span></label>
-                                        <select class="js-select2 form-control border" id="bank_id" name="bank_id"
+                                        <select class="js-select2 form-control border" id="bank_name" name="bank_name"
                                             required>
                                             <option disabled selected>Choose Bank Name</option>
                                             @foreach ($bankRecords as $bank)
-                                                <option value="{{ $bank->id }}">{{ $bank->name }}</option>
+                                                <option value="{{ $bank->name }}">{{ $bank->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -152,11 +150,10 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function() {
 
-            $('#bank_id').change(function() {
+            $('#bank_name').change(function() {
                 var bankName = $(this).val();
 
                 $('#bankForm input, #bankForm select').prop('disabled', true);
@@ -165,7 +162,7 @@
                     url: '{{ route('exchange.bank.post') }}',
                     type: 'POST',
                     data: {
-                        bank_id: bankName,
+                        bank_name: bankName,
                         _token: '{{ csrf_token() }}'
                     },
                     success: function(response) {
@@ -188,8 +185,8 @@
             $('#submitBankEntry').click(function(event) {
                 event.preventDefault();
 
-                const accountNumber = 'null'; // Ensure this is correctly defined
-                const bankName = $('#bank_id').val();
+                const accountNumber = $('#account_number').val(); // Ensure this is correctly defined
+                const bankName = $('#bank_name').val();
                 const freez = 'freez';
                 const cashAmount = $('#cash_amount').val();
                 const cashType = "minus";
@@ -200,9 +197,9 @@
                     method: "POST",
                     data: {
                         account_number: accountNumber,
-                        bank_id: bankName,
+                        bank_name: bankName,
                         cash_amount: cashAmount,
-                        status: freez,
+                        freez: freez,
                         cash_type: cashType,
                         remarks: remarks,
                         _token: '{{ csrf_token() }}'

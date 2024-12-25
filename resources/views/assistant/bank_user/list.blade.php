@@ -79,7 +79,7 @@
 function addBankUser() {
     const bank_user = document.getElementById('bank_user').value;
     $.ajax({
-        url: "{{ route('admin.bank_user.store') }}",
+        url: "{{ route('assistant.bank_user.store') }}",
         method: "POST",
         data: {
             bank_user : bank_user,
@@ -106,7 +106,7 @@ function deleteBankUser(button) {
 
         if (confirm('Are you sure you want to delete this bank user?')) {
             $.ajax({
-                url: '{{ route('admin.bank_user.destroy') }}',
+                url: '{{ route('assistant.bank_user.destroy') }}',
                 method: 'POST',
                 data: {
                     _token: '{{ csrf_token() }}',
@@ -115,12 +115,7 @@ function deleteBankUser(button) {
                 success: function(response) {
                     if (response.success) {
                         row.remove();
-                    } else {
-                    alert('Error: ' + response.message);
                     }
-                },
-                error: function() {
-                    alert('Failed to delete user.');
                 }
             });
         }

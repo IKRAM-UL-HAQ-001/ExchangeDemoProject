@@ -29,7 +29,6 @@ class CashController extends Controller
         if (!auth()->check()) {
             return response()->json(['success' => false, 'message' => 'User not authenticated.'], 401);
         }
-        // dd($request);
         $validatedData = $request->validate([
             'reference_number' => 'nullable|string|max:255|unique:cashes,reference_number',
             'customer_name' => 'nullable|string|max:255|required_if:cash_type,deposit',
@@ -42,6 +41,18 @@ class CashController extends Controller
         ]);
         try {
             $user = Auth::user();
+            if (!empty($validatedData['customer_phone'])) {
+                $normalizedPhone = preg_replace('/[^0-9]/', '', $validatedData['customer_phone']);
+                $existInExcel = ExcelFile::where('customer_phone',$normalizedPhone)->exists();
+                if(!$existInExcel){
+                    ExcelFile::insert([
+                        'customer_name' => $validatedData['customer_name'], 
+                        'customer_phone' => $normalizedPhone , 
+                        'exchange_id' => Auth::user()->exchange_id,
+                        'created_at' => now(),
+                    ]);
+                }   
+            }
             Cash::create([
                 'reference_number' => $validatedData['reference_number'] ?? null,
                 'customer_name' => $validatedData['customer_name'] ?? null,

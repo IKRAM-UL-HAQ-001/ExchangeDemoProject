@@ -17,6 +17,8 @@
                         <table id="openingClosingBalance" class="table align-items-center mb-0 table-striped table-hover px-2">
                             <thead>
                                 <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder">User Name</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Exchange Name</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Opening Balance</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Remarks</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Date and Time</th>
@@ -27,6 +29,8 @@
                                 @foreach($openingClosingBalanceRecords as $openingClosingBalance)
                                     <tr data-user-id="{{ $openingClosingBalance->id ?? 'N/A' }}"
                                     data-exchange-id="{{ $openingClosingBalance->exchange->id ?? 'N/A' }}">
+                                        <td>{{ $openingClosingBalance->user->name }}</td>
+                                        <td>{{ $openingClosingBalance->exchange->name }}</td>
                                         <td>{{ $openingClosingBalance->open_balance }}</td>
                                         <td>{{ $openingClosingBalance->remarks }}</td>
                                         <td>{{ $openingClosingBalance->created_at}}</td>
@@ -63,9 +67,7 @@
                 success: function(response) {
                     if (response.success) {
                         row.remove();
-                    } else {
-                    alert('Error: ' + response.message);
-                    }
+                    } 
                 },
                 error: function() {
                     alert('Failed to delete user.');

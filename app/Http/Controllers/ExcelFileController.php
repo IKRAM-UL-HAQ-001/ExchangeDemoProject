@@ -64,6 +64,7 @@ class ExcelFileController extends Controller
             'id' => 'required|integer|exists:excel_files,id'
         ]);
 
+
         $excelFile = ExcelFile::findOrFail($request->id);
 
         Storage::delete('public/excel_files/' . $excelFile->file_name);

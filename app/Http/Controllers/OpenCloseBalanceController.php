@@ -31,8 +31,7 @@ class OpenCloseBalanceController extends Controller
         $startOfWeek = Carbon::now()->startOfWeek();
         $openingClosingBalanceRecords = OpenCloseBalance::where('created_at', '>=', $startOfWeek)
         ->orderBy('created_at', 'desc')->paginate(20);
-        return response()
-            ->view('admin.open_close_balance.list', compact('openingClosingBalanceRecords'));
+        return view('admin.open_close_balance.list', compact('openingClosingBalanceRecords'));
     }
     
     public function exchangeIndex()
@@ -44,8 +43,7 @@ class OpenCloseBalanceController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(20);
     
-        return response()
-            ->view('exchange.open_close_balance.list', compact("openingClosingBalanceRecords"));
+        return view('exchange.open_close_balance.list', compact("openingClosingBalanceRecords"));
     }
     
     public function assistantIndex()
@@ -53,8 +51,7 @@ class OpenCloseBalanceController extends Controller
         $startOfWeek = Carbon::now()->startOfWeek();
         $openingClosingBalanceRecords = OpenCloseBalance::where('created_at', '>=', $startOfWeek)->paginate(20);
     
-        return response()
-            ->view('assistant.open_close_balance.list', compact("openingClosingBalanceRecords"));
+        return view('assistant.open_close_balance.list', compact("openingClosingBalanceRecords"));
     }
     
     public function store(Request $request)
@@ -78,9 +75,9 @@ class OpenCloseBalanceController extends Controller
                     'user_id' => $userId,
                 ]);
     
-                return response()->json(['success' => true, 'message' => 'Opening Closing Balance saved successfully!']);
+                return redirect()->back();
             } catch (\Exception $e) {
-                return response()->json(['success' => false, 'message' => 'An error occurred: ' . $e->getMessage()], 500);
+                return redirect()->back();
             }
         }
     }
@@ -93,9 +90,9 @@ class OpenCloseBalanceController extends Controller
             $openCloseBalance = OpenCloseBalance::find($request->id);
             if ($openCloseBalance) {
                 $openCloseBalance->delete();
-                return response()->json(['success' => true, 'message' => 'Opening closing balance deleted successfully!']);
+                return response()->json(['success' => true, 'message' => ' deleted successfully!'], 200);
             }
-            return response()->json(['success' => false, 'message' => 'Opening closing balance not found.'], 404);
+            return response()->json(['error' => true, 'message' => 'Not found.'], 404);
         }
     }    
 }

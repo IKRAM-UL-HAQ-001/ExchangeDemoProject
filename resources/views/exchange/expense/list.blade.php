@@ -22,6 +22,7 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Exchange</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Cash Amount</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Cash Type</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Remarks</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Total Balance</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Created At</th>
                                 </tr>
@@ -47,6 +48,7 @@
                                         <td>{{ $expense->exchange->name}}</td>
                                         <td>{{ $expense->cash_amount}}</td>
                                         <td>{{ $expense->cash_type}}</td>
+                                        <td>{{ $expense->remarks}}</td>
                                         <td>{{ $balance}}</td>
                                         <td>{{ $expense->created_at}}</td>
                                     </tr>
@@ -92,6 +94,13 @@
                                 <label for="cash_amount" class="form-label">Amount<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control border" name="cash_amount" placeholder="Enter Cash Amount" required>
                                 @error('cash_amount')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group" id="remarks">
+                                <label for="cash_amount" class="form-label">Remarks<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control border" name="remarks" placeholder="Enter remarks" required>
+                                @error('remarks')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>

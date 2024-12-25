@@ -1,6 +1,5 @@
 @extends("layout.main")
 @section('content')
-</style>
 <div class="container-fluid">
     <div class="row mb-4">
         <div class="col-12">

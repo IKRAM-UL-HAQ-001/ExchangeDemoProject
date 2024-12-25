@@ -41,7 +41,7 @@
                 <li class="nav-item dropdown pe-2 d-flex align-items-center justify-content-center flex-wra">
                     @if(Auth::check())
                         @if(Auth::user()->role === "admin")
-<div class="nav-item dropdown pe-2 d-flex align-items-center justify-content-center flex-wrap">
+                        <div class="nav-item dropdown pe-2 d-flex align-items-center justify-content-center flex-wrap">
                             <a href="javascript:void(0);" class="d-inline btn btn-danger mt-3" style="margin-right: 12px;" onclick="confirmLogout()">
                                 Logout All
                             </a>

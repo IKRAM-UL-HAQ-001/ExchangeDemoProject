@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('bank_entries', function (Blueprint $table) {
             $table->id();
-            $table->string('bank_name');
             $table->string('cash_type');
             $table->string('account_number');
             $table->integer('cash_amount');
-            $table->integer('status')->nullable();
+            $table->string('status')->nullable();
             $table->string('remarks');
+            $table->unsignedBigInteger('bank_id')->nullable();
+            $table->foreign('bank_id')->references('id')->on('banks')->onDelete('cascade');
             $table->unsignedBigInteger('exchange_id')->nullable();
             $table->foreign('exchange_id')->references('id')->on('exchanges')->onDelete('cascade');
             $table->unsignedBigInteger('user_id')->nullable();

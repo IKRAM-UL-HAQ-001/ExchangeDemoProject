@@ -31,7 +31,7 @@
                             </thead>
                             <tbody>
                                 @foreach($masterSettlingRecords as $masterSettling)
-                                <tr >
+                                <tr   data-user-id="{{ $masterSettling->id ?? 'N/A' }}">
                                     <td>{{ $masterSettling->user->name }}</td>
                                     <td>{{ $masterSettling->exchange->name }}</td>
                                     <td>{{ $masterSettling->white_label }}</td>
@@ -41,7 +41,7 @@
                                     <td>{{ $masterSettling->settling_point * $masterSettling->price }}</td>
                                     <td>{{ $masterSettling->created_at }}</td>
                                     <td class="text-center">
-                                        <button class="btn btn-danger btn-sm" aria-label="Delete Master Settling" onclick="deleteMasterSettling(this, {{ $masterSettling->id }})">Delete</button>
+                                        <button class="btn btn-danger btn-sm" aria-label="Delete Master Settling" onclick="deleteOwnerProfit(this)">Delete</button>
                                         <button class="btn btn-primary btn-sm" aria-label="Edit Master Settling" onclick="openEditModal({{ json_encode($masterSettling) }})">Edit</button>
                                     </td>
                                 </tr>
@@ -102,35 +102,31 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 <script>
 
-function deleteMasterSettling(button, id) {
-    const row = $(button).closest('tr');
-    const table = $('#masterSettlingTable').DataTable();
+function deleteOwnerProfit(button) {
+            const row = $(button).closest('tr');
+            const userId = row.data('user-id');
 
-        if (!confirm('Are you sure you want to delete this Master Settling?')) {
-            return;
-        }
-
-        $.ajax({
-            url: "{{ route('admin.master_settling.destroy') }}", // Ensure this route is correct
-            method: "POST",
-            data: {
-                id: id,
-                _token: '{{ csrf_token() }}' // Ensure CSRF token is included
-            },
-            success: function(response) {
-                if (response.success) {
-                    table.row(row).remove().draw(); // Remove the row from DataTable
-                    alert(response.message); // Show success message
-                } else {
-                    alert(response.message || 'Failed to delete the Master Settling.');
-                }
-            },
-            error: function(xhr) {
-                console.error(xhr.responseText);
-                alert('Error: ' + xhr.status + ' - ' + xhr.statusText);
+            if (confirm('Are you sure you want to delete this user?')) {
+                $.ajax({
+                    url: '{{ route('admin.master_settling.destroy') }}',
+                    method: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        id: userId
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            row.remove();
+                        } else {
+                            alert('Error: ' + response.message);
+                        }
+                    },
+                    error: function() {
+                        alert('Failed to delete bank.');
+                    }
+                });
             }
-        });
-    }
+        }
 
 
     function openEditModal(masterSettling) {

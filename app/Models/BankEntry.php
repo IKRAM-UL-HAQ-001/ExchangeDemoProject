@@ -10,7 +10,7 @@ class BankEntry extends Model
     use HasFactory;
     protected $fillable = [
         'account_number',
-        'bank_name',
+        'bank_id',
         'cash_amount',
         'cash_type',
         'status',

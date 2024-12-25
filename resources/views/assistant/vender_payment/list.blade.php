@@ -15,7 +15,7 @@
                 </div>
                 <div class="card-body px-0 pb-2 px-3">
                     <div class="table-responsive p-0" style="overflow-y: hidden;">
-                        <table id="" class="table align-items-center mb-0 table-striped table-hover px-2">
+                        <table id="venderPayment" class="table align-items-center mb-0 table-striped table-hover px-2">
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Paid Amount</th>
@@ -28,21 +28,21 @@
                             </thead>
                             <tbody>
                                 @foreach($venderPaymentRecords as $venderPayment)
-                                    <tr>
+                                    <tr data-user-id="{{ $venderPayment->id ?? 'N/A' }}"
+                                    data-exchange-id="{{ $venderPayment->exchange->id ?? 'N/A' }}">
                                         <td>{{ $venderPayment->paid_amount}}</td>
                                         <td>{{ $venderPayment->remaining_amount}}</td>
                                         <td>{{ $venderPayment->payment_type}}</td>
                                         <td>{{ $venderPayment->remarks}}</td>
                                         <td>{{ $venderPayment->created_at}}</td>
                                         <td class="text-center">
-                                            <button class="btn btn-danger btn-sm" onclick="deleteVenderPayment(this, {{ $venderPayment->id }})">Delete</button>
+                                            <button class="btn btn-danger btn-sm" onclick="deleteVenderPayment(this)">Delete</button>
                                         </td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
                         {{ $venderPaymentRecords->links('pagination::bootstrap-4') }}
-
                     </div>
                 </div>
             </div>
@@ -95,69 +95,62 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script>
 
-function addVenderPayment() {
-    const paid_amount = document.getElementById('paid_amount').value;
-    const remaining_amount = document.getElementById('remaining_amount').value;
-    const payment_type = document.getElementById('payment_type').value;
-    const remarks = document.getElementById('remarks').value;
+        function addVenderPayment() {
+            const paid_amount = document.getElementById('paid_amount').value;
+            const remaining_amount = document.getElementById('remaining_amount').value;
+            const payment_type = document.getElementById('payment_type').value;
+            const remarks = document.getElementById('remarks').value;
 
-    $.ajax({
-        url: "{{ route('assistant.vender_payment.store') }}",
-        method: "POST",
-        data: {
-            paid_amount: paid_amount,
-            remaining_amount: remaining_amount,
-            payment_type: payment_type,
-            remarks: remarks,
-            _token: '{{ csrf_token() }}'
-        },
-        success: function(response) {
-            if (response.message) {
-                alert(response.message);
-                location.reload();
-                closeModal();
-            }
+            $.ajax({
+                url: "{{ route('assistant.vender_payment.store') }}",
+                method: "POST",
+                data: {
+                    paid_amount: paid_amount,
+                    remaining_amount: remaining_amount,
+                    payment_type: payment_type,
+                    remarks: remarks,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    if (response.message) {
+                        alert(response.message);
+                        location.reload();
+                        closeModal();
+                    }
 
-            $('#addVenderPaymentModal').modal('hide');
-            document.getElementById('addVenderPaymentForm').reset();
-        },
-        error: function(xhr) {
-            alert('Error: ' + (xhr.responseJSON.message || 'An error occurred while adding the vender payment.'));
+                    $('#addVenderPaymentModal').modal('hide');
+                    document.getElementById('addVenderPaymentForm').reset();
+                },
+                error: function(xhr) {
+                    alert('Error: ' + (xhr.responseJSON.message || 'An error occurred while adding the vender payment.'));
+                }
+            });
         }
-    });
-}
+        function deleteVenderPayment(button) {
+            const row = $(button).closest('tr');
+            const userId = row.data('user-id');
 
-function deleteVenderPayment(button, id) {
-    const row = $(button).parents('tr');
-    const table = $('#venderPaymentTable').DataTable();
-
-    if (!confirm('Are you sure you want to delete this vender payment?')) {
-        return;
-    }
-
-    $.ajax({
-        url: "{{ route('assistant.vender_payment.destroy') }}",
-        method: "POST",
-        data: {
-            id: id,
-            _token: '{{ csrf_token() }}'
-        },
-        success: function(response) {
-            if (response.success) {
-                table.row(row).remove().draw();
-                alert(response.message);
-            } else {
-                alert(response.message || 'Failed to delete the vender Payment.');
+            if (confirm('Are you sure you want to delete this user?')) {
+                $.ajax({
+                    url: '{{ route('assistant.vender_payment.destroy') }}',
+                    method: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        id: userId
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            row.remove();
+                        } 
+                    },
+                    error: function() {
+                        alert('Failed to delete user.');
+                    }
+                });
             }
-        },
-        error: function(xhr) {
-            alert('Error: ' + (xhr.responseJSON.message || 'An error occurred while deleting the vender Payment.'));
         }
-    });
-}
 </script>
 
 @endsection

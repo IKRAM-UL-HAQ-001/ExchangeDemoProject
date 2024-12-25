@@ -15,6 +15,7 @@
         <div class="row">
             <div class="container">
                 <div class="row">
+                    <!-- Withdrawals and Deposits Chart -->
                     <div class="col-lg-4 col-sm-12 mb-4">
                         <div class="card equal-height">
                             <div class="card-header">
@@ -58,15 +59,22 @@
         <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="bg-gradient-primary modal-header d-flex justify-content-between align-items-center bg-primary">
+                    <div class="modal-header d-flex justify-content-between align-items-center bg-primary">
                         <h5 class="modal-title" id="reportModalLabel" style="color:white">Generate Report</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                 
                         <form id="reportForm">
                             @csrf
-                            <input type="hidden" class="form-select px-3" id="exchange" name="exchange_id" value="{{Auth::user()->exchange_id}}" >
+                            <div class="mb-3">
+                                <label for="exchange" class="form-label">Exchange</label>
+                                <select class="form-select px-3" id="exchange" name="exchange_id" required>
+                                    <option value="" disabled selected>Select an exchange</option>
+                                    @foreach($exchangeRecords as $exchange)
+                                        <option value="{{ $exchange->id }}">{{ $exchange->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                             <div class="mb-3">
                                 <label for="sdate" class="form-label">Start Date:</label>
                                 <input type="date" class="form-control border px-3" id="sdate" name="start_date" required
@@ -90,10 +98,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Include jQuery and Chart.js -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <!-- Include jQuery and Chart.js -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -151,7 +155,7 @@
             // Generate Report Function
             function generateReport(exchangeId, startDate, endDate) {
                 $.ajax({
-                    url: '{{ route("exchange.report.generate") }}',
+                    url: '{{ route("assistant.report.generate") }}',
                     method: 'POST',
                     data: {
                         exchange_id: exchangeId,

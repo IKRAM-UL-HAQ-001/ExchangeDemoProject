@@ -12,18 +12,12 @@ use Illuminate\Support\Facades\Auth;
 use DB;
 class LoginController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $exchangeRecords = Exchange::all();
         return view("auth.login", compact('exchangeRecords'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function login(Request $request)
     {
         $request->validate([
@@ -67,35 +61,6 @@ class LoginController extends Controller
         }
     }
     
-    
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Auth $auth)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Auth $auth)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request)
     {
         if (!auth()->check()) {
@@ -107,7 +72,6 @@ class LoginController extends Controller
             ]);
             
             $user = Auth::user();
-            
             if ($user->role == "admin") {
                 if (!Hash::check($request->currentPassword, $user->password)) {
                     return response()->json(['message' => 'Current password is incorrect.'], 422);
@@ -123,11 +87,6 @@ class LoginController extends Controller
         return response()->json(['message' => 'You are not eligible to perform this action.'], 422);
     }
     
-    public function destroy(Auth $auth)
-    {
-        //
-    }
-
     public function logout(Request $request)
     {
         if (!auth()->check()) {
@@ -146,7 +105,7 @@ class LoginController extends Controller
         
         return redirect()->route('auth.login')->with('status', 'All users have been logged out.');
     }
-
+    
     protected function invalidateAllSessions()
     {
         \DB::table('sessions')->truncate();

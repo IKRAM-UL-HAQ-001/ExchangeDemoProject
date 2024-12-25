@@ -9,23 +9,24 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 class BankEntryController extends Controller
 {
-
     public function index()
     {
         if (!auth()->check()) {
             return redirect()->route('auth.login');
-        } else {
-            $exchangeId = Auth::user()->exchange_id;
-            $userId = Auth::user()->id;
-            $bankEntryRecords = BankEntry::where('exchange_id', $exchangeId)
+        }
+        $user = auth()->user();
+        $exchangeId = $user->exchange_id;
+        $userId = $user->id;
+
+        $bankEntryRecords = BankEntry::with('bank')
+            ->where('exchange_id', $exchangeId)
             ->where('user_id', $userId)
-            ->where('status', null)->paginate(20);
-            
-            $bankRecords = Bank::paginate(20);
-            
-            return view('exchange.bank.list', compact('bankEntryRecords', 'bankRecords'));
-        }    
+            ->whereNull('status')
+            ->paginate(20);
+        $bankRecords = Bank::whereNull('status')->get();
+        return view('exchange.bank.list',compact('bankEntryRecords','bankRecords'));
     }
+    
 
     public function freezBankIndex(Request $request)
     {
@@ -38,21 +39,10 @@ class BankEntryController extends Controller
             ->where('user_id', $userId)
             ->where('status', "freez")
             ->paginate(20);
-            $bankRecords = Bank::all();
+            $bankRecords = Bank::whereNull('status')->get();
             
             return view('exchange.bank.freezbank', compact('bankEntryRecords', 'bankRecords'));
         }    
-    }
-    
-    public function create()
-    {
-        if (!auth()->check()) {
-            return redirect()->route('auth.login');
-        } else {
-            $bankRecords = Bank::all();
-            
-            return view("exchange.bank.list", compact('bankRecords'));
-        }
     }
 
     public function store(Request $request)
@@ -61,25 +51,36 @@ class BankEntryController extends Controller
             return redirect()->route('auth.login');
         }
         $validatedData = $request->validate([
-            'account_number' => Rule::requiredIf(!$request->has('freez')),'string','max:255',
-            'bank_name' => 'required|string|max:255',
+            'account_number' => [
+                Rule::requiredIf($request->input('status') !== 'freez'), // Required if status is not 'freez'
+                'string',
+                'max:255',
+            ],
             'cash_type' => 'required|string|max:255',
             'cash_amount' => 'required|numeric',
             'remarks' => 'required|string',
+            'status' => 'nullable|string',
+            'bank_id'=> 'required|numeric',       
         ]);
+            $bankExists = Bank::find($request->bank_id);
+            if($request->status == 'freez'){
+                $bankExists->status = 'freez';
+                $bankExists->save();
+            }
         try {
             $user = Auth::user();
             if ($user->role == "exchange") {
-                $bankEntry = BankEntry::create([
-                    'account_number' => $validatedData['account_number'] ?? 0,
-                    'bank_name' => $validatedData['bank_name'],
-                    'cash_amount' => (int) $validatedData['cash_amount'],
-                    'cash_type' => $validatedData['cash_type'],
-                    'remarks' => $validatedData['remarks'],
-                    'status' => "freez",
-                    'exchange_id' => $user->exchange_id,
-                    'user_id' => $user->id,
-                ]);
+                    $bankEntry = BankEntry::create([
+                        'account_number' => $validatedData['account_number'] ?? 0,
+                        'bank_id' =>  $bankExists->id,
+                        'cash_amount' => (int) $validatedData['cash_amount'],
+                        'cash_type' => $validatedData['cash_type'],
+                        'remarks' => $validatedData['remarks'],
+                        'status' => $validatedData['status'],
+                        'exchange_id' => $user->exchange_id,
+                        'user_id' => $user->id,
+                    ]);
+    
                 return response()->json(['success' => true,'message' => 'Bank Entry Data saved successfully!'], 200);
             }
         } catch (\Exception $e) {
@@ -89,17 +90,19 @@ class BankEntryController extends Controller
 
     public function unFreeze(Request $request)
     {
-        $bank = BankEntry::find($request->id);
-        if ($bank) {
-            $bank->delete();
+        $bankEntry = BankEntry::find($request->id);
+        $bankRec = Bank::find($bankEntry->bank_id);
+        $bankRec->status = null;
+        $bankRec->save();
+
+        $bankEntry->delete();
             return redirect()->back();
-        }
     }
 
     public function getBankBalance(Request $request) 
     {
-        $request->validate(['bank_name' => 'required|string']);
-        $sumBalance = BankEntry::where('bank_name', $request->bank_name)
+        $request->validate(['bank_id' => 'required']);
+        $sumBalance = BankEntry::where('bank_id', $request->bank_id)
             ->selectRaw('SUM(CASE WHEN cash_type = "add" THEN cash_amount WHEN cash_type = "minus" THEN -cash_amount END) as balance')
             ->value('balance');
         return response()->json(['balance' => $sumBalance ?? 0]);

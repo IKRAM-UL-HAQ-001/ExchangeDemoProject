@@ -27,7 +27,7 @@
                             </thead>
                             <tbody>
                                 @foreach($ownerProfitRecords as $ownerProfit)
-                                <tr>
+                                <tr  data-user-id="{{ $ownerProfit->id ?? 'N/A' }}">
                                     <td>{{ $ownerProfit->user->name }}</td>
                                     <td>{{ $ownerProfit->exchange->name }}</td>
                                     <td>{{ $ownerProfit->cash_amount }}</td>
@@ -51,36 +51,32 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+function deleteOwnerProfit(button) {
+            const row = $(button).closest('tr');
+            const userId = row.data('user-id');
 
-    function deleteOwnerProfit(button, id) {
-        const row = $(button).closest('tr');
-        const table = $('#ownerProfitTable').DataTable();
-
-        if (!confirm('Are you sure you want to delete this Owner profit?')) {
-            return;
+            if (confirm('Are you sure you want to delete this user?')) {
+                $.ajax({
+                    url: '{{ route('admin.owner_profit.destroy') }}',
+                    method: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        id: userId
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            row.remove();
+                        } else {
+                            alert('Error: ' + response.message);
+                        }
+                    },
+                    error: function() {
+                        alert('Failed to delete bank.');
+                    }
+                });
+            }
         }
 
-        $.ajax({
-            url: "{{ route('admin.owner_profit.destroy') }}"
-            , method: "POST"
-            , data: {
-                id: id
-                , _token: '{{ csrf_token() }}'
-            }
-            , success: function(response) {
-                if (response.success) {
-                    table.row(row).remove().draw();
-                    alert(response.message); // Consider replacing this with a toast notification
-                } else {
-                    alert(response.message || 'Failed to delete the Owner Profit.');
-                }
-            }
-            , error: function(xhr) {
-                console.error(xhr.responseText);
-                alert('Error: ' + xhr.status + ' - ' + xhr.statusText);
-            }
-        });
-    }
 
 </script>
 

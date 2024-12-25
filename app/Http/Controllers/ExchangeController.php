@@ -66,8 +66,10 @@ class ExchangeController extends Controller
             ->sum('paid_amount');
     
         $totalVendorPaymentsWeekly = VenderPayment::where('exchange_id', $exchangeId)
-            ->where(DB::raw("WEEK(created_at)"), $currentWeek)
-            ->whereYear('created_at', $currentYear)
+            ->whereBetween('created_at', [
+                Carbon::now()->startOfWeek(),
+                Carbon::now()->endOfWeek()
+            ])
             ->sum('paid_amount');
     
         $totalVendorPaymentsMonthly = VenderPayment::where('exchange_id', $exchangeId)
@@ -118,7 +120,12 @@ class ExchangeController extends Controller
             ->where('exchange_id', $exchangeId)
             ->whereDate('created_at', $today)
             ->sum('cash_amount');
-    
+
+        $totalMasterSettlingDaily = MasterSettling::where('exchange_id', $exchangeId)
+        ->whereDate('created_at', $today)
+        ->distinct('settling_point')
+        ->sum('settling_point');
+
         $totalBalanceDaily = $totalDepositDaily - $totalWithdrawalDaily - $totalExpenseDaily;
     
         $totalOpenCloseBalanceDaily = $totalOpenCloseBalance + $totalBalanceDaily;
@@ -126,54 +133,74 @@ class ExchangeController extends Controller
         // Weekly Metrics
         $totalFreezAmountWeekly = BankEntry::where('status', 'freez')
             ->where('exchange_id', $exchangeId)
-            ->where(DB::raw("WEEK(created_at)"), $currentWeek)
-            ->whereYear('created_at', $currentYear)
+            ->whereBetween('created_at', [
+                Carbon::now()->startOfWeek(),
+                Carbon::now()->endOfWeek()
+            ])
             ->sum('cash_amount');
     
         $totalDepositWeekly = Cash::where('exchange_id', $exchangeId)
             ->where('cash_type', 'deposit')
-            ->where(DB::raw("WEEK(created_at)"), $currentWeek)
-            ->whereYear('created_at', $currentYear)
+            ->whereBetween('created_at', [
+                Carbon::now()->startOfWeek(),
+                Carbon::now()->endOfWeek()
+            ])
             ->sum('cash_amount');
     
         $totalWithdrawalWeekly = Cash::where('exchange_id', $exchangeId)
             ->where('cash_type', 'withdrawal')
             ->where('approval', '1')
-            ->where(DB::raw("WEEK(created_at)"), $currentWeek)
-            ->whereYear('created_at', $currentYear)
+            ->whereBetween('created_at', [
+                Carbon::now()->startOfWeek(),
+                Carbon::now()->endOfWeek()
+            ])
             ->sum('cash_amount');
     
         $totalExpenseWeekly = Cash::where('exchange_id', $exchangeId)
             ->where('cash_type', 'expense')
-            ->where(DB::raw("WEEK(created_at)"), $currentWeek)
-            ->whereYear('created_at', $currentYear)
+            ->whereBetween('created_at', [
+                Carbon::now()->startOfWeek(),
+                Carbon::now()->endOfWeek()
+            ])
             ->sum('cash_amount');
     
         $totalBonusWeekly = Cash::where('exchange_id', $exchangeId)
-            ->where(DB::raw("WEEK(created_at)"), $currentWeek)
-            ->whereYear('created_at', $currentYear)
+            ->whereBetween('created_at', [
+                Carbon::now()->startOfWeek(),
+                Carbon::now()->endOfWeek()
+            ])
             ->sum('bonus_amount');
     
         $customerCountWeekly = Cash::where('exchange_id', $exchangeId)
-            ->where(DB::raw("WEEK(created_at)"), $currentWeek)
-            ->whereYear('created_at', $currentYear)
+            ->whereBetween('created_at', [
+                Carbon::now()->startOfWeek(),
+                Carbon::now()->endOfWeek()
+            ])
             ->distinct('reference_number')
             ->count('reference_number');
     
         $totalOwnerProfitWeekly = OwnerProfit::where('exchange_id', $exchangeId)
-            ->where(DB::raw("WEEK(created_at)"), $currentWeek)
-            ->whereYear('created_at', $currentYear)
+            ->whereBetween('created_at', [
+                Carbon::now()->startOfWeek(),
+                Carbon::now()->endOfWeek()
+            ])
             ->sum('cash_amount');
     
         $totalMasterSettlingWeekly = MasterSettling::where('exchange_id', $exchangeId)
-            ->where(DB::raw("WEEK(created_at)"), $currentWeek)
-            ->whereYear('created_at', $currentYear)
-            ->distinct('settling_point')
-            ->sum('settling_point');
-    
+        ->whereBetween('created_at', [
+            Carbon::now()->startOfWeek(),
+            Carbon::now()->endOfWeek()
+        ])
+        ->whereNotNull('settling_point')
+        ->groupBy('settling_point')
+        ->sum('settling_point');
+
+        
         $totalNewCustomerWeekly = Customer::where('exchange_id', $exchangeId)
-            ->where(DB::raw("WEEK(created_at)"), $currentWeek)
-            ->whereYear('created_at', $currentYear)
+            ->whereBetween('created_at', [
+                Carbon::now()->startOfWeek(),
+                Carbon::now()->endOfWeek()
+            ])
             ->distinct('id')
             ->count('id');
     
@@ -240,12 +267,13 @@ class ExchangeController extends Controller
             'totalBankBalance', 'totalVendorPaymentsDaily', 'totalVendorPaymentsWeekly', 'totalVendorPaymentsMonthly',
             'totalDepositDaily', 'totalWithdrawalDaily', 'totalExpenseDaily', 'totalBonusDaily', 'totalOwnerProfitDaily',
             'totalNewCustomerDaily', 'exchange_name', 'userCount', 'totalOpenCloseBalanceDaily', 'customerCountDaily',
-            'totalFreezAmountDaily', 'totalBalanceDaily', 'totalFreezAmountWeekly', 'totalDepositWeekly',
-            'totalWithdrawalWeekly', 'totalExpenseWeekly', 'totalBonusWeekly', 'customerCountWeekly',
+            'totalFreezAmountDaily', 'totalBalanceDaily','totalMasterSettlingDaily','customerCountDaily',
+            'customerCountWeekly',  
+            'totalFreezAmountWeekly', 'totalDepositWeekly', 'totalWithdrawalWeekly', 'totalExpenseWeekly', 'totalBonusWeekly', 'customerCountWeekly',
             'totalOwnerProfitWeekly', 'totalMasterSettlingWeekly', 'totalNewCustomerWeekly', 'totalBalanceWeekly',
             'totalFreezAmountMonthly', 'totalDepositMonthly', 'totalWithdrawalMonthly', 'totalExpenseMonthly',
-            'totalBonusMonthly', 'customerCountMonthly', 'totalOwnerProfitMonthly', 'totalMasterSettlingMonthly',
-            'totalNewCustomerMonthly', 'totalBalanceMonthly'
+            'totalBonusMonthly', 'totalOwnerProfitMonthly', 'totalMasterSettlingMonthly',
+            'totalNewCustomerMonthly', 'totalBalanceMonthly','customerCountMonthly'
         ));
     }
     
@@ -277,15 +305,12 @@ class ExchangeController extends Controller
 
     public function destroy(Request $request)
     {
-        if (!auth()->check()) {
-            return redirect()->route('auth.login');
-        } else {
             $exchange = Exchange::find($request->id);
             if ($exchange) {
                 $exchange->delete();
-                return response()->json(['success' => true, 'message' => 'Exchange deleted successfully!']);
+                return response()->json(['success' => true, 'message' => 'Exchange deleted successfully!'], 200);
             }
             return response()->json(['success' => false, 'message' => 'Exchange not found.'], 404);
-        }
+    
     }
 }

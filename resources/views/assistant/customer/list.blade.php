@@ -60,7 +60,7 @@ function deleteBank(button) {
 
             if (confirm('Are you sure you want to delete this user?')) {
                 $.ajax({
-                    url: '{{ route('admin.customer.destroy') }}',
+                    url: '{{ route('assistant.customer.destroy') }}',
                     method: 'POST',
                     data: {
                         _token: '{{ csrf_token() }}',
@@ -69,12 +69,7 @@ function deleteBank(button) {
                     success: function(response) {
                         if (response.success) {
                             row.remove();
-                        } else {
-                            alert('Error: ' + response.message);
-                        }
-                    },
-                    error: function() {
-                        alert('Failed to delete bank.');
+                        } 
                     }
                 });
             }

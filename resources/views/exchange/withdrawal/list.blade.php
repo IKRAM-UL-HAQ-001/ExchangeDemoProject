@@ -59,7 +59,7 @@
                                                     @csrf
                                                     <input type="hidden" id= "approval" name="approval" value="1" readonly>
                                                     <input type="hidden" id= "id" name="id" value="{{$withdrawal->id}}" readonly>
-                                                    <input type="submit" class="btn btn-primary" value="approve">
+                                                    <input type="submit" class="btn btn-warning" value=" approve">
                                                 </form>
                                             @else
                                                 <button class="btn btn-primary text-white" >Approved</button>

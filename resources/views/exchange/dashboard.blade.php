@@ -42,6 +42,7 @@
             ['Customers', $customerCountDaily, 'bg-gradient-primary', 'person'],
             ['Today Profit', $totalOwnerProfitDaily, 'bg-gradient-primary', 'attach_money'],
             ['Today New Customers', $totalNewCustomerDaily, 'bg-gradient-primary', 'group_add'],
+            ['Today Settling Points', $totalMasterSettlingDaily, 'bg-gradient-primary', 'point_of_sale'],
             ['Today Open Close Balance', $totalOpenCloseBalanceDaily, 'bg-gradient-primary', 'account_balance'],
             ['Today Vendor Payments', $totalVendorPaymentsDaily, 'bg-gradient-primary', 'payment'], // Vendor Payment Card
 

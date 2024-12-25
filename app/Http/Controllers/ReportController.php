@@ -55,9 +55,10 @@ class ReportController extends Controller
 
             $withdrawal = Cash::whereBetween('created_at', [$start_date, $end_date])
                 ->where('exchange_id', $exchangeId)
-                ->where('approval','1')
+                ->where('approval',1)
                 ->where('cash_type', 'withdrawal')
                 ->sum('cash_amount');
+
 
             $expense = Cash::whereBetween('created_at', [$start_date, $end_date])
                 ->where('exchange_id', $exchangeId)
@@ -110,11 +111,9 @@ class ReportController extends Controller
                 'end_date' => 'required|date|after_or_equal:start_date',
                 'exchange_id' => 'required|exists:exchanges,id',
             ]);
-
             $start_date = Carbon::parse($validated['start_date'])->startOfDay();
             $end_date = Carbon::parse($validated['end_date'])->endOfDay();
             $exchangeId = $validated['exchange_id'];
-
             // Calculate sums
             $deposit = Cash::whereBetween('created_at', [$start_date, $end_date])
                 ->where('exchange_id', $exchangeId)
