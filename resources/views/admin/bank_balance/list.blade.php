@@ -30,19 +30,21 @@
                             </thead>
                             <tbody>
                                 @foreach($bankBalanceRecords as $bankBalance)
-                                <tr data-user-id="{{ $bankBalance->id ?? 'N/A' }}">
-                                    <td>{{ $bankBalance->user->name ?? 'N/A' }}</td>
-                                    <td>{{ $bankBalance->exchange->name ?? 'N/A' }}</td>
-                                    <td>{{ $bankBalance->bank->name ?? 'N/A' }}</td> <!-- Fixed missing closing <td> -->
-                                    <td>{{ $bankBalance->account_number }}</td>
-                                    <td>{{ $bankBalance->cash_amount }}</td>
-                                    <td>{{ $bankBalance->cash_type }}</td>
-                                    <td>{{ $bankBalance->remarks }}</td>
-                                    <td>{{ $bankBalance->created_at }}</td>
-                                    <td class="text-center">
-                                        <button class="btn btn-danger btn-sm" aria-label="Delete Bank Balance" onclick="deleteBank(this, {{ $bankBalance->id }})">Delete</button>
-                                    </td>
-                                </tr>
+                                    @if($bankBalance->status !='freez')
+                                        <tr data-user-id="{{ $bankBalance->id ?? 'N/A' }}">
+                                            <td>{{ $bankBalance->user->name ?? 'N/A' }}</td>
+                                            <td>{{ $bankBalance->exchange->name ?? 'N/A' }}</td>
+                                            <td>{{ $bankBalance->bank->name ?? 'N/A' }}</td> <!-- Fixed missing closing <td> -->
+                                            <td>{{ $bankBalance->account_number }}</td>
+                                            <td>{{ $bankBalance->cash_amount }}</td>
+                                            <td>{{ $bankBalance->cash_type }}</td>
+                                            <td>{{ $bankBalance->remarks }}</td>
+                                            <td>{{ $bankBalance->created_at }}</td>
+                                            <td class="text-center">
+                                                <button class="btn btn-danger btn-sm" aria-label="Delete Bank Balance" onclick="deleteBank(this, {{ $bankBalance->id }})">Delete</button>
+                                            </td>
+                                        </tr>
+                                    @endif
                                 @endforeach
                             </tbody>
                         </table>

@@ -28,7 +28,7 @@ class VenderPaymentController extends Controller
         ->orderBy('created_at', 'desc')->paginate(20);
         return response()->view('admin.vender_payment.list', compact('venderPaymentRecords'));
     }
-    public function assistantindex()
+    public function assistantIndex()
     {
         $startOfYear = Carbon::now()->startOfYear(); 
         $endOfYear = Carbon::now()->endOfYear();

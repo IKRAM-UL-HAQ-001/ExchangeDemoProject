@@ -38,17 +38,28 @@ class CustomerController extends Controller
     }
 
 
+    public function assistantIndex()
+    {
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        }
+
+        $startOfWeek = Carbon::now()->startOfWeek();
+        $endOfWeek = Carbon::now()->endOfWeek();
+        $customerRecords = Customer::whereBetween('created_at', [$startOfWeek, $endOfWeek])
+        ->orderBy('created_at', 'desc')->paginate(20);
+
+        return view("assistant.customer.list", compact('customerRecords'));
+    }
+
     public function store(Request $request)
     {
-        // Check if the user is authenticated
         if (!auth()->check()) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
-
         $user = Auth::user();
         $exchangeId = $user->exchange_id;
         $userId = $user->id;
-
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'cash_amount' => 'required|numeric',

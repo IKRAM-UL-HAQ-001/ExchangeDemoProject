@@ -47,18 +47,29 @@ class ExchangeController extends Controller
     
         $userCount = Cash::where('exchange_id', $exchangeId)->distinct('user_id')->count('user_id');
     
+        // freez amount
+        $totalFreezAmount = BankEntry::where('status', 'freez')
+        ->where('exchange_id', $exchangeId)
+        ->sum('cash_amount');
+        
+        
+        $totalFreezAmountDaily = BankEntry::where('status', 'freez')
+        ->where('exchange_id', $exchangeId)
+        ->whereDate('created_at', $today)
+        ->sum('cash_amount');
+
         // Total Bank Balance
         $totalAmountAdd = BankEntry::where('cash_type', 'add')
             ->where('exchange_id', $exchangeId)
-            ->where('status', '!=', 'freez')
+            ->where('status', null)
             ->sum('cash_amount');
     
         $totalAmountSubtract = BankEntry::where('cash_type', 'minus')
             ->where('exchange_id', $exchangeId)
-            ->where('status', '!=', 'freez')
+            ->where('status', null)
             ->sum('cash_amount');
     
-        $totalBankBalance = $totalAmountAdd - $totalAmountSubtract;
+        $totalBankBalance = $totalAmountAdd - $totalAmountSubtract - $totalFreezAmount;
     
         // Vendor Payments Metrics
         $totalVendorPaymentsDaily = VenderPayment::where('exchange_id', $exchangeId)
@@ -116,10 +127,6 @@ class ExchangeController extends Controller
             ->distinct('id')
             ->count('id');
     
-        $totalFreezAmountDaily = BankEntry::where('status', 'freez')
-            ->where('exchange_id', $exchangeId)
-            ->whereDate('created_at', $today)
-            ->sum('cash_amount');
 
         $totalMasterSettlingDaily = MasterSettling::where('exchange_id', $exchangeId)
         ->whereDate('created_at', $today)
@@ -285,6 +292,17 @@ class ExchangeController extends Controller
             $exchangeRecords = Exchange::orderBy('created_at', 'desc')->paginate(20);
             return response()
                 ->view("admin.exchange.list", compact('exchangeRecords'));
+        }
+    }
+
+    public function assistantExchangeList()
+    {
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        } else {
+            $exchangeRecords = Exchange::orderBy('created_at', 'desc')->paginate(20);
+            return response()
+                ->view("assistant.exchange.list", compact('exchangeRecords'));
         }
     }
 

@@ -28,6 +28,16 @@ class BankController extends Controller
             return view("admin.bank.list", compact('bankRecords'));
         }
     }
+
+    public function assistantIndex()
+    {
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        } else {
+            $bankRecords = Bank::orderBy('created_at', 'desc')->paginate(20);
+            return view("assistant.bank.list", compact('bankRecords'));
+        }
+    }
     
     public function freezBankIndex(Request $request)
     {
@@ -41,6 +51,21 @@ class BankController extends Controller
             $bankRecords = Bank::all();
             
             return view('admin.bank_freez.list', compact('bankEntryRecords', 'bankRecords'));
+        }    
+    }
+
+    public function assistantFreezBankIndex(Request $request)
+    {
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        } else {
+            $exchangeId = Auth::user()->exchange_id;
+            $userId = Auth::user()->id;
+            $bankEntryRecords = BankEntry::where('status', "freez")
+            ->paginate(20);
+            $bankRecords = Bank::all();
+            
+            return view('assistant.bank_freez.list', compact('bankEntryRecords', 'bankRecords'));
         }    
     }
     
@@ -62,7 +87,6 @@ class BankController extends Controller
 
     public function destroy(Request $request)
     {
-        dd($request);
         if (!auth()->check()) {
             return redirect()->route('auth.login');
         } else {
@@ -74,6 +98,7 @@ class BankController extends Controller
             return response()->json(['success' => false, 'message' => 'Bank not found.'], 404);
         }
     }
+    
     public function delete(Request $request)
     {
         $bank = BankEntry::find($request->id);

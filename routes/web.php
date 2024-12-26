@@ -126,14 +126,88 @@ Route::group(['middleware' => ['admin']], function () {
     Route::post('/admin/file/destroy', [ExcelFileController::class, 'destroy'])->name('admin.file.destroy');
 });
 
+
 Route::group(['middleware' => ['assistant']], function () {
 
-    Route::get('/assistant/dashboard', [AssistantController::class, 'index'])->name('assistant.dashboard');
+    Route::post('/assistant/passwordUpdate', [LoginController::class, 'update'])->name('password.update');
+
+    Route::get('/assistant', [assistantController::class, 'index'])->name('assistant.dashboard');
+
+    //Report
+    Route::get('/assistant/report', [ReportController::class, 'assistantIndex'])->name('assistant.report.list');
+    Route::post('/assistant/report/post', [ReportController::class, 'report'])->name('assistant.report.generate');
+
+    // exchange user
+    Route::get('/assistant/user', [UserController::class, 'assistantindex'])->name('assistant.user.list');
+    Route::post('/assistant/user/post', [UserController::class, 'store'])->name('assistant.user.post');
+    Route::post('/assistant/user/update', [UserController::class, 'update'])->name('assistant.user.update');
+    Route::post('/assistant/user/destroy', [UserController::class, 'destroy'])->name('assistant.user.destroy');
+    Route::post('/assistant/user/status', [UserController::class, 'userStatus'])->name('assistant.user.status');
 
 
-    Route::get('/assistant/exchange', [ExchangeController::class, 'exchangeList'])->name('assistant.exchange.list');
-   
+    // exchange
+    Route::get('/assistant/exchange', [ExchangeController::class, 'assistantExchangeList'])->name('assistant.exchange.list');
+    Route::post('/assistant/exchange/post', [ExchangeController::class, 'store'])->name('assistant.exchange.store');
+    Route::post('/assistant/exchange/destroy', [ExchangeController::class, 'destroy'])->name('assistant.exchange.destroy');
+
+    //bank
+    Route::get('/assistant/bank', [BankController::class, 'assistantIndex'])->name('assistant.bank.list');
+    Route::post('/assistant/bank/post', [BankController::class, 'store'])->name('assistant.bank.store');
+    Route::post('/assistant/bank/destroy', [BankController::class, 'destroy'])->name('assistant.bank.destroy');
+
+    //Freez Bank
+    Route::get('/assistant/bank/freez', [BankController::class, 'assistantFreezBankIndex'])->name('assistant.bank_freez.list');
+    Route::post('/assistant/bank/delete', [BankController::class, 'delete'])->name('assistant.bank.delete');
+
+
+    // bank user
+    Route::get('/assistant/bankUser', [BankUserController::class, 'assistantindex'])->name('assistant.bank_user.list');
+    Route::post('/assistant/bankUser/post', [BankUserController::class, 'store'])->name('assistant.bank_user.store');
+    Route::post('/assistant/bankUser/destroy', [BankUserController::class, 'destroy'])->name('assistant.bank_user.destroy');
+
+    // deposit withdrawal
+    Route::get('/assistant/deposit-withdrawal', [DepositWithdrawalController::class, 'assistantIndex'])->name('assistant.deposit_withdrawal.list');
+    Route::post('/assistant/deposit-withdrawal/destroy', [DepositWithdrawalController::class, 'destroy'])->name('assistant.deposit_withdrawal.destroy');
+
+    //expense
+    Route::get('/assistant/expense', [ExpenseController::class, 'assistantIndex'])->name('assistant.expense.list');
+    Route::post('/assistant/expense/destroy', [ExpenseController::class, 'destroy'])->name('assistant.expense.destroy');
+
+    //bank Balance
+    Route::get('/assistant/bankBalance', [BankBalanceController::class, 'assistantIndex'])->name('assistant.bank_balance.list');
+    Route::post('/assistant/bankBalance/destroy', [BankBalanceController::class, 'destroy'])->name('assistant.bank_balance.destroy');
+
+
+    //customer
+    Route::get('/assistant/customer', [CustomerController::class, 'assistantIndex'])->name('assistant.customer.list');
+    Route::post('/assistant/customer/destroy', [CustomerController::class, 'destroy'])->name('assistant.customer.destroy');
+
+    //Master Settling
+    Route::get('/assistant/masterSettling', [MasterSettlingController::class, 'assistantIndex'])->name('assistant.master_settling.list');
+    Route::post('/assistant/masterSettling/destroy', [MasterSettlingController::class, 'destroy'])->name('assistant.master_settling.destroy');
+    Route::post('/assistant/masterSettling/update', [MasterSettlingController::class, 'update'])->name('assistant.master_settling.update');
+
+    //Owner Profit
+    Route::get('/assistant/ownerProfit', [OwnerProfitController::class, 'assistantIndex'])->name('assistant.owner_profit.list');
+    Route::post('/assistant/ownerProfit/destroy', [OwnerProfitController::class, 'destroy'])->name('assistant.owner_profit.destroy');
+
+
+    //Vender Payment
+    Route::get('/assistant/vender_payment', [VenderPaymentController::class, 'assistantIndex'])->name('assistant.vender_payment.list');
+    Route::post('/assistant/venderPayment/post', [VenderPaymentController::class, 'store'])->name('assistant.vender_payment.store');
+    Route::post('/assistant/venderPayment/delete', [VenderPaymentController::class, 'destroy'])->name('assistant.vender_payment.destroy');
+
+    //Vender Payment
+    Route::get('/assistant/openCloseBalance', [OpenCloseBalanceController::class, 'index'])->name('assistant.open_close_balance.list');
+    Route::post('/assistant/openCloseBalance/destroy', [OpenCloseBalanceController::class, 'destroy'])->name('assistant.open_close_balance.destroy');
+
+    //File Operations
+    Route::get('/assistant/file', [ExcelFileController::class, 'assistantIndex'])->name('assistant.file.list');
+    Route::post('/assistant/file/post', [ExcelFileController::class, 'store'])->name('assistant.file.post');
+    Route::post('/assistant/file/destroy', [ExcelFileController::class, 'destroy'])->name('assistant.file.destroy');
+
 });
+
 
 
 

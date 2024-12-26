@@ -15,14 +15,38 @@
     <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
     <meta name="google-site-verification" content="dyeHS1jvPA6amUut6GVo-n5SoCdgjTEw4LZzb3-u774" />
     <meta name="description" content="testing this">
+    <style>
+    .card {
+        box-shadow: 10px 14px 45px rgba(0, 0, 0, 0.49); /* Adjust shadow intensity */
+        border: 1px solid rgba(0, 0, 0, 0.1); /* Light border for visibility */
+    }
+
+    .bg-gradient-primary {
+    }
+
+    .card-header {
+        border-radius: 8px; /* Smooth corners */
+    }
+
+    .btn.bg-gradient-primary {
+        box-shadow: 0 4px 8px rgba(59, 131, 246, 0.38); /* Add a shadow effect to the button */
+        transition: transform 0.3s ease-in-out; /* Smooth transition on hover */
+    }
+
+    .btn.bg-gradient-primary:hover {
+        transform: scale(1.01); /* Slightly enlarge on hover */
+        box-shadow: 0 6px 12px rgba(59, 131, 246, 0.41); /* Enhance shadow on hover */
+    }
+</style>
+
 </head>
 
 <body class="">
     <main class="main-content mt-0">
-        <div class="page-header align-items-start min-vh-100" style="background-image: url('../assets/img/imgs.jpg'); ">
-            <span class="mask bg-gradient-dark opacity-6"></span>
+        <div class="page-header align-items-start min-vh-100" style="opacity: 1.0; background-image: url('../assets/img/imgs.jpg'); ">
+            <span class=""></span>
             <div class="container my-auto">
-                <h1 class="text-white font-weight-bolder text-center mt-2 mb-5">Exchange Management System</h1>
+                <h1 class="text-black font-weight-bolder text-center mt-2 mb-5">Exchange Management System</h1>
                 <div class="row mt-3">
                     <div class="col-lg-4 col-md-8 col-12 mx-auto">
                         <div class="card z-index-0 fadeIn3 fadeInBottom">
@@ -93,6 +117,32 @@
             const exchangeDropdown = document.getElementById('ExchangeDropdown');
             exchangeDropdown.style.display = (userRole === 'exchange') ? 'block' : 'none';
         }
+    </script>
+    <script>
+        document.addEventListener('contextmenu', function(event) {
+            event.preventDefault();
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'F12' || (event.ctrlKey && event.shiftKey && event.key === 'I') || (event.ctrlKey &&
+                    event.key === 'U')) {
+                event.preventDefault();
+            }
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if ((event.ctrlKey && event.shiftKey && (event.key === 'J' || event.key === 'C')) || (event.ctrlKey &&
+                    event.key === 'S')) {
+                event.preventDefault();
+            }
+        });
+
+        document.addEventListener('selectstart', function(event) {
+            event.preventDefault();
+        });
+        document.addEventListener('copy', function(event) {
+            event.preventDefault();
+        });
     </script>
 </body>
 </html>

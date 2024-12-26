@@ -57,7 +57,7 @@ class MasterSettlingController extends Controller
         }
     }
     
-    public function indexAssistant()
+    public function assistantIndex()
     {
         if (!auth()->check()) {
             return redirect()->route('auth.login');

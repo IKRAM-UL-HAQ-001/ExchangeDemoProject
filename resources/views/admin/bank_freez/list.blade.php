@@ -34,35 +34,35 @@
                                 <tbody>
                                     @foreach ($bankEntryRecords as $bankEntry)
                                         @php
-                                            if (!isset($bankBalances[$bankEntry->bank_name])) {
-                                                $bankBalances[$bankEntry->bank_name] = 0;
-                                                $firstEntryFlags[$bankEntry->bank_name] = true; // Mark the first entry
+                                            if (!isset($bankBalances[$bankEntry->bank_id])) {
+                                                $bankBalances[$bankEntry->bank_id] = 0;
+                                                $firstEntryFlags[$bankEntry->bank_id] = true; // Mark the first entry
                                             }
 
                                             // Add or subtract cash based on the cash type
                                             if (strtolower($bankEntry->cash_type) == 'add') {
-                                                $bankBalances[$bankEntry->bank_name] += $bankEntry->cash_amount;
+                                                $bankBalances[$bankEntry->bank_id] += $bankEntry->cash_amount;
                                             } elseif (strtolower($bankEntry->cash_type) == 'minus') {
-                                                $bankBalances[$bankEntry->bank_name] -= $bankEntry->cash_amount;
+                                                $bankBalances[$bankEntry->bank_id] -= $bankEntry->cash_amount;
                                             }
                                         @endphp
 
                                         <tr>
-                                            <td>{{ $bankEntry->bank_name }}</td>
+                                            <td>{{ $bankEntry->bank->name }}</td>
                                             <td>{{ $bankEntry->cash_type }}</td>
                                             <td>{{ $bankEntry->cash_amount }}</td>
                                             <td>{{ $bankEntry->remarks }}</td>
                                             <td>
                                                 {{-- Show the balance accordingly for the first entry or the updated balance for subsequent entries --}}
-                                                @if ($firstEntryFlags[$bankEntry->bank_name])
+                                                @if ($firstEntryFlags[$bankEntry->bank_id])
                                                     {{-- For the first occurrence, set the initial balance as the current cash amount --}}
-                                                    {{ $bankBalances[$bankEntry->bank_name] }}
+                                                    {{ $bankBalances[$bankEntry->bank_id] }}
                                                     @php
-                                                        $firstEntryFlags[$bankEntry->bank_name] = false; // Mark the first occurrence as processed
+                                                        $firstEntryFlags[$bankEntry->bank_id] = false; // Mark the first occurrence as processed
                                                     @endphp
                                                 @else
                                                     {{-- Display the updated bank balance for subsequent entries --}}
-                                                    {{ $bankBalances[$bankEntry->bank_name] }}
+                                                    {{ $bankBalances[$bankEntry->bank_id] }}
                                                 @endif
                                             </td>
                                             <td>{{ $bankEntry->created_at }}</td>

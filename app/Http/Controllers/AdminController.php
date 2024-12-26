@@ -65,6 +65,10 @@ class AdminController extends Controller
                 ->distinct('id')
                 ->count('id');
 
+            $totalMasterSettlingDaily = MasterSettling::whereDate('created_at', $today)
+                ->distinct('settling_point')
+                ->sum('settling_point');
+
             $totalBalanceDaily =  $totalDepositDaily -  $totalWithdrawalDaily -  $totalExpenseDaily ;
 
 
@@ -73,42 +77,58 @@ class AdminController extends Controller
 
             // Weekly totals
             $totalDepositWeekly = Cash::where('cash_type', 'deposit')
-            ->where(DB::raw("WEEK(created_at)"), $currentWeek)
-            ->whereYear('created_at', $currentYear)
+            -> whereBetween('created_at', [
+                Carbon::now()->startOfWeek(),
+                Carbon::now()->endOfWeek()
+            ])
             ->sum('cash_amount');
 
             $totalWithdrawalWeekly = Cash::where('cash_type', 'withdrawal')
-            ->where(DB::raw("WEEK(created_at)"), $currentWeek)
-            ->whereYear('created_at', $currentYear)
+            -> whereBetween('created_at', [
+                Carbon::now()->startOfWeek(),
+                Carbon::now()->endOfWeek()
+            ])
             ->where('approval', '1')
             ->sum('cash_amount');
 
             $totalExpenseWeekly = Cash::where('cash_type', 'expense')
-            ->where(DB::raw("WEEK(created_at)"), $currentWeek)
-            ->whereYear('created_at', $currentYear)
+            -> whereBetween('created_at', [
+                Carbon::now()->startOfWeek(),
+                Carbon::now()->endOfWeek()
+            ])
             ->sum('cash_amount');
 
             $totalBonusWeekly = Cash::
-            where(DB::raw("WEEK(created_at)"), $currentWeek)
-            ->whereYear('created_at', $currentYear)
+             whereBetween('created_at', [
+                Carbon::now()->startOfWeek(),
+                Carbon::now()->endOfWeek()
+            ])
                 ->sum('bonus_amount');
 
-            $totalOldCustomersWeekly = Cash::where(DB::raw("WEEK(created_at)"), $currentWeek)
-            ->whereYear('created_at', $currentYear)
+            $totalOldCustomersWeekly = Cash:: whereBetween('created_at', [
+                Carbon::now()->startOfWeek(),
+                Carbon::now()->endOfWeek()
+            ])
                 ->distinct('reference_number')
                 ->count('reference_number');
 
-            $totalOwnerProfitWeekly = OwnerProfit::where(DB::raw("WEEK(created_at)"), $currentWeek)
-            ->whereYear('created_at', $currentYear)
+            $totalOwnerProfitWeekly = OwnerProfit:: whereBetween('created_at', [
+                Carbon::now()->startOfWeek(),
+                Carbon::now()->endOfWeek()
+            ])
                 ->sum('cash_amount');
 
-            $totalCustomersWeekly = Customer::where(DB::raw("WEEK(created_at)"), $currentWeek)
-            ->whereYear('created_at', $currentYear)
+            $totalCustomersWeekly = Customer:: whereBetween('created_at', [
+                Carbon::now()->startOfWeek(),
+                Carbon::now()->endOfWeek()
+            ])
                 ->distinct('id')
                 ->count('id');
 
-            $totalMasterSettlingWeekly = MasterSettling::where(DB::raw("WEEK(created_at)"), $currentWeek)
-            ->whereYear('created_at', $currentYear)
+            $totalMasterSettlingWeekly = MasterSettling:: whereBetween('created_at', [
+                Carbon::now()->startOfWeek(),
+                Carbon::now()->endOfWeek()
+            ])
             ->distinct('settling_point')
             ->sum('settling_point');
             // Monthly totals
@@ -160,14 +180,15 @@ class AdminController extends Controller
             $totalOpenCloseBalanceMonthly = $totalOpenCloseBalance + $totalBalanceMonthly;
             // Bank data and balances
             $totalAmountAdd = BankEntry::where('cash_type', 'add')
-            ->where('status','!=','freez')
+            ->where('status',null)
             ->sum('cash_amount');
-
             $totalAmountSubtract = BankEntry::where('cash_type', 'minus')
-            ->where('status','!=','freez')
+            ->where('status',null)
             ->sum('cash_amount');
-
-            $totalBankBalance = $totalAmountAdd - $totalAmountSubtract;
+            $totalFreezAmount = BankEntry::where('status', 'freez')
+            ->sum('cash_amount');
+            
+            $totalBankBalance = $totalAmountAdd - $totalAmountSubtract - $totalFreezAmount;
 
             // Weekly total balance calculation
             $totalBalanceWeekly = $totalDepositWeekly - $totalWithdrawalWeekly - $totalExpenseWeekly;
@@ -181,8 +202,10 @@ class AdminController extends Controller
             ->sum('cash_amount');
             
             $totalFreezAmountWeekly = BankEntry::where('status', 'freez')
-            ->where(DB::raw("WEEK(created_at)"), $currentWeek)
-            ->whereYear('created_at', $currentYear)
+            -> whereBetween('created_at', [
+                Carbon::now()->startOfWeek(),
+                Carbon::now()->endOfWeek()
+            ])
             ->sum('cash_amount');
 
             $totalFreezAmountMonthly = BankEntry::where('status', 'freeze')
@@ -204,7 +227,7 @@ class AdminController extends Controller
                 
                 'totalBalanceDaily', 'totalDepositDaily', 'totalWithdrawalDaily', 'totalExpenseDaily', 'totalBonusDaily',
                 'totalOldCustomersDaily', 'totalOwnerProfitDaily', 'totalCustomersDaily', 'totalBankBalance',
-                'totalOpenCloseBalanceDaily', 'totalPaidAmountDaily','totalFreezAmountDaily',
+                'totalOpenCloseBalanceDaily', 'totalPaidAmountDaily','totalFreezAmountDaily','totalMasterSettlingDaily',
                 );
 
             return response()

@@ -23,9 +23,9 @@ class AssistantController extends Controller
      */
     public function index()
     {
-        // if (!auth()->check()) {
-            //     return redirect()->route('auth.login');
-            // } else {
+        if (!auth()->check()) {
+                return redirect()->route('auth.login');
+            } else {
                 $today = Carbon::today();
                 $currentMonth = Carbon::now()->month;
                 $currentYear = Carbon::now()->year;
@@ -163,14 +163,17 @@ class AssistantController extends Controller
             $totalOpenCloseBalanceMonthly = $totalOpenCloseBalance + $totalBalanceMonthly;
             // Bank data and balances
             $totalAmountAdd = BankEntry::where('cash_type', 'add')
-            ->where('status','!=','freez')
+            ->where('status',null)
             ->sum('cash_amount');
 
             $totalAmountSubtract = BankEntry::where('cash_type', 'minus')
-            ->where('status','!=','freez')
+            ->where('status',null)
+            ->sum('cash_amount');
+            
+            $totalFreezAmount = BankEntry::where('status', 'freez')
             ->sum('cash_amount');
 
-            $totalBankBalance = $totalAmountAdd - $totalAmountSubtract;
+            $totalBankBalance = $totalAmountAdd - $totalAmountSubtract - $totalFreezAmount;
 
             // Weekly total balance calculation
             $totalBalanceWeekly = $totalDepositWeekly - $totalWithdrawalWeekly - $totalExpenseWeekly;
@@ -210,10 +213,7 @@ class AssistantController extends Controller
                 'totalOldCustomersDaily', 'totalOwnerProfitDaily', 'totalCustomersDaily', 'totalBankBalance',
                 'totalOpenCloseBalanceDaily', 'totalPaidAmountDaily','totalFreezAmountDaily',
                 );
-                dd('AssistantController@index');
-
-
             return view('assistant.dashboard', $viewData);
         }
-    // }
+    }
 }

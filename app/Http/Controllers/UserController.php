@@ -24,6 +24,20 @@ class UserController extends Controller
             return view("admin.user.list", compact('userRecords', 'exchangeRecords'));
         }
     }
+    public function assistantIndex()
+    {
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        }
+        else{
+            $userRecords = User::with('exchange')
+            ->where('role', '!=', 'admin')
+            ->orderBy('created_at', 'desc')
+            ->paginate(20);
+            $exchangeRecords = Exchange::all();
+            return view("assistant.user.list", compact('userRecords', 'exchangeRecords'));
+        }
+    }
 
     public function store(Request $request)
     {

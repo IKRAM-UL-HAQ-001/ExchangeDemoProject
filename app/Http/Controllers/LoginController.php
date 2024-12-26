@@ -27,11 +27,11 @@ class LoginController extends Controller
             'exchange' => 'nullable|required_if:role,exchange',
         ]);
         $userStatus = User::where('name',$request->name)->first();
-        if('$userStatus->status' == 'active'){
+        
+        if ($userStatus && $userStatus->status === 'inactive') {
             return redirect()->back()->withErrors(['error' => 'You are not authorized by Admin']);
         }
         else{
-
         if (Auth::attempt($request->only('name', 'password'))) {
             
             $request->session()->regenerate();
@@ -72,14 +72,12 @@ class LoginController extends Controller
             ]);
             
             $user = Auth::user();
-            if ($user->role == "admin") {
+            if ($user->role == "admin" ||$user->role == "assistant") {
                 if (!Hash::check($request->currentPassword, $user->password)) {
                     return response()->json(['message' => 'Current password is incorrect.'], 422);
                 } else {
                     $user->password = Hash::make($request->newPassword);
                     $user->save();
-                    
-                    // Return response with security headers
                     return response()->json(['message' => 'Password updated successfully.']);
                 }
             }

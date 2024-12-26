@@ -30,7 +30,8 @@ class OpenCloseBalanceController extends Controller
     {
         $startOfWeek = Carbon::now()->startOfWeek();
         $openingClosingBalanceRecords = OpenCloseBalance::where('created_at', '>=', $startOfWeek)
-        ->orderBy('created_at', 'desc')->paginate(20);
+        ->orderBy('created_at', 'desc')
+        ->paginate(20);
         return view('admin.open_close_balance.list', compact('openingClosingBalanceRecords'));
     }
     
@@ -49,7 +50,9 @@ class OpenCloseBalanceController extends Controller
     public function assistantIndex()
     {
         $startOfWeek = Carbon::now()->startOfWeek();
-        $openingClosingBalanceRecords = OpenCloseBalance::where('created_at', '>=', $startOfWeek)->paginate(20);
+        $openingClosingBalanceRecords = OpenCloseBalance::where('created_at', '>=', $startOfWeek)
+        ->orderBy('created_at', 'desc')
+        ->paginate(20);
     
         return view('assistant.open_close_balance.list', compact("openingClosingBalanceRecords"));
     }

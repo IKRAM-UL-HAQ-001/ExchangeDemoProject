@@ -22,6 +22,19 @@ class BankUserController extends Controller
         }
     }
 
+    public function assistantIndex()
+    {
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        } else {
+            $bankUserRecords = BankUser::paginate(20);
+            $userRecords = User::whereNotIn('role', ['admin', 'assistant'])
+                ->orderBy('created_at', 'desc')->paginate(20);
+            $response = view("assistant.bank_user.list", compact('bankUserRecords', 'userRecords'));
+            return response($response);
+        }
+    }
+
     public function store(Request $request)
     {
         if (!auth()->check()) {

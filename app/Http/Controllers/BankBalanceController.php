@@ -42,7 +42,7 @@ class BankBalanceController extends Controller
         }
     }
 
-    public function indexAssistant()
+    public function assistantIndex()
     {
         if (!auth()->check()) {
             return redirect()->route('auth.login');
@@ -56,47 +56,6 @@ class BankBalanceController extends Controller
             return response()
                 ->view("assistant.bank_balance.list", compact('bankBalanceRecords'));
         }
-    }
-
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(BankBalance $bankBalance)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(BankBalance $bankBalance)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, BankBalance $bankBalance)
-    {
-        //
     }
 
     public function destroy(Request $request)

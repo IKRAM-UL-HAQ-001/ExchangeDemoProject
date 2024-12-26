@@ -29,6 +29,16 @@ class ReportController extends Controller
         }
     }
 
+    public function assistantIndex()
+    {
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        } else {
+            $exchangeRecords = Exchange::all();
+            return response()->view('assistant.report.list', compact('exchangeRecords'));
+        }
+    }
+
     public function report(Request $request)
     {
         try {

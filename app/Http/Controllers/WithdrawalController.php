@@ -12,7 +12,6 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 class WithdrawalController extends Controller
 {
-
     public function withdrawalExportExcel(Request $request)
     {
         if (!auth()->check()) {

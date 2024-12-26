@@ -37,6 +37,19 @@ class OwnerProfitController extends Controller
                 ->view('admin.owner_profit.list', compact('ownerProfitRecords'));
         }
     }
+    public function assistantIndex()
+    {
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        } else {
+            $startOfYear = Carbon::now()->startOfYear();
+            $endOfYear = Carbon::now()->endOfYear();
+            $ownerProfitRecords = OwnerProfit::whereBetween('created_at', [$startOfYear, $endOfYear])
+            ->orderBy('created_at', 'desc')->paginate(20);
+            return response()
+                ->view('assistant.owner_profit.list', compact('ownerProfitRecords'));
+        }
+    }
     
     public function store(Request $request)
     {

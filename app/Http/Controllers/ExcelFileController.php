@@ -19,6 +19,14 @@ class ExcelFileController extends Controller
         return view('admin.file.list', compact('excelFiles', 'exchangeRecords'));
     }
 
+    public function assistantIndex()
+    {
+        $excelFiles = ExcelFile::paginate(10);
+        $exchangeRecords = Exchange::all();
+
+        return view('assistant.file.list', compact('excelFiles', 'exchangeRecords'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -52,7 +60,6 @@ class ExcelFileController extends Controller
                 }
             }
         }
-
         Storage::delete($filePath);
 
         return redirect()->route('admin.file.list')->with('message', 'Excel file data added successfully.');
@@ -63,14 +70,9 @@ class ExcelFileController extends Controller
         $request->validate([
             'id' => 'required|integer|exists:excel_files,id'
         ]);
-
-
         $excelFile = ExcelFile::findOrFail($request->id);
-
         Storage::delete('public/excel_files/' . $excelFile->file_name);
-
         $excelFile->delete();
-
         return response()->json(['message' => 'Excel file deleted successfully.']);
     }
 }

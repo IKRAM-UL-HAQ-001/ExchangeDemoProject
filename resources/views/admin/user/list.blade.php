@@ -99,7 +99,6 @@
                                 </label>
                                 <input type="password" class="form-control border px-3" id="password"
                                     placeholder="Enter Password" required>
-
                             </div>
                             <div class="mb-3">
                                 <label for="exchange" class="form-label">Exchange</label>
@@ -146,11 +145,11 @@
                                     <option value="withdrawal">Withdrawal</option>
                                 </select>
                             </div>
-                            {{-- <div class="mb-3">
+                            <div class="mb-3">
                                 <label for="editPassword" class="form-label">Password</label>
                                 <input type="password" class="form-control border px-3" id="editPassword"
                                     placeholder="Enter Password">
-                            </div> --}}
+                            </div>
                             <div class="mb-3">
                                 <label for="editExchange" class="form-label">Exchange</label>
                                 <select class="form-select px-3" id="editExchange" required>
@@ -276,6 +275,7 @@
             const name = $('#editName').val();
             const type = $('#editType').val();
             const exchange = $('#editExchange').val();
+            const password = $('#editPassword').val();
 
             $.ajax({
                 url: '{{ route('admin.user.update') }}',
@@ -285,14 +285,15 @@
                     id: userId,
                     name: name,
                     type: type,
-                    exchange: exchange
+                    exchange: exchange,
+                    password: password
                 },
                 success: function(response) {
                     if (response.success) {
                         $('#editUserModal').modal('hide');
                         window.location.reload();
                     } else {
-                        alert('Error: ' + response.message);
+                        alert(response.message);
                     }
                 },
                 error: function() {

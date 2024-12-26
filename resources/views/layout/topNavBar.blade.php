@@ -71,6 +71,20 @@
                                     </a>
                                 </li>
                             @endif
+                            @if(Auth::user()->role === "assistant")
+                                <li class="mb-2">
+                                    <a class="dropdown-item border-radius-md" href="#" data-toggle="modal" data-target="#updatePasswordModal">
+                                        <div class="d-flex align-items-center py-2">
+                                            <i class="fas fa-lock me-2"></i>
+                                            <div>
+                                                <h6 class="text-sm font-weight-normal mb-0">
+                                                    <span class="font-weight-bold">Update Password</span>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            @endif
                         @endif
                         <li class="mb-2">
                             <a class="dropdown-item border-radius-md" href="{{ route('login.logout') }}">
