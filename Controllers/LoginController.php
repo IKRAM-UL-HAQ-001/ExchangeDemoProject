@@ -14,21 +14,7 @@ use DB;
 
 class LoginController extends Controller
 {
-    /**
-     * @OA\Get(
-     *     path="/login",
-     *     summary="Login page",
-     *     description="Displays the login view with exchange records.",
-     *     @OA\Response(
-     *         response=200,
-     *         description="Exchange records fetched successfully.",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="status", type="string", example="success"),
-     *             @OA\Property(property="data", type="array", @OA\Items(type="object"))
-     *         )
-     *     )
-     * )
-     */
+
     public function index()
     {
         $exchangeRecords = Exchange::all();

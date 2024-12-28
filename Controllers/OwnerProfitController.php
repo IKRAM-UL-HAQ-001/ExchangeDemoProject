@@ -9,6 +9,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\OwnerProfitListExport;
 use Illuminate\Support\Facades\Auth;
 
+
 class OwnerProfitController extends Controller
 {
     /**

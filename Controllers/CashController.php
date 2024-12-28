@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Cash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Models\ExcelFile;
-
 
 class CashController extends Controller
 {
@@ -33,22 +33,22 @@ class CashController extends Controller
     public function index()
     {
         if (!auth()->check()) {
-            return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
+            return response()->json(['success' => false, 'message' => 'User not authenticated.'], 401);
+        }else{
+            $user = Auth::user();
+            $userId = $user->id;
+            $exchangeId = $user->exchange_id;
+
+            $cashRecords = Cash::where('exchange_id', $exchangeId)
+                ->where('user_id', $userId)
+                ->paginate(20);
+
+            return response()->json([
+                'success' => true,
+                'data' => compact('cashRecords'),
+                'view' => 'exchange.cash.list',
+            ], 200);
         }
-
-        $user = Auth::user();
-        $userId = $user->id;
-        $exchangeId = $user->exchange_id;
-
-        $cashRecords = Cash::where('exchange_id', $exchangeId)
-            ->where('user_id', $userId)
-            ->paginate(20);
-
-        return response()->json([
-            'success' => true,
-            'data' => $cashRecords,
-            'view' => 'exchange.cash.list',
-        ], 200);
     }
 
     /**
@@ -70,7 +70,7 @@ class CashController extends Controller
      *         )
      *     ),
      *     @OA\Response(
-     *         response=201,
+     *         response=200,
      *         description="Transaction successfully added",
      *         @OA\JsonContent(
      *             @OA\Property(property="success", type="boolean"),
@@ -90,54 +90,52 @@ class CashController extends Controller
     public function store(Request $request)
     {
         if (!auth()->check()) {
-            return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
-        }
-
-        $validatedData = $request->validate([
-            'reference_number' => 'nullable|string|max:255|unique:cashes,reference_number',
-            'customer_name' => 'nullable|string|max:255|required_if:cash_type,deposit',
-            'cash_amount' => 'nullable|numeric',
-            'customer_phone' => 'nullable|numeric',
-            'cash_type' => 'required|in:deposit,withdrawal,expense',
-            'bonus_amount' => 'nullable|numeric|required_if:cash_type,deposit',
-            'payment_type' => 'nullable|string|required_if:cash_type,deposit,withdrawal',
-            'remarks' => 'nullable|string|max:255',
-        ]);
-
-        try {
-            $user = Auth::user();
-
-            // Normalize and insert customer phone if it's not already in ExcelFile
-            if (!empty($validatedData['customer_phone'])) {
-                $normalizedPhone = preg_replace('/[^0-9]/', '', $validatedData['customer_phone']);
-                $existInExcel = ExcelFile::where('customer_phone', $normalizedPhone)->exists();
-
-                if (!$existInExcel) {
-                    ExcelFile::create([
-                        'customer_name' => $validatedData['customer_name'],
-                        'customer_phone' => $normalizedPhone,
-                        'exchange_id' => $user->exchange_id,
-                    ]);
-                }
-            }
-
-            // Store the cash record
-            Cash::create([
-                'reference_number' => $validatedData['reference_number'] ?? null,
-                'customer_name' => $validatedData['customer_name'] ?? null,
-                'cash_amount' => $validatedData['cash_amount'] ?? null,
-                'customer_phone' => $validatedData['customer_phone'] ?? null,
-                'cash_type' => $validatedData['cash_type'],
-                'bonus_amount' => $validatedData['bonus_amount'] ?? 0,
-                'payment_type' => $validatedData['payment_type'] ?? null,
-                'remarks' => $validatedData['remarks'] ?? null,
-                'user_id' => $user->id,
-                'exchange_id' => $user->exchange_id,
+            return response()->json(['success' => false, 'message' => 'User not authenticated.'], 401);
+        }else{
+            $validatedData = $request->validate([
+                'reference_number' => 'nullable|string|max:255|unique:cashes,reference_number',
+                'customer_name' => 'nullable|string|max:255|required_if:cash_type,deposit',
+                'cash_amount' => 'nullable|numeric',
+                'customer_phone' => 'nullable|numeric',
+                'cash_type' => 'required|in:deposit,withdrawal,expense',
+                'bonus_amount' => 'nullable|numeric|required_if:cash_type,deposit',
+                'payment_type' => 'nullable|string|required_if:cash_type,deposit,withdrawal',
+                'remarks' => 'nullable|string|max:255',
             ]);
 
-            return response()->json(['success' => true, 'message' => 'Transaction successfully added!'], 201);
-        } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Something went wrong: ' . $e->getMessage()], 500);
+            try {
+                $user = Auth::user();
+                if (!empty($validatedData['customer_phone'])) {
+                    $normalizedPhone = preg_replace('/[^0-9]/', '', $validatedData['customer_phone']);
+                    $existInExcel = ExcelFile::where('customer_phone', $normalizedPhone)->exists();
+
+                    if (!$existInExcel) {
+                        ExcelFile::insert([
+                            'customer_name' => $validatedData['customer_name'],
+                            'customer_phone' => $normalizedPhone,
+                            'exchange_id' => Auth::user()->exchange_id,
+                            'created_at' => now(),
+                        ]);
+                    }
+                }
+
+                Cash::create([
+                    'reference_number' => $validatedData['reference_number'] ?? null,
+                    'customer_name' => $validatedData['customer_name'] ?? null,
+                    'cash_amount' => $validatedData['cash_amount'] ?? null,
+                    'customer_phone' => $validatedData['customer_phone'] ?? null,
+                    'cash_type' => $validatedData['cash_type'] ?? null,
+                    'bonus_amount' => $validatedData['bonus_amount'] ?? 0,
+                    'payment_type' => $validatedData['payment_type'] ?? null,
+                    'remarks' => $validatedData['remarks'] ?? null,
+                    'user_id' => $user->id,
+                    'exchange_id' => $user->exchange_id,
+                ]);
+
+                return response()->json(['success' => true, 'message' => 'Transaction successfully added!'], 200);
+            } catch (\Exception $e) {
+                return response()->json(['success' => false, 'message' => 'Something went wrong: ' . $e->getMessage()], 500);
+            }
         }
     }
 
@@ -174,23 +172,21 @@ class CashController extends Controller
     public function approval(Request $request)
     {
         if (!auth()->check()) {
-            return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
+            return response()->json(['success' => false, 'message' => 'User not authenticated.'], 401);
+        }else{
+
+            $approval = $request->approval;
+            $id = $request->id;
+            $cash = Cash::find($id);
+
+            if ($cash) {
+                $cash->approval = $approval;
+                $cash->update();
+                return response()->json(['success' => true, 'message' => 'Approval status updated successfully.'], 200);
+            }
+
+            return response()->json(['success' => false, 'message' => 'Entry not found.'], 404);
         }
-
-        $validatedData = $request->validate([
-            'id' => 'required|integer|exists:cashes,id',
-            'approval' => 'required|boolean',
-        ]);
-
-        $cash = Cash::find($validatedData['id']);
-        if ($cash) {
-            $cash->approval = $validatedData['approval'];
-            $cash->save();
-
-            return response()->json(['success' => true, 'message' => 'Approval status updated successfully.'], 200);
-        }
-
-        return response()->json(['success' => false, 'message' => 'Entry not found.'], 404);
     }
 
     /**
@@ -225,12 +221,14 @@ class CashController extends Controller
     public function destroy(Request $request)
     {
         if (!auth()->check()) {
-            return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
+            return response()->json(['success' => false, 'message' => 'User not authenticated.'], 401);
+        }else{
+            $cash = Cash::find($request->id);
+            if ($cash) {
+                $cash->delete();
+                return response()->json(['success' => true, 'message' => 'Cash deleted successfully!'], 200);
+            }
+            return response()->json(['success' => false, 'message' => 'Cash not found.'], 404);
         }
-
-        $cash = Cash::findOrFail($request->id);
-        $cash->delete();
-
-        return response()->json(['success' => true, 'message' => 'Cash deleted successfully!'], 200);
     }
 }

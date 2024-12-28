@@ -9,46 +9,20 @@ use App\Exports\VenderPaymentListExport;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
-/**
- * @OA\Info(
- *     title="Exchange API",
- *     version="1.0.0",
- *     description="API documentation for ExchangeProject",
- *     termsOfService="http://example.com/terms/",
- *     contact={
- *         "email": "support@example.com"
- *     },
- *     license={
- *         "name": "MIT",
- *         "url": "https://opensource.org/licenses/MIT"
- *     }
- * )
- * @OA\Server(
- *     url="http://localhost",
- *     description="Local Development Server"
- * )
- */
 class VenderPaymentController extends Controller
 {
     /**
-     * @OA\Post(
-     *     path="/vender-payment/export",
-     *     summary="Export vender payment records to Excel",
-     *     description="Export a list of vender payment records.",
+     * @OA\Get(
+     *     path="/vender-payments/export",
+     *     summary="Export Vender Payment records to Excel",
+     *     description="Download all Vender Payment records as an Excel file.",
      *     @OA\Response(
      *         response=200,
-     *         description="Vender payment records exported successfully.",
-     *         @OA\MediaType(
-     *             mediaType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-     *         )
+     *         description="Excel file downloaded successfully."
      *     ),
      *     @OA\Response(
      *         response=401,
-     *         description="User not authenticated"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="Internal server error"
+     *         description="Unauthorized access."
      *     )
      * )
      */
@@ -56,31 +30,20 @@ class VenderPaymentController extends Controller
     {
         if (!auth()->check()) {
             return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
-        } else {
+        }else{
+
             return Excel::download(new VenderPaymentListExport(), 'venderPaymentRecord.xlsx');
         }
     }
 
     /**
      * @OA\Get(
-     *     path="/vender-payment",
-     *     summary="List vender payment records for the year",
-     *     description="Retrieve paginated vender payment records for the current year.",
+     *     path="/vender-payments",
+     *     summary="List Vender Payment records",
+     *     description="Retrieve a paginated list of Vender Payment records for the current year.",
      *     @OA\Response(
      *         response=200,
-     *         description="Successful operation",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="success", type="boolean"),
-     *             @OA\Property(property="data", type="array", @OA\Items(type="object"))
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="User not authenticated"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="Internal server error"
+     *         description="Vender Payment records retrieved successfully."
      *     )
      * )
      */
@@ -100,29 +63,17 @@ class VenderPaymentController extends Controller
                 ->paginate(20);
 
             return response()->json(['success' => true, 'data' => $venderPaymentRecords]);
+            }
         }
-    }
 
     /**
      * @OA\Get(
-     *     path="/vender-payment/assistant",
-     *     summary="List vender payment records for the year (Assistant)",
-     *     description="Retrieve paginated vender payment records for the current year, accessible by assistants.",
+     *     path="/assistant/vender-payments",
+     *     summary="List Vender Payment records for assistant",
+     *     description="Retrieve a paginated list of Vender Payment records for the current year (assistant view).",
      *     @OA\Response(
      *         response=200,
-     *         description="Successful operation",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="success", type="boolean"),
-     *             @OA\Property(property="data", type="array", @OA\Items(type="object"))
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="User not authenticated"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="Internal server error"
+     *         description="Vender Payment records retrieved successfully."
      *     )
      * )
      */
@@ -147,34 +98,29 @@ class VenderPaymentController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/vender-payment",
-     *     summary="Store a new vender payment",
-     *     description="Store a new vender payment record.",
+     *     path="/vender-payments",
+     *     summary="Store a new Vender Payment record",
+     *     description="Add a new Vender Payment record to the database.",
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             @OA\Property(property="paid_amount", type="number", example=500),
-     *             @OA\Property(property="remaining_amount", type="number", example=1000),
-     *             @OA\Property(property="payment_type", type="string", example="Credit"),
-     *             @OA\Property(property="remarks", type="string", example="Payment for services")
+     *             @OA\Property(property="paid_amount", type="number", description="Amount paid."),
+     *             @OA\Property(property="remaining_amount", type="number", description="Remaining amount."),
+     *             @OA\Property(property="payment_type", type="string", description="Type of payment."),
+     *             @OA\Property(property="remarks", type="string", description="Remarks for the payment.")
      *         )
      *     ),
      *     @OA\Response(
      *         response=201,
-     *         description="Vender payment added successfully",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="success", type="boolean"),
-     *             @OA\Property(property="message", type="string"),
-     *             @OA\Property(property="data", type="object")
-     *         )
+     *         description="Vender Payment record added successfully."
      *     ),
      *     @OA\Response(
      *         response=401,
-     *         description="User not authenticated"
+     *         description="Unauthorized access."
      *     ),
      *     @OA\Response(
      *         response=500,
-     *         description="Internal server error"
+     *         description="Server error."
      *     )
      * )
      */
@@ -182,7 +128,8 @@ class VenderPaymentController extends Controller
     {
         if (!auth()->check()) {
             return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
-        } else {
+        }else{
+
             $validatedData = $request->validate([
                 'paid_amount' => 'required|numeric',
                 'remaining_amount' => 'required|numeric',
@@ -207,30 +154,27 @@ class VenderPaymentController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/vender-payment",
-     *     summary="Delete a vender payment record",
-     *     description="Delete a vender payment record by its ID.",
-     *     @OA\RequestBody(
+     *     path="/vender-payments/{id}",
+     *     summary="Delete a Vender Payment record",
+     *     description="Remove a Vender Payment record from the database.",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
      *         required=true,
-     *         @OA\JsonContent(
-     *             @OA\Property(property="id", type="integer", example=1)
-     *         )
+     *         @OA\Schema(type="integer"),
+     *         description="ID of the Vender Payment record to delete."
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Vender payment deleted successfully"
+     *         description="Vender Payment deleted successfully."
      *     ),
      *     @OA\Response(
      *         response=401,
-     *         description="User not authenticated"
+     *         description="Unauthorized access."
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Vender payment not found"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="Internal server error"
+     *         description="Vender Payment not found."
      *     )
      * )
      */
@@ -238,7 +182,8 @@ class VenderPaymentController extends Controller
     {
         if (!auth()->check()) {
             return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
-        } else {
+        }else{
+
             $venderPayment = VenderPayment::find($request->id);
 
             if ($venderPayment) {

@@ -1,0 +1,3347 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Exchange API",
+        "description": "API documentation for ExchangeProject",
+        "termsOfService": "http://example.com/terms/",
+        "contact": {
+            "email": "support@example.com"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost",
+            "description": "Local Development Server"
+        },
+        {
+            "url": "http://localhost",
+            "description": "Local Development Server"
+        },
+        {
+            "url": ""
+        }
+    ],
+    "paths": {
+        "/admin/dashboard": {
+            "get": {
+                "summary": "Fetch admin dashboard statistics",
+                "description": "Retrieve daily, weekly, and monthly statistics for the admin dashboard.",
+                "operationId": "ab8026b579f7e78aaa488b3477e4b1f2",
+                "responses": {
+                    "200": {
+                        "description": "Dashboard statistics fetched successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "totalUsers": {
+                                            "type": "integer"
+                                        },
+                                        "totalExchanges": {
+                                            "type": "integer"
+                                        },
+                                        "totalBalanceWeekly": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "totalDepositWeekly": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "totalWithdrawalWeekly": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "totalExpenseWeekly": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "totalFreezAmountWeekly": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "totalCustomersWeekly": {
+                                            "type": "integer"
+                                        },
+                                        "totalBalanceMonthly": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "totalDepositMonthly": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "totalWithdrawalMonthly": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "totalFreezAmountMonthly": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "totalCustomersMonthly": {
+                                            "type": "integer"
+                                        },
+                                        "totalBalanceDaily": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "totalDepositDaily": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "totalWithdrawalDaily": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "totalFreezAmountDaily": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "totalCustomersDaily": {
+                                            "type": "integer"
+                                        },
+                                        "totalBankBalance": {
+                                            "type": "number",
+                                            "format": "float"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            }
+        },
+        "/assistant/dashboard": {
+            "get": {
+                "summary": "Fetch assistant dashboard metrics",
+                "description": "Retrieve metrics for assistant dashboards including daily, weekly, and monthly summaries.",
+                "operationId": "299d2b62f7467b1447284c5f8fe78280",
+                "responses": {
+                    "200": {
+                        "description": "Dashboard metrics fetched successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "totalUsers": {
+                                            "type": "integer"
+                                        },
+                                        "totalExchanges": {
+                                            "type": "integer"
+                                        },
+                                        "totalBalanceDaily": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "totalBankBalance": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "totalFreezAmountDaily": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "totalDepositWeekly": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "totalBonusMonthly": {
+                                            "type": "number",
+                                            "format": "float"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            }
+        },
+        "/bank-balances/export": {
+            "get": {
+                "tags": [
+                    "Bank Balance"
+                ],
+                "summary": "Export Bank Balance List",
+                "description": "Exports the bank balance list as an Excel file.",
+                "operationId": "f96c8e9329ea1cc4aa771340b1aba76c",
+                "responses": {
+                    "200": {
+                        "description": "File downloaded successfully."
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    },
+                    "500": {
+                        "description": "Internal server error."
+                    }
+                }
+            }
+        },
+        "/bank-balances": {
+            "get": {
+                "tags": [
+                    "Bank Balance"
+                ],
+                "summary": "List bank balances",
+                "description": "Retrieve a paginated list of bank balances for the current week.",
+                "operationId": "608ffa4199a02982d2ad624f8d843d23",
+                "responses": {
+                    "200": {
+                        "description": "Successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User not authenticated."
+                    }
+                }
+            }
+        },
+        "/assistant-bank-balances": {
+            "get": {
+                "tags": [
+                    "Bank Balance"
+                ],
+                "summary": "List bank balances for assistant",
+                "description": "Retrieve a paginated list of bank balances for the current week accessible by assistants.",
+                "operationId": "a9ee3d678bc2ab8d9af01b2682835519",
+                "responses": {
+                    "200": {
+                        "description": "Successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User not authenticated."
+                    }
+                }
+            }
+        },
+        "/bank-balances/{id}": {
+            "delete": {
+                "tags": [
+                    "Bank Balance"
+                ],
+                "summary": "Delete a bank balance entry",
+                "description": "Delete a specific bank balance entry by ID.",
+                "operationId": "cfb06ecd6c25da8fba769ac2e72d9b71",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Bank balance deleted successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bank Balance deleted successfully!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Bank balance not found."
+                    },
+                    "401": {
+                        "description": "User not authenticated."
+                    }
+                }
+            }
+        },
+        "/api/banks/export": {
+            "get": {
+                "summary": "Export Bank Records to Excel",
+                "description": "Generate and download an Excel file containing bank records.",
+                "operationId": "6e657352e73d66ebc84dd3175062f5a6",
+                "responses": {
+                    "200": {
+                        "description": "Excel file generated successfully"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/api/banks": {
+            "get": {
+                "summary": "List all banks",
+                "description": "Retrieve a paginated list of all bank records.",
+                "operationId": "caa138ee4cdf9701a3ec3c3198e9f777",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add a new bank",
+                "description": "Create a new bank record.",
+                "operationId": "3fa927bf23da99bcc82d71249de2c6d5",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Bank added successfully"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/api/assistant/banks": {
+            "get": {
+                "summary": "List all banks for assistants",
+                "description": "Retrieve a paginated list of all bank records accessible by assistants.",
+                "operationId": "cd5de9a4cd5842dc5da7d50c4987db6b",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/api/banks/freeze": {
+            "get": {
+                "summary": "List frozen bank records",
+                "description": "Retrieve a paginated list of frozen bank records.",
+                "operationId": "4917719650471dd2f7cf03e9d98bfafc",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/api/banks/{id}": {
+            "delete": {
+                "summary": "Delete a bank",
+                "description": "Delete a specific bank record by ID.",
+                "operationId": "1d9b38766f91542fa4f80fd63eda5f68",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Bank deleted successfully"
+                    },
+                    "404": {
+                        "description": "Bank not found"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/bank-entries": {
+            "get": {
+                "summary": "List all bank entries",
+                "description": "Retrieve a paginated list of bank entries for the authenticated user.",
+                "operationId": "368e5f18f8fe6fdd8793711e7e0adc93",
+                "responses": {
+                    "200": {
+                        "description": "Successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User not authenticated."
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a bank entry",
+                "description": "Add a new bank entry to the system.",
+                "operationId": "c4e68d77a1567d389a35d8a31bc268d8",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "account_number": {
+                                        "type": "string",
+                                        "example": "123456789"
+                                    },
+                                    "cash_type": {
+                                        "type": "string",
+                                        "example": "add"
+                                    },
+                                    "cash_amount": {
+                                        "type": "number",
+                                        "example": 1000
+                                    },
+                                    "remarks": {
+                                        "type": "string",
+                                        "example": "Deposit"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "freez"
+                                    },
+                                    "bank_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Bank entry created successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bank Entry Data saved successfully!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User not authenticated."
+                    },
+                    "500": {
+                        "description": "An error occurred while saving bank entry data."
+                    }
+                }
+            }
+        },
+        "/freez-bank-entries": {
+            "get": {
+                "summary": "List frozen bank entries",
+                "description": "Retrieve a paginated list of frozen bank entries for the authenticated user.",
+                "operationId": "69f8b086d7a0c4cf32d881a6fbf903ca",
+                "responses": {
+                    "200": {
+                        "description": "Successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User not authenticated."
+                    }
+                }
+            }
+        },
+        "/bank-entries/unfreeze/{id}": {
+            "delete": {
+                "summary": "Unfreeze a bank entry",
+                "description": "Unfreeze a bank entry and remove its frozen status.",
+                "operationId": "3a6cc9e5d69d636057caffb4d70e62bf",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Bank entry unfrozen successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bank entry unfrozen successfully!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Bank entry not found."
+                    }
+                }
+            }
+        },
+        "/bank-entries/balance": {
+            "post": {
+                "summary": "Get bank balance",
+                "description": "Retrieve the current balance of a specific bank entry.",
+                "operationId": "5d6ce3e07937a7be76734f672963d0bd",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "bank_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Bank balance retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "balance": {
+                                            "type": "number",
+                                            "example": 1000
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error."
+                    }
+                }
+            }
+        },
+        "/bank-users": {
+            "get": {
+                "summary": "List all bank users",
+                "description": "Retrieve a paginated list of bank users and associated user records.",
+                "operationId": "cc5cb7cf0b464890ad0951741f2c593f",
+                "responses": {
+                    "200": {
+                        "description": "Successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User not authenticated."
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a new bank user",
+                "description": "Add a new bank user to the system.",
+                "operationId": "600cb24e2760fb5fa1128ae2b6f3786b",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "bank_user": {
+                                        "type": "string",
+                                        "example": "12345"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Bank user created successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bank User added successfully!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User not authenticated."
+                    }
+                }
+            }
+        },
+        "/assistant-bank-users": {
+            "get": {
+                "summary": "List all bank users for assistant",
+                "description": "Retrieve a paginated list of bank users and associated user records for assistants.",
+                "operationId": "af301216643eb5baaf672595efad7a07",
+                "responses": {
+                    "200": {
+                        "description": "Successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User not authenticated."
+                    }
+                }
+            }
+        },
+        "/bank-users/{id}": {
+            "put": {
+                "summary": "Update a user",
+                "description": "Update the details of a user.",
+                "operationId": "018a40f8cadb810303c35a4cbe56feba",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "example": "regular"
+                                    },
+                                    "exchange": {
+                                        "type": "integer",
+                                        "example": 123
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User updated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User updated successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a bank user",
+                "description": "Remove a bank user from the system.",
+                "operationId": "5026b1bc53f9d18911c8230267e9d7b7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Bank user deleted successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bank User deleted successfully!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Bank user not found."
+                    },
+                    "401": {
+                        "description": "User not authenticated."
+                    }
+                }
+            }
+        },
+        "/cash": {
+            "get": {
+                "summary": "List cash records",
+                "description": "Retrieve paginated cash records for the authenticated user.",
+                "operationId": "abe5fc93ed4444225fcb7acd3920a962",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "view": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User not authenticated"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Store a new cash record",
+                "description": "Create a new cash record with validation.",
+                "operationId": "6d29785f67ecdac4fef0bbac012f0ea4",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "reference_number": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "customer_name": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "cash_amount": {
+                                        "type": "number",
+                                        "nullable": true
+                                    },
+                                    "customer_phone": {
+                                        "type": "number",
+                                        "nullable": true
+                                    },
+                                    "cash_type": {
+                                        "type": "string",
+                                        "example": "deposit"
+                                    },
+                                    "bonus_amount": {
+                                        "type": "number",
+                                        "nullable": true
+                                    },
+                                    "payment_type": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "remarks": {
+                                        "type": "string",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Transaction successfully added",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User not authenticated"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/cash/approval": {
+            "put": {
+                "summary": "Update approval status",
+                "description": "Update the approval status of a cash record.",
+                "operationId": "fde5492124066b729c4cf4c88fbfbdd4",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "approval": {
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Approval status updated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User not authenticated"
+                    },
+                    "404": {
+                        "description": "Entry not found"
+                    }
+                }
+            }
+        },
+        "/cash/{id}": {
+            "delete": {
+                "summary": "Delete a cash record",
+                "description": "Delete a specific cash record by ID.",
+                "operationId": "93c56cbf0e3e0109a559c6a49b8d5f61",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cash deleted successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User not authenticated"
+                    },
+                    "404": {
+                        "description": "Cash not found"
+                    }
+                }
+            }
+        },
+        "/customers/export": {
+            "get": {
+                "summary": "Export customer records to Excel",
+                "description": "Generate and download an Excel file containing customer records.",
+                "operationId": "05e56efb1edc6233ab2b789597eb420d",
+                "responses": {
+                    "200": {
+                        "description": "Excel file generated successfully"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Error exporting Excel"
+                    }
+                }
+            }
+        },
+        "/customers": {
+            "get": {
+                "summary": "List customers",
+                "description": "Retrieve a paginated list of customer records for the current week.",
+                "operationId": "30ce4124bc07a0d013b69974ff225a5c",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "view": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add a new customer",
+                "description": "Create a new customer record.",
+                "operationId": "8350a1a36d2b5522ea4158253eff28a1",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "cash_amount": {
+                                        "type": "number"
+                                    },
+                                    "reference_number": {
+                                        "type": "string"
+                                    },
+                                    "remarks": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Customer added successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Error adding customer"
+                    }
+                }
+            }
+        },
+        "/customers/{id}": {
+            "delete": {
+                "summary": "Delete a customer",
+                "description": "Delete a specific customer record by ID.",
+                "operationId": "4cee47d6b826da6ed7d852b5aff46d19",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Customer deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Customer not found"
+                    }
+                }
+            }
+        },
+        "/exchange/customers": {
+            "get": {
+                "summary": "List exchange customers",
+                "description": "Retrieve a paginated list of customer records for the logged-in user's exchange.",
+                "operationId": "3cb277127522304a01645858a3a8d4fd",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "view": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/dashboard": {
+            "get": {
+                "summary": "Retrieve daily, weekly, and monthly metrics",
+                "description": "Fetch metrics for daily, weekly, and monthly views, including deposits, withdrawals, expenses, and balances.",
+                "operationId": "a92dff3ea055c0a594f425e852840a68",
+                "responses": {
+                    "200": {
+                        "description": "Metrics fetched successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "totalUsers": {
+                                            "type": "integer"
+                                        },
+                                        "totalExchanges": {
+                                            "type": "integer"
+                                        },
+                                        "totalBalanceDaily": {
+                                            "type": "number"
+                                        },
+                                        "totalBalanceWeekly": {
+                                            "type": "number"
+                                        },
+                                        "totalBalanceMonthly": {
+                                            "type": "number"
+                                        },
+                                        "totalBankBalance": {
+                                            "type": "number"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            }
+        },
+        "/assistant-dashboard": {
+            "get": {
+                "summary": "Retrieve assistant dashboard metrics",
+                "description": "Fetch metrics specifically for assistant users.",
+                "operationId": "7237ced5be1534f126521da70bfb1c25",
+                "responses": {
+                    "200": {
+                        "description": "Metrics fetched successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            }
+        },
+        "/download-database": {
+            "get": {
+                "summary": "Export and download the database",
+                "description": "Allows admin to export and download the database as an SQL file.",
+                "operationId": "8745a28ac0748461829c4c23c3a65231",
+                "responses": {
+                    "200": {
+                        "description": "File downloaded successfully."
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    },
+                    "500": {
+                        "description": "Failed to export the database."
+                    }
+                }
+            }
+        },
+        "/deposits/export": {
+            "post": {
+                "summary": "Export deposits to Excel",
+                "description": "Exports deposit records within the specified date range to an Excel file.",
+                "operationId": "ae54ce9feeb60256f2db69eced239127",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "start_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-01-01"
+                                    },
+                                    "end_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-01-07"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "File downloaded successfully."
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    },
+                    "500": {
+                        "description": "Error exporting Excel."
+                    }
+                }
+            }
+        },
+        "/deposits": {
+            "get": {
+                "summary": "Fetch deposit records",
+                "description": "Retrieve deposit records for the current week.",
+                "operationId": "f64933c90721e8b327b6a900e3f83ea3",
+                "responses": {
+                    "200": {
+                        "description": "Successful response."
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    },
+                    "500": {
+                        "description": "Error fetching deposits."
+                    }
+                }
+            }
+        },
+        "/deposit-withdrawal": {
+            "get": {
+                "summary": "List deposit and withdrawal records for admin",
+                "description": "Retrieve weekly deposit and withdrawal records accessible by admins.",
+                "operationId": "a2b6afeccd05e6e799c3d12af465e817",
+                "responses": {
+                    "200": {
+                        "description": "Records retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "view": {
+                                            "type": "string",
+                                            "example": "admin.deposit_withdrawal.list"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            }
+        },
+        "/assistant/deposit-withdrawal": {
+            "get": {
+                "summary": "List deposit and withdrawal records for assistant",
+                "description": "Retrieve weekly deposit and withdrawal records accessible by assistants.",
+                "operationId": "00f0bade1f91bebd473b5ea5cb0b8b80",
+                "responses": {
+                    "200": {
+                        "description": "Records retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "view": {
+                                            "type": "string",
+                                            "example": "assistant.deposit_withdrawal.list"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            }
+        },
+        "/deposit-withdrawal/{id}": {
+            "delete": {
+                "summary": "Delete a deposit or withdrawal record",
+                "description": "Delete a specific deposit or withdrawal record by ID.",
+                "operationId": "b4773f23297f3a0b7a45f925c4a29661",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Record deleted successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Deposit/Withdrawal deleted successfully!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Record not found."
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            }
+        },
+        "/admin/files": {
+            "get": {
+                "summary": "List all Excel files for admin",
+                "description": "Retrieve a paginated list of uploaded Excel files and related exchange records for admin users.",
+                "operationId": "e11a01abfeb62d02ea9d3199d7429a04",
+                "responses": {
+                    "200": {
+                        "description": "Successful response."
+                    }
+                }
+            }
+        },
+        "/assistant/files": {
+            "get": {
+                "summary": "List all Excel files for assistant",
+                "description": "Retrieve a paginated list of uploaded Excel files and related exchange records for assistant users.",
+                "operationId": "3d18978a2c1555e8938eb5d518d4bb85",
+                "responses": {
+                    "200": {
+                        "description": "Successful response."
+                    }
+                }
+            }
+        },
+        "/files": {
+            "post": {
+                "summary": "Upload and process an Excel file",
+                "description": "Upload an Excel file, validate its data, and save it to the database.",
+                "operationId": "3e66a65867da7daeae65741c49f29616",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "exchange_id": {
+                                        "description": "Exchange ID associated with the file.",
+                                        "type": "integer"
+                                    },
+                                    "excel_file": {
+                                        "description": "The Excel file to be uploaded.",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Excel file processed successfully."
+                    },
+                    "422": {
+                        "description": "Validation error."
+                    },
+                    "500": {
+                        "description": "Error processing the file."
+                    }
+                }
+            }
+        },
+        "/files/{id}": {
+            "delete": {
+                "summary": "Delete an Excel file record",
+                "description": "Delete a specific Excel file record by its ID.",
+                "operationId": "9cac9af958e562592f3355ddc3e94725",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Excel file deleted successfully."
+                    },
+                    "404": {
+                        "description": "Excel file not found."
+                    },
+                    "500": {
+                        "description": "Error deleting the file."
+                    }
+                }
+            }
+        },
+        "/exchange/dashboard": {
+            "get": {
+                "summary": "Fetch exchange dashboard metrics",
+                "description": "Retrieve metrics and statistics for the logged-in user's associated exchange.",
+                "operationId": "5025cbbccc60a173dc1380bfd2f28566",
+                "responses": {
+                    "200": {
+                        "description": "Dashboard metrics fetched successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "exchange_name": {
+                                            "type": "string"
+                                        },
+                                        "userCount": {
+                                            "type": "integer"
+                                        },
+                                        "totalBankBalance": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "totalVendorPaymentsDaily": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "totalDepositDaily": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "totalWithdrawalDaily": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "totalExpenseDaily": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "totalFreezAmountDaily": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "totalNewCustomerDaily": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            }
+        },
+        "/exchanges": {
+            "get": {
+                "summary": "List all exchanges",
+                "description": "Retrieve a paginated list of all exchanges.",
+                "operationId": "b82dde9981cdeef2dd427f6336f543db",
+                "responses": {
+                    "200": {
+                        "description": "Exchanges retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a new exchange",
+                "description": "Add a new exchange to the system.",
+                "operationId": "bf5a73d59fa1e45529a69c6dff6269be",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "New Exchange"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Exchange created successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Exchange added successfully!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            }
+        },
+        "/exchanges/{id}": {
+            "delete": {
+                "summary": "Delete an exchange",
+                "description": "Delete a specific exchange by ID.",
+                "operationId": "4fb8cd9d40340710515e951d234ecade",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Exchange deleted successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Exchange deleted successfully!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Exchange not found."
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            }
+        },
+        "/expenses/export": {
+            "get": {
+                "summary": "Export expenses to Excel",
+                "description": "Export all expenses to an Excel file.",
+                "operationId": "1b3b26bd874fa2a93104a4e2b46a7972",
+                "responses": {
+                    "200": {
+                        "description": "Excel file downloaded successfully."
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            }
+        },
+        "/expenses": {
+            "get": {
+                "summary": "List all expenses for admin",
+                "description": "Retrieve a paginated list of expenses for admin users.",
+                "operationId": "36e62ecfbcfde37686ea63fe89d0c0c0",
+                "responses": {
+                    "200": {
+                        "description": "Successful response."
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            }
+        },
+        "/assistant/expenses": {
+            "get": {
+                "summary": "List all expenses for assistant",
+                "description": "Retrieve a paginated list of expenses for assistant users.",
+                "operationId": "4a2d3f8242495eb38aa91a8127b57659",
+                "responses": {
+                    "200": {
+                        "description": "Successful response."
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            }
+        },
+        "/expenses/{id}": {
+            "delete": {
+                "summary": "Delete an expense record",
+                "description": "Delete a specific expense record by its ID.",
+                "operationId": "b261a1443844b958952ae83b03fbbfa3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Expense deleted successfully."
+                    },
+                    "404": {
+                        "description": "Expense not found."
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            }
+        },
+        "/exchange/expenses": {
+            "get": {
+                "summary": "List all expenses for exchange users",
+                "description": "Retrieve a paginated list of expenses for exchange users.",
+                "operationId": "715f734f02663e0ab3214b87efb16533",
+                "responses": {
+                    "200": {
+                        "description": "Successful response."
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            }
+        },
+        "/login": {
+            "get": {
+                "summary": "Login page",
+                "description": "Displays the login view with exchange records.",
+                "operationId": "c6c57832bcce09c6e5a4cd562f1fedc5",
+                "responses": {
+                    "200": {
+                        "description": "Exchange records fetched successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "User login",
+                "description": "Authenticate a user and return an API token.",
+                "operationId": "d55f416d61f094eb6038b566bc6e4596",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "JohnDoe"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    },
+                                    "role": {
+                                        "type": "string",
+                                        "example": "admin"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login successful.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Login successful"
+                                        },
+                                        "token": {
+                                            "type": "string"
+                                        },
+                                        "role": {
+                                            "type": "string",
+                                            "example": "admin"
+                                        },
+                                        "redirect_to": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "User not authorized by Admin.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "You are not authorized by Admin"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid credentials.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid credentials."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/password/update": {
+            "put": {
+                "summary": "Update password",
+                "description": "Allows an authenticated user to update their password.",
+                "operationId": "7a8fdc3b776af6c36312a7e550f59a9e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "currentPassword": {
+                                        "type": "string",
+                                        "example": "oldpassword"
+                                    },
+                                    "newPassword": {
+                                        "type": "string",
+                                        "example": "newpassword123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Password updated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Password updated successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error or unauthorized action.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation error."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/logout": {
+            "post": {
+                "summary": "User logout",
+                "description": "Log out the authenticated user and invalidate the token.",
+                "operationId": "7f261a1e14b78ceb6cadbe969582a855",
+                "responses": {
+                    "200": {
+                        "description": "Successfully logged out.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Successfully logged out."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "User is not logged in.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User is not logged in."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/logout-all": {
+            "post": {
+                "summary": "Logout all users",
+                "description": "Logs out all users and invalidates all sessions.",
+                "operationId": "9067858aa0bd03453533779d16c6139c",
+                "responses": {
+                    "200": {
+                        "description": "All users logged out successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "All users have been logged out."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/master-settling/monthly/export": {
+            "get": {
+                "summary": "Export Master Settling Monthly Records to Excel",
+                "description": "Download an Excel file containing monthly master settling records.",
+                "operationId": "dddad2a35a202f383762f69a3b709909",
+                "responses": {
+                    "200": {
+                        "description": "Excel file downloaded successfully."
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            }
+        },
+        "/master-settling/weekly/export": {
+            "get": {
+                "summary": "Export Master Settling Weekly Records to Excel",
+                "description": "Download an Excel file containing weekly master settling records.",
+                "operationId": "6ead8e9be57ca5117c7fe0a3445698ef",
+                "responses": {
+                    "200": {
+                        "description": "Excel file downloaded successfully."
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            }
+        },
+        "/master-settling": {
+            "get": {
+                "summary": "List Master Settling Records for Admin",
+                "description": "Retrieve a paginated list of master settling records for admin users.",
+                "operationId": "e31f1ee84c416c0b80a61a63ba184c1c",
+                "responses": {
+                    "200": {
+                        "description": "Successful response."
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a new Master Settling Record",
+                "description": "Store a new master settling record in the database.",
+                "operationId": "9745d76b568e1e9e3b64f26dffc569bc",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "white_label",
+                                    "credit_reff",
+                                    "settling_point",
+                                    "price"
+                                ],
+                                "properties": {
+                                    "white_label": {
+                                        "type": "string"
+                                    },
+                                    "credit_reff": {
+                                        "type": "string"
+                                    },
+                                    "settling_point": {
+                                        "type": "number"
+                                    },
+                                    "price": {
+                                        "type": "number"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Master Settling saved successfully."
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            }
+        },
+        "/assistant/master-settling": {
+            "get": {
+                "summary": "List Master Settling Records for Assistant",
+                "description": "Retrieve a paginated list of master settling records for assistant users.",
+                "operationId": "0187d32d0d14de94c18d36c96dc70b3c",
+                "responses": {
+                    "200": {
+                        "description": "Successful response."
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            }
+        },
+        "/exchange/master-settling": {
+            "get": {
+                "summary": "List Master Settling Records for Exchange Users",
+                "description": "Retrieve a paginated list of master settling records for exchange users.",
+                "operationId": "c5174be096ac5a23e67387c75e26ef0a",
+                "responses": {
+                    "200": {
+                        "description": "Successful response."
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            }
+        },
+        "/master-settling/{id}": {
+            "put": {
+                "summary": "Update a Master Settling Record",
+                "description": "Update an existing master settling record in the database.",
+                "operationId": "c2b7964d4842b49c3020e8d39cfa6d1b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "white_label",
+                                    "credit_reff",
+                                    "settling_point",
+                                    "price"
+                                ],
+                                "properties": {
+                                    "white_label": {
+                                        "type": "string"
+                                    },
+                                    "credit_reff": {
+                                        "type": "string"
+                                    },
+                                    "settling_point": {
+                                        "type": "number"
+                                    },
+                                    "price": {
+                                        "type": "number"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Master Settling updated successfully."
+                    },
+                    "404": {
+                        "description": "Master Settling not found."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a Master Settling Record",
+                "description": "Delete a specific master settling record by its ID.",
+                "operationId": "3a5eff8a8eb1d192cf77df8a8a651d26",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Master Settling deleted successfully."
+                    },
+                    "404": {
+                        "description": "Master Settling not found."
+                    }
+                }
+            }
+        },
+        "/api/open-close-balance/export": {
+            "get": {
+                "tags": [
+                    "Open/Close Balance"
+                ],
+                "summary": "Export Open/Close Balance to Excel",
+                "description": "Exports the Open/Close Balance records to an Excel file.",
+                "operationId": "c451086d868908754b4ee72685011b59",
+                "responses": {
+                    "200": {
+                        "description": "Excel file generated successfully."
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            }
+        },
+        "/api/open-close-balance": {
+            "get": {
+                "tags": [
+                    "Open/Close Balance"
+                ],
+                "summary": "List Open/Close Balance records (admin view)",
+                "description": "Retrieve a paginated list of Open/Close Balance records for admin users.",
+                "operationId": "da8237f8a2b139ce6934ca324b675a13",
+                "responses": {
+                    "200": {
+                        "description": "Successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Open/Close Balance"
+                ],
+                "summary": "Add a new Open/Close Balance record",
+                "description": "Store a new Open/Close Balance record.",
+                "operationId": "3b553d01043b4e03068b74eb4d771db0",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "open_balance": {
+                                        "type": "number",
+                                        "example": 1000
+                                    },
+                                    "remarks": {
+                                        "type": "string",
+                                        "example": "Opening balance for the week."
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Record saved successfully."
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            }
+        },
+        "/api/exchange/open-close-balance": {
+            "get": {
+                "tags": [
+                    "Open/Close Balance"
+                ],
+                "summary": "List Open/Close Balance records (exchange view)",
+                "description": "Retrieve a paginated list of Open/Close Balance records for the logged-in user's exchange.",
+                "operationId": "cf70cb2c1b3e4108c0a6a31fbdb94c5b",
+                "responses": {
+                    "200": {
+                        "description": "Successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            }
+        },
+        "/api/open-close-balance/{id}": {
+            "delete": {
+                "tags": [
+                    "Open/Close Balance"
+                ],
+                "summary": "Delete an Open/Close Balance record",
+                "description": "Delete a specific Open/Close Balance record by its ID.",
+                "operationId": "dccd3441818415dc8aa88f35f54fda46",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Record deleted successfully."
+                    },
+                    "404": {
+                        "description": "Record not found."
+                    }
+                }
+            }
+        },
+        "/owner-profits/export": {
+            "get": {
+                "tags": [
+                    "Owner Profit"
+                ],
+                "summary": "Export Owner Profit records to Excel",
+                "description": "Exports the list of Owner Profit records as an Excel file.",
+                "operationId": "e8b264576b57769e543f31e8b24db6fb",
+                "responses": {
+                    "200": {
+                        "description": "Excel file generated successfully."
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            }
+        },
+        "/owner-profits": {
+            "get": {
+                "tags": [
+                    "Owner Profit"
+                ],
+                "summary": "List Owner Profit records",
+                "description": "Retrieve a paginated list of Owner Profit records for the admin view.",
+                "operationId": "f9aeddea8db2f56c5d5811ba7f1d0f56",
+                "responses": {
+                    "200": {
+                        "description": "Successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {}
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Owner Profit"
+                ],
+                "summary": "Add a new Owner Profit record",
+                "description": "Create a new Owner Profit record.",
+                "operationId": "eb28640dec1db68097892074c727d8cb",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "cash_amount": {
+                                        "description": "The amount of cash.",
+                                        "type": "number"
+                                    },
+                                    "remarks": {
+                                        "description": "Remarks for the record.",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Owner Profit added successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Transaction successfully added!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            }
+        },
+        "/owner-profits/{id}": {
+            "delete": {
+                "tags": [
+                    "Owner Profit"
+                ],
+                "summary": "Delete an Owner Profit record",
+                "description": "Delete a specific Owner Profit record by ID.",
+                "operationId": "49c041a748b2a617f99cdc47ab2c3b64",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Owner Profit deleted successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Owner Profit deleted successfully!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Owner Profit not found."
+                    }
+                }
+            }
+        },
+        "/exchange-owner-profits": {
+            "get": {
+                "tags": [
+                    "Owner Profit"
+                ],
+                "summary": "List Owner Profit records for exchange",
+                "description": "Retrieve a paginated list of Owner Profit records for the logged-in user's exchange.",
+                "operationId": "2010c1f311a3e6655b3d9d15140547b2",
+                "responses": {
+                    "200": {
+                        "description": "Successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {}
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            }
+        },
+        "/reports/exchange": {
+            "get": {
+                "summary": "Load exchange report page",
+                "description": "Returns a success message if the user is authenticated.",
+                "operationId": "403a568c4d039d57a093b4cb752cc45b",
+                "responses": {
+                    "200": {
+                        "description": "Exchange report page loaded."
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    }
+                }
+            }
+        },
+        "/reports/admin": {
+            "get": {
+                "summary": "Load admin report page",
+                "description": "Returns a list of exchange records if the user is authenticated.",
+                "operationId": "d154b5f8c2350503137dddbaeb21e861",
+                "responses": {
+                    "200": {
+                        "description": "Exchange records retrieved successfully."
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    }
+                }
+            }
+        },
+        "/reports/assistant": {
+            "get": {
+                "summary": "Load assistant report page",
+                "description": "Returns a list of exchange records if the user is authenticated.",
+                "operationId": "3c4cbf2c66691769f63266448a1f1eb4",
+                "responses": {
+                    "200": {
+                        "description": "Exchange records retrieved successfully."
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    }
+                }
+            }
+        },
+        "/reports/generate": {
+            "post": {
+                "summary": "Generate a report",
+                "description": "Generate a report based on date range and exchange ID.",
+                "operationId": "991fc7fd1350ec970164393261367fba",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "start_date": {
+                                        "description": "Start date of the report.",
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "end_date": {
+                                        "description": "End date of the report.",
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "exchange_id": {
+                                        "description": "Exchange ID for the report.",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Report generated successfully."
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    },
+                    "422": {
+                        "description": "Validation error."
+                    },
+                    "500": {
+                        "description": "Internal server error."
+                    }
+                }
+            }
+        },
+        "/users": {
+            "get": {
+                "summary": "List all users",
+                "description": "Retrieve a paginated list of users excluding admin users.",
+                "operationId": "7e2f5799553ec93c9c43e2a58490d447",
+                "responses": {
+                    "200": {
+                        "description": "Successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a new user",
+                "description": "Add a new user to the system.",
+                "operationId": "a1fce870c566eb5fc0cf3178ec5d2fed",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "example": "exchange"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    },
+                                    "exchange": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User added successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User added successfully!"
+                                        },
+                                        "exchange_name": {
+                                            "type": "string",
+                                            "example": "Exchange Name"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            }
+        },
+        "/assistant-users": {
+            "get": {
+                "summary": "List all users for assistants",
+                "description": "Retrieve a paginated list of users excluding admin users, accessible by assistants.",
+                "operationId": "09722869e765eeb1a24c59d760706f68",
+                "responses": {
+                    "200": {
+                        "description": "Successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            }
+        },
+        "/users/status": {
+            "put": {
+                "summary": "Update user status",
+                "description": "Update the status of a specific user.",
+                "operationId": "54dd33dd9fe6c0031dabc4272da500c9",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "userId": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "active"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Status updated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Redirecting back to the previous page."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "put": {
+                "summary": "Update a user",
+                "description": "Update the details of a user.",
+                "operationId": "ddfe232db1870b82493bf8bd25596d37",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "example": "regular"
+                                    },
+                                    "exchange": {
+                                        "type": "integer",
+                                        "example": 123
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "newpassword123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User updated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User updated successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a user",
+                "description": "Delete a specific user by ID.",
+                "operationId": "43dd20becb1f47444e484cbb18ce345c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User deleted successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User deleted successfully!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found."
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            }
+        },
+        "/vender-payment/export": {
+            "post": {
+                "summary": "Export vender payment records to Excel",
+                "description": "Export a list of vender payment records.",
+                "operationId": "36d5b18a1b967d9fbc1c4bbf2e42cee9",
+                "responses": {
+                    "200": {
+                        "description": "Vender payment records exported successfully.",
+                        "content": {
+                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {}
+                        }
+                    },
+                    "401": {
+                        "description": "User not authenticated"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/vender-payment": {
+            "get": {
+                "summary": "List vender payment records for the year",
+                "description": "Retrieve paginated vender payment records for the current year.",
+                "operationId": "f7895dedf918f5777a91d0ebdeaf2722",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User not authenticated"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Store a new vender payment",
+                "description": "Store a new vender payment record.",
+                "operationId": "43ce3b2935cbb27a98d0424ec17d4682",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "paid_amount": {
+                                        "type": "number",
+                                        "example": 500
+                                    },
+                                    "remaining_amount": {
+                                        "type": "number",
+                                        "example": 1000
+                                    },
+                                    "payment_type": {
+                                        "type": "string",
+                                        "example": "Credit"
+                                    },
+                                    "remarks": {
+                                        "type": "string",
+                                        "example": "Payment for services"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Vender payment added successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User not authenticated"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a vender payment record",
+                "description": "Delete a vender payment record by its ID.",
+                "operationId": "2c623b46245b4726ca105bf644d343b5",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Vender payment deleted successfully"
+                    },
+                    "401": {
+                        "description": "User not authenticated"
+                    },
+                    "404": {
+                        "description": "Vender payment not found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/vender-payment/assistant": {
+            "get": {
+                "summary": "List vender payment records for the year (Assistant)",
+                "description": "Retrieve paginated vender payment records for the current year, accessible by assistants.",
+                "operationId": "10512e3aaf42b535722e5c81539ea211",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User not authenticated"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/withdrawal/export": {
+            "post": {
+                "summary": "Export withdrawal records to Excel",
+                "description": "Export a list of withdrawal records for the given date range.",
+                "operationId": "41938c7ced8991655000bf1ee8ee4725",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "start_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-01-01"
+                                    },
+                                    "end_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-01-31"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Withdrawal records exported successfully.",
+                        "content": {
+                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {}
+                        }
+                    },
+                    "401": {
+                        "description": "User not authenticated"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/withdrawal": {
+            "get": {
+                "summary": "List withdrawal records for the week",
+                "description": "Retrieve paginated withdrawal records for the authenticated user for the current week.",
+                "operationId": "2ab201508c8333a80e3efc0e7b0cd233",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "withdrawalRecords": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        },
+                                        "bankRecords": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User not authenticated"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Bank Balance",
+            "description": "Operations related to bank balances."
+        },
+        {
+            "name": "Open/Close Balance",
+            "description": "Open/Close Balance"
+        },
+        {
+            "name": "Owner Profit",
+            "description": "Owner Profit"
+        }
+    ]
+}

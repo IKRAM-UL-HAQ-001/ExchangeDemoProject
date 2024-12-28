@@ -9,7 +9,6 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\BankController;
 use App\Http\Controllers\DepositWithdrawalController;
 use App\Http\Controllers\ExpenseController;
-use App\Http\Controllers\BankBalanceController;
 use App\Http\Controllers\CashController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\MasterSettlingController;
@@ -23,6 +22,7 @@ use App\Http\Controllers\DepositController;
 use App\Http\Controllers\WithdrawalController;
 use App\Http\Controllers\DatabaseExportController;
 use App\Http\Controllers\ExcelFileController;
+use App\Http\Controllers\BankBalanceController;
 
 Route::get('/', [LoginController::class, 'index'])->name('auth.login');
 Route::post('/auth/login/post', [LoginController::class, 'login'])->name('login.post');

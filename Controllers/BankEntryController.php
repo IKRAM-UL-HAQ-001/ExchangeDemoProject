@@ -8,12 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
-/**
- * @OA\Tag(
- *     name="Bank Entry",
- *     description="Operations related to bank entry records."
- * )
- */
+
 class BankEntryController extends Controller
 {
     /**

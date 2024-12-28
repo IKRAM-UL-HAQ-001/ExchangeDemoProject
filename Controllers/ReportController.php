@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Auth;
 use Carbon\Carbon;
 
+
 class ReportController extends Controller
 {
     /**

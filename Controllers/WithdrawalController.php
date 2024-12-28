@@ -11,40 +11,31 @@ use App\Exports\WithdrawalListExport;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
-/**
- * @OA\Server(
- *     url="http://localhost",
- *     description="Local Development Server"
- * )
- */
 class WithdrawalController extends Controller
 {
     /**
      * @OA\Post(
-     *     path="/withdrawal/export",
-     *     summary="Export withdrawal records to Excel",
-     *     description="Export a list of withdrawal records for the given date range.",
+     *     path="/withdrawals/export",
+     *     summary="Export Withdrawal records to Excel",
+     *     description="Export withdrawal records based on the provided date range to an Excel file.",
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             @OA\Property(property="start_date", type="string", format="date", example="2024-01-01"),
-     *             @OA\Property(property="end_date", type="string", format="date", example="2024-01-31")
+     *             @OA\Property(property="start_date", type="string", format="date", example="2023-01-01"),
+     *             @OA\Property(property="end_date", type="string", format="date", example="2023-12-31")
      *         )
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Withdrawal records exported successfully.",
-     *         @OA\MediaType(
-     *             mediaType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-     *         )
+     *         description="File exported successfully."
      *     ),
      *     @OA\Response(
      *         response=401,
-     *         description="User not authenticated"
+     *         description="Unauthorized"
      *     ),
      *     @OA\Response(
      *         response=500,
-     *         description="Internal server error"
+     *         description="Error exporting data."
      *     )
      * )
      */
@@ -52,7 +43,8 @@ class WithdrawalController extends Controller
     {
         if (!auth()->check()) {
             return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
-        } else {
+        }else{
+
             if (Auth::user()->role == "admin" || Auth::user()->role == "assistant") {
                 $exchangeId = null;
             } else {
@@ -72,25 +64,29 @@ class WithdrawalController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/withdrawal",
-     *     summary="List withdrawal records for the week",
-     *     description="Retrieve paginated withdrawal records for the authenticated user for the current week.",
+     *     path="/withdrawals",
+     *     summary="Display Withdrawal records for the current week",
+     *     description="Retrieve withdrawal records for the authenticated user's exchange for the current week.",
      *     @OA\Response(
      *         response=200,
-     *         description="Successful operation",
+     *         description="Successful response.",
      *         @OA\JsonContent(
      *             @OA\Property(property="success", type="boolean"),
-     *             @OA\Property(property="withdrawalRecords", type="array", @OA\Items(type="object")),
-     *             @OA\Property(property="bankRecords", type="array", @OA\Items(type="object"))
+     *             @OA\Property(property="withdrawalRecords", type="array",
+     *                 @OA\Items(type="object")
+     *             ),
+     *             @OA\Property(property="bankRecords", type="array",
+     *                 @OA\Items(type="object")
+     *             )
      *         )
      *     ),
      *     @OA\Response(
      *         response=401,
-     *         description="User not authenticated"
+     *         description="Unauthorized"
      *     ),
      *     @OA\Response(
      *         response=500,
-     *         description="Internal server error"
+     *         description="Error fetching data."
      *     )
      * )
      */
@@ -98,7 +94,8 @@ class WithdrawalController extends Controller
     {
         if (!auth()->check()) {
             return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
-        } else {
+        }else{
+
             try {
                 $startOfWeek = Carbon::now()->startOfWeek();
                 $endOfWeek = Carbon::now()->endOfWeek();

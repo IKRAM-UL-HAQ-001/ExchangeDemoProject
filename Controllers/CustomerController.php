@@ -9,12 +9,6 @@ use App\Exports\CustomerListExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Auth;
 
-/**
- * @OA\Tag(
- *     name="Customer",
- *     description="API endpoints for managing customers"
- * )
- */
 class CustomerController extends Controller
 {
     /**
@@ -40,14 +34,13 @@ class CustomerController extends Controller
     {
         if (!auth()->check()) {
             return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
-        }
-
-        $exchangeId = (Auth::user()->role == "admin" || Auth::user()->role == "assistant") ? null : Auth::user()->exchange_id;
-
-        try {
-            return Excel::download(new CustomerListExport($exchangeId), 'customerRecord.xlsx');
-        } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Error exporting Excel: ' . $e->getMessage()], 500);
+        }else{
+            $exchangeId = (Auth::user()->role == "admin" || Auth::user()->role == "assistant") ? null : Auth::user()->exchange_id;
+            try {
+                return Excel::download(new CustomerListExport($exchangeId), 'customerRecord.xlsx');
+            } catch (\Exception $e) {
+                return response()->json(['success' => false, 'message' => 'Error exporting Excel: ' . $e->getMessage()], 500);
+            }
         }
     }
 
@@ -75,19 +68,19 @@ class CustomerController extends Controller
     {
         if (!auth()->check()) {
             return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
+        }else{
+
+            $startOfWeek = Carbon::now()->startOfWeek();
+            $endOfWeek = Carbon::now()->endOfWeek();
+            $customerRecords = Customer::whereBetween('created_at', [$startOfWeek, $endOfWeek])
+                ->orderBy('created_at', 'desc')->paginate(20);
+
+            return response()->json([
+                'success' => true,
+                'data' => compact('customerRecords'),
+                'view' => 'admin.customer.list',
+            ], 200);
         }
-
-        $startOfWeek = Carbon::now()->startOfWeek();
-        $endOfWeek = Carbon::now()->endOfWeek();
-        $customerRecords = Customer::whereBetween('created_at', [$startOfWeek, $endOfWeek])
-            ->orderBy('created_at', 'desc')
-            ->paginate(20);
-
-        return response()->json([
-            'success' => true,
-            'data' => $customerRecords,
-            'view' => 'admin.customer.list',
-        ], 200);
     }
 
     /**
@@ -126,33 +119,33 @@ class CustomerController extends Controller
     {
         if (!auth()->check()) {
             return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
-        }
+        }else{
+            $user = Auth::user();
+            $exchangeId = $user->exchange_id;
+            $userId = $user->id;
 
-        $user = Auth::user();
-        $exchangeId = $user->exchange_id;
-        $userId = $user->id;
-
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'cash_amount' => 'required|numeric',
-            'reference_number' => 'required|string|max:255',
-            'remarks' => 'required|string|max:255',
-        ]);
-
-        try {
-            Customer::create([
-                'name' => $validatedData['name'],
-                'reference_number' => $validatedData['reference_number'],
-                'cash_amount' => $validatedData['cash_amount'],
-                'remarks' => $validatedData['remarks'],
-                'exchange_id' => $exchangeId,
-                'user_id' => $userId,
+            $validatedData = $request->validate([
+                'name' => 'required|string|max:255',
+                'cash_amount' => 'required|numeric',
+                'reference_number' => 'required|string|max:255',
+                'remarks' => 'required|string|max:255',
             ]);
 
-            return response()->json(['success' => true, 'message' => 'Customer added successfully!'], 201);
-        } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Error adding customer: ' . $e->getMessage()], 500);
-        }
+            try {
+                Customer::create([
+                    'name' => $validatedData['name'],
+                    'reference_number' => $validatedData['reference_number'],
+                    'cash_amount' => $validatedData['cash_amount'],
+                    'remarks' => $validatedData['remarks'],
+                    'exchange_id' => $exchangeId,
+                    'user_id' => $userId,
+                ]);
+
+                return response()->json(['success' => true, 'message' => 'Customer added successfully!'], 201);
+            } catch (\Exception $e) {
+                return response()->json(['success' => false, 'message' => 'Error adding customer: ' . $e->getMessage()], 500);
+            }
+        }   
     }
 
     /**
@@ -188,14 +181,14 @@ class CustomerController extends Controller
     {
         if (!auth()->check()) {
             return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
+        }else{
+            $customer = Customer::find($request->id);
+            if ($customer) {
+                $customer->delete();
+                return response()->json(['success' => true, 'message' => 'Customer deleted successfully!'], 200);
+            }
+            return response()->json(['success' => false, 'message' => 'Customer not found.'], 404);
         }
-
-        $customer = Customer::find($request->id);
-        if ($customer) {
-            $customer->delete();
-            return response()->json(['success' => true, 'message' => 'Customer deleted successfully!'], 200);
-        }
-        return response()->json(['success' => false, 'message' => 'Customer not found.'], 404);
     }
 
     /**
@@ -222,17 +215,18 @@ class CustomerController extends Controller
     {
         if (!auth()->check()) {
             return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
+        }else{
+
+            $user = Auth::user();
+            $customerRecords = Customer::where('exchange_id', $user->exchange_id)
+                ->where('user_id', $user->id)
+                ->paginate(20);
+
+            return response()->json([
+                'success' => true,
+                'data' => compact('customerRecords'),
+                'view' => 'exchange.customer.list',
+            ], 200);
         }
-
-        $user = Auth::user();
-        $customerRecords = Customer::where('exchange_id', $user->exchange_id)
-            ->where('user_id', $user->id)
-            ->paginate(20);
-
-        return response()->json([
-            'success' => true,
-            'data' => $customerRecords,
-            'view' => 'exchange.customer.list',
-        ], 200);
     }
 }

@@ -12,7 +12,6 @@ use App\Exports\DepositListExport;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
-
 class DepositController extends Controller
 {
     /**
