@@ -24,40 +24,57 @@ class LoginController extends Controller
             'name' => 'required|string|max:255',
             'password' => 'required',
             'role' => 'required',
-            'exchange' => 'nullable|required_if:role,exchange',
         ]);
-        $userStatus = User::where('name',$request->name)->first();
-        
+
+        // Check if the user exists and is active
+        $userStatus = User::where('name', $request->name)->first();
+
         if ($userStatus && $userStatus->status === 'inactive') {
-            return redirect()->back()->withErrors(['error' => 'You are not authorized by Admin']);
+            return response()->json([
+                'status' => 'error',
+                'message' => 'You are not authorized by Admin',
+            ], 403);
         }
-        else{
+
         if (Auth::attempt($request->only('name', 'password'))) {
-            
-            $request->session()->regenerate();
-    
             $user = Auth::user();
-    
+            
+            $token = $user->createToken('api_token');
+            // dd($user->createToken('api_token'));
             switch ($user->role) {
                 case 'admin':
-                    return redirect()->route('admin.dashboard');
+                    return response()->json([
+                        'status' => 'success',
+                        'message' => 'Login successful',
+                        'token' => $token,
+                        'role' => 'admin',
+                        'redirect_to' => route('admin.dashboard'),
+                    ]);
                 case 'exchange':
                     $bankUser = BankUser::where('user_id', $user->id)->first();
-                    session(['bankUser' => $bankUser]);
-                    return redirect()->route('exchange.dashboard');
-                case 'assistant':
-                    return redirect()->route('assistant.dashboard');
-                default:
-                    Auth::logout(); 
-                    return back()->withErrors([
-                        'name' => 'The provided credentials do not match our records.',
+                    return response()->json([
+                        'status' => 'success',
+                        'message' => 'Login successful',
+                        'token' => $token,
+                        'role' => 'exchange',
+                        'redirect_to' => route('exchange.dashboard'),
+                        'bankUser' => $bankUser,
                     ]);
+                case 'assistant':
+                    return response()->json([
+                        'status' => 'success',
+                        'message' => 'Login successful',
+                        'token' => $token,
+                        'role' => 'assistant',
+                        'redirect_to' => route('assistant.dashboard'),
+                    ]);
+                default:
+                    Auth::logout();
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'The provided credentials do not match our records.',
+                    ], 401);
             }
-        }
-        return redirect()->route('auth.login')
-            ->withErrors([
-                'error' => 'The provided credentials do not match our records.',
-            ])->withInput($request->only('name'));
         }
     }
     
@@ -88,12 +105,20 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         if (!auth()->check()) {
-            return redirect()->route('auth.login');
-        } elseif (auth()->check()) {
-            Auth::logout();
-            return redirect()->route('auth.login');
+            return response()->json([
+                'status' => 'error',
+                'message' => 'User is not logged in.',
+            ], 400); // Bad request if not authenticated
         }
+
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Successfully logged out.',
+        ], 200);
     }
+
 
     public function logoutAll(Request $request)
     {
