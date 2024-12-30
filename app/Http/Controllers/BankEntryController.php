@@ -95,6 +95,7 @@ class BankEntryController extends Controller
                 ->paginate(20);
 
             $bankRecords = Bank::whereNull('status')->get();
+            dd($bankEntryRecords);
 
             return response()->json([
                 'success' => true,

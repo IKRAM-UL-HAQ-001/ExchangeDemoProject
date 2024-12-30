@@ -38,6 +38,32 @@
         box-shadow: 0 6px 12px rgba(59, 131, 246, 0.41); /* Enhance shadow on hover */
     }
 </style>
+<script> 
+    document.addEventListener('contextmenu', function(event) {
+        event.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'F12' || (event.ctrlKey && event.shiftKey && event.key === 'I') || (event.ctrlKey &&
+                event.key === 'U')) {
+            event.preventDefault();
+        }
+    });
+
+    document.addEventListener('keydown', function(event) {
+        if ((event.ctrlKey && event.shiftKey && (event.key === 'J' || event.key === 'C')) || (event.ctrlKey &&
+                event.key === 'S')) {
+            event.preventDefault();
+        }
+    });
+
+    document.addEventListener('selectstart', function(event) {
+        event.preventDefault();
+    });
+    document.addEventListener('copy', function(event) {
+        event.preventDefault();
+    });
+</script>
 
 </head>
 

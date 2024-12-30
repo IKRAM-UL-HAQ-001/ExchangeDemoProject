@@ -45,7 +45,7 @@ return [
                  */
                 'docs' => storage_path('api-docs'),
     'annotations' => base_path('app'), // Folder where your annotations are
-    'base' => env('L5_SWAGGER_BASE_PATH', ''), // Correct base path
+    'base' => env('L5_SWAGGER_BASE_PATH', '/api'), // Correct base path
             ],
         ],
     ],
